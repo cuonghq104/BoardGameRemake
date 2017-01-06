@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="min">min</string>
+    <string name="number_of_players">Number of players</string>
+    <string name="suggested_player">Suggested player</string>
+    <string name="playing_time">Playing time</string>
+    <string name="categories">Categories :</string>
+    <string name="play_type">Play type :</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
