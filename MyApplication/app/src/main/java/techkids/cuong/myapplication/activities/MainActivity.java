@@ -1,7 +1,9 @@
 package techkids.cuong.myapplication.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,16 +25,25 @@ import android.widget.CursorAdapter;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import techkids.cuong.myapplication.BoardGameDetailActivity;
+import techkids.cuong.myapplication.BoardGamesRulesFragment;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.events.BackEvent;
+import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.events.SearchEvent;
+import techkids.cuong.myapplication.fragments.BoardGameInformationFragment;
 import techkids.cuong.myapplication.fragments.BoardGameListFragment;
 import techkids.cuong.myapplication.events.ChangeFragmentEvent;
+import techkids.cuong.myapplication.fragments.QuestionAndAnswerFragment;
 import techkids.cuong.myapplication.models.BoardGame;
 
 public class MainActivity extends AppCompatActivity
@@ -56,14 +67,6 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -76,13 +79,8 @@ public class MainActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
         changeFragment(new BoardGameListFragment(), false);
-//        addListener();
-        testAdapter();
     }
 
-    private void testAdapter() {
-
-    }
 
     @Override
     protected void onStart() {
@@ -98,6 +96,8 @@ public class MainActivity extends AppCompatActivity
 
     private void changeFragment(Fragment fragment, boolean addToBackStack) {
 
+        toolbar.setVisibility(View.VISIBLE);
+        vGap.setVisibility(View.VISIBLE);
         if (addToBackStack)
             getSupportFragmentManager()
                     .beginTransaction()
@@ -123,15 +123,36 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+//         Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.main, menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.detail_menu, menu);
-        MenuItem item = menu.findItem(R.id.it_search);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.detail_menu, menu);
+//        MenuItem item = menu.findItem(R.id.it_search);
+//
+//        SearchView searchView = (SearchView) item.getActionView();
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                EventBus.getDefault().post(new SearchEvent(newText));
+//                return false;
+//            }
+//        });
 
-        SearchView searchView = (SearchView) item.getActionView();
+        getMenuInflater().inflate(R.menu.rules_menu, menu);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        MenuItem item = menu.findItem(R.id.action_search);
+
+        MaterialSearchView searchView = (MaterialSearchView) findViewById(R.id.msv);
+
+        searchView.setMenuItem(item);
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -143,6 +164,8 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
+
+
         return true;
     }
 
@@ -188,37 +211,33 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe
     public void goToDetailFragment(ChangeFragmentEvent changeFragmentEvent) {
-        int boardgame = changeFragmentEvent.getPosition();
 
+        Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
+        startActivity(intent);
 
-        if (!BoardGame.boardGamesList.get(boardgame).getName().equals("Werewolf basic")) {
-            Snackbar snackbar = Snackbar.make(clRoot, "Đang phát triển", Snackbar.LENGTH_SHORT);
-            snackbar.show();
-            return;
-        }
-
-        Bundle bundle = new Bundle();
-
-        bundle.putInt(BoardGame.BOARD_GAME, boardgame);
-
-        Fragment fragment = changeFragmentEvent.getFragment();
-
-        fragment.setArguments(bundle);
-
-//        toolbar.setVisibility(View.GONE);
-        toolbar.setBackgroundColor(Color.parseColor("#EE000000"));
-        vGap.setVisibility(View.GONE);
-
-        changeFragment(fragment, changeFragmentEvent.isAddToBackStack());
+//        int boardgame = changeFragmentEvent.getPosition();
+//
+//
+//        if (!BoardGame.boardGamesList.get(boardgame).getName().equals("Werewolf basic")) {
+//            Snackbar snackbar = Snackbar.make(clRoot, "Đang phát triển", Snackbar.LENGTH_SHORT);
+//            snackbar.show();
+//            return;
+//        }
+//
+//        Bundle bundle = new Bundle();
+//
+//        bundle.putInt(BoardGame.BOARD_GAME, boardgame);
+//
+//        Fragment fragment = changeFragmentEvent.getFragment();
+//
+//        fragment.setArguments(bundle);
+//
+////        toolbar.setVisibility(View.GONE);
+////        vGap.setVisibility(View.GONE);
+//
+//        changeFragment(fragment, changeFragmentEvent.isAddToBackStack());
     }
 
-    @Subscribe
-    public void backFromBackStack(BackEvent backEvent) {
-        if (backEvent.isShowToolbar()) {
-            toolbar.setVisibility(View.VISIBLE);
-            vGap.setVisibility(View.VISIBLE);
-        }
 
-        getSupportFragmentManager().popBackStack();
-    }
+
 }

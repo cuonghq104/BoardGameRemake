@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.adapters.BoardGameItemAdapter;
+import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.events.SearchEvent;
 import techkids.cuong.myapplication.models.BoardGame;
 
@@ -41,7 +42,6 @@ public class BoardGameListFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class BoardGameListFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        EventBus.getDefault().post(new HideToolbarEvent(false, true));
     }
 
     @Override

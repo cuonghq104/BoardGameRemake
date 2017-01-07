@@ -9,13 +9,19 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import techkids.cuong.myapplication.BoardGamesRulesFragment;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.fragments.BoardGameInformationFragment;
 import techkids.cuong.myapplication.events.ChangeFragmentEvent;
+import techkids.cuong.myapplication.fragments.QuestionAndAnswerFragment;
 import techkids.cuong.myapplication.models.BoardGame;
+import techkids.cuong.myapplication.models.Paragraph;
+import techkids.cuong.myapplication.models.QuestionAndAnswer;
 
 /**
  * Created by Cuong on 1/5/2017.
@@ -47,6 +53,10 @@ public class BoardGameViewHolder extends RecyclerView.ViewHolder{
 
     @OnClick(R.id.iv_boardgame)
     public void changeDetailFragment() {
+        Paragraph.list = Arrays.asList(BoardGame.boardGamesList.get(position).getTutorialBlocks());
+
+        QuestionAndAnswer.questionAndAnswerList = Arrays.asList(QuestionAndAnswer.questionAndAnswersArrays);
+
         EventBus.getDefault().post(new ChangeFragmentEvent(new BoardGameInformationFragment(), true, position));
     }
 }

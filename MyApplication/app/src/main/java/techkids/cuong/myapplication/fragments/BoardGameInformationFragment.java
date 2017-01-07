@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.events.BackEvent;
+import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.models.BoardGame;
 
 
@@ -64,10 +66,15 @@ public class BoardGameInformationFragment extends Fragment {
         return view;
     }
 
-    private void setupUI() {
-        Bundle bundle = getArguments();
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().post(new HideToolbarEvent(true, false));
+    }
 
-        int position = bundle.getInt(BoardGame.BOARD_GAME);
+    private void setupUI() {
+
+        int position = 0;
 
         boardGame = BoardGame.boardGamesList.get(position);
 

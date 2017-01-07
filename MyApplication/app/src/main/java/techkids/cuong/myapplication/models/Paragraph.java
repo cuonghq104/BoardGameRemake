@@ -1,6 +1,8 @@
 package techkids.cuong.myapplication.models;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Cuong on 1/5/2017.
@@ -65,6 +67,8 @@ public class Paragraph {
     public String getImageUrl() {
         return imageUrl;
     }
+
+    public static List<Paragraph> list = new ArrayList<>();
 
     @Override
     public String toString() {

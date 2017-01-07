@@ -10,7 +10,9 @@
     <string name="categories">Categories :</string>
     <string name="play_type">Play type :</string>
     <string name="action_settings">Settings</string>
-
+    <string name="q_a">Q&amp;A</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="answer_from">Answer from</string>
+    <string name="title_activity_board_game_detail">BoardGameDetailActivity</string>
 </resources>

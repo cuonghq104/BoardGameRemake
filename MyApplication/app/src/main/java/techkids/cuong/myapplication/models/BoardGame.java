@@ -110,7 +110,7 @@ public class BoardGame {
                                     new String[] {"giết", "cứu"}),
                             Paragraph.createCombine("Cupid", "Đầu mỗi ván chơi, Cupid sẽ được gọi dậy và chọn ra hai người yêu nhau. Cupid sau đó nhắm mắt lại và hai người yêu nhau sẽ được Quản Trò gọi dậy để biết mặt và Vai Trò của nhau. Nếu hai người thuộc hai phe khác nhau (Sói vs Dân) thì họ thành phe thứ ba với nhiệm vụ là hai người cuối cùng sống sót.", "http://4.bp.blogspot.com/_hqAyb8K3zT8/SJxPWu9T55I/AAAAAAAAA7c/lnxMUs99j-g/s320/cupid.jpg",
                                     new String[] {"đêm đầu tiên", "sói", "dân"}),
-                            Paragraph.createCombine("Sói", "Mỗi đêm thức dậy, các Sói sẽ biết mặt lẫn nhau và sẽ cùng thống nhất giết một người. Sói có quyền không giết, và cũng có quyền tự giết lẫn nhau.", "http://i245.photobucket.com/albums/gg61/reakjean/Linh%20Tinh/WereWolf.jpg",
+                            Paragraph.createCombine("Ma Sói", "Mỗi đêm thức dậy, các Sói sẽ biết mặt lẫn nhau và sẽ cùng thống nhất giết một người. Sói có quyền không giết, và cũng có quyền tự giết lẫn nhau.", "http://i245.photobucket.com/albums/gg61/reakjean/Linh%20Tinh/WereWolf.jpg",
                                     new String[] {"mỗi đêm", "giết", "tiên tri"}),
                             Paragraph.createCombine("Già làng", "Già Làng có hai mạng khi bị cắn. Tuy nhiên, nếu bị treo cổ, bị Thợ Săn bắn hoặc bị Phù Thủy giết thì Già Làng vẫn chết ngay lập tức. Khi Già Làng chết, tất cả các vai trò đặc biệt trừ Thợ Săn đều bị mất chức năng.", "https://media3.scdn.vn/img1/2015/12_11/bai-ma-soi-characters-1m4G3-c01a0f.jpg",
                                     new String[] {"cắn", "treo cổ", "thợ săn", "phù thủy", "chết"}),
