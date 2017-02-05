@@ -27,6 +27,7 @@ import techkids.cuong.myapplication.events.BackEvent;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.fragments.BoardGameInformationFragment;
 import techkids.cuong.myapplication.fragments.QuestionAndAnswerFragment;
+import techkids.cuong.myapplication.models.BoardGame;
 
 public class BoardGameDetailActivity extends AppCompatActivity {
 
@@ -36,8 +37,8 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
-    @BindView(R.id.v_gap)
-    View vGap;
+//    @BindView(R.id.v_gap)
+//    View vGap;
 
     private MaterialSearchView searchView;
 
@@ -47,11 +48,14 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board_game_detail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         ButterKnife.bind(this);
+        String boardgameName = getIntent().getStringExtra(MainActivity.BOARDGAME_NAME_KEY);
+        toolbar.setTitle(boardgameName);
+
         setSupportActionBar(toolbar);
         addListener();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setVisibility(View.GONE);
-        vGap.setVisibility(View.GONE);
+//        vGap.setVisibility(View.GONE);
 
     }
 
@@ -122,7 +126,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     private void changeFragment(Fragment fragment, boolean addToBackStack) {
 
         toolbar.setVisibility(View.VISIBLE);
-        vGap.setVisibility(View.VISIBLE);
+//        vGap.setVisibility(View.VISIBLE);
         if (addToBackStack)
             getSupportFragmentManager()
                     .beginTransaction()
@@ -140,14 +144,14 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     public void hideToolbar(HideToolbarEvent hideToolbarEvent) {
         if (hideToolbarEvent.isHideToolbar()) {
             toolbar.setVisibility(View.GONE);
-            vGap.setVisibility(View.GONE);
+//            vGap.setVisibility(View.GONE);
             searchView.setVisibility(View.GONE);
 //            searchView.setVisibility(View.GONE);
 //            MenuItem item = (MenuItem) findViewById(R.id.action_search);
 //            item.setIcon(null);
         } else {
             toolbar.setVisibility(View.VISIBLE);
-            vGap.setVisibility(View.VISIBLE);
+//            vGap.setVisibility(View.VISIBLE);
             searchView.setVisibility(View.VISIBLE);
 //            searchView.setVisibility(View.VISIBLE);
         }
@@ -162,5 +166,17 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     @Subscribe
     public void backToMainActivity(BackEvent backEvent) {
         this.finish();
+    }
+
+    public static class ToDetailActivityEvent{
+        private BoardGame boardGame;
+
+        public ToDetailActivityEvent(BoardGame boardGame) {
+            this.boardGame = boardGame;
+        }
+
+        public BoardGame getBoardGame() {
+            return boardGame;
+        }
     }
 }

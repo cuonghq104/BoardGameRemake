@@ -74,6 +74,7 @@ public class BoardGameInformationFragment extends Fragment {
 
     private void setupUI() {
 
+        //todo vcl fix cung a
         int position = 0;
 
         boardGame = BoardGame.boardGamesList.get(position);

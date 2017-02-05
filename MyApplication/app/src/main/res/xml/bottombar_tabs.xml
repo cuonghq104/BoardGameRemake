@@ -4,15 +4,15 @@
         id="@+id/tab_information"
         icon="@drawable/icon"
         title="Information"
-        barColorWhenSelected="#006064"/>
+        barColorWhenSelected="@color/colorPrimaryDark"/>
     <tab
         id="@+id/tab_rules"
         icon="@drawable/rules"
         title="Rules"
-        barColorWhenSelected="#006064"/>
+        barColorWhenSelected="@color/colorPrimaryDark"/>
     <tab
         id="@+id/tab_question"
         icon="@drawable/question"
         title="Q&amp;A"
-        barColorWhenSelected="#006064"/>
+        barColorWhenSelected="@color/colorPrimaryDark"/>
 </tabs>

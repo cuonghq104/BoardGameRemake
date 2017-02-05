@@ -49,6 +49,7 @@ import techkids.cuong.myapplication.models.BoardGame;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String BOARDGAME_NAME_KEY = "boardgame_name";
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
 
@@ -209,11 +210,19 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
+    @Subscribe
+    public void toDetailActivity(BoardGameDetailActivity.ToDetailActivityEvent event){
+        Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
+        intent.putExtra(BOARDGAME_NAME_KEY,event.getBoardGame().getName());
+        startActivity(intent);
+    }
     @Subscribe
     public void goToDetailFragment(ChangeFragmentEvent changeFragmentEvent) {
 
-        Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
+//        intent.putExtra(BOARDGAME_NAME_KEY,)
+//        startActivity(intent);
 
 //        int boardgame = changeFragmentEvent.getPosition();
 //

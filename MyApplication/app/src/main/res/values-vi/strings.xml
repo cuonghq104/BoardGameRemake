@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">BoardDict</string>
     <string name="action_settings">Thiết lập</string>
     <string name="answer_from">Được trả lời bởi</string>
     <string name="categories">Thể loại :</string>
