@@ -1,9 +1,15 @@
 package techkids.cuong.myapplication.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,11 +34,9 @@ import techkids.cuong.myapplication.models.BoardGame;
  */
 public class BoardGameInformationFragment extends Fragment {
 
-    @BindView(R.id.iv_boardgame)
-    ImageView ivBoardGame;
 
-    @BindView(R.id.tv_name)
-    TextView tvName;
+//    @BindView(R.id.tv_name)
+//    TextView tvName;
 
     @BindView(R.id.tv_number_of_player)
     TextView tvNumberOfPlayer;
@@ -50,12 +54,21 @@ public class BoardGameInformationFragment extends Fragment {
     TextView tvPlayType;
 
     BoardGame boardGame;
+    AppCompatActivity activity;
 
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
     public BoardGameInformationFragment() {
         // Required empty public constructor
     }
 
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (AppCompatActivity) context;
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,23 +80,34 @@ public class BoardGameInformationFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+//        toolbar.setTitle(boardGame.getName());
+//        activity.setSupportActionBar(toolbar);
+//        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+
+
+    @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().post(new HideToolbarEvent(true, false));
+//        EventBus.getDefault().post(new HideToolbarEvent(true, false));
     }
 
     private void setupUI() {
 
-        //todo vcl fix cung a
+        //todo ko fix cung
         int position = 0;
-
         boardGame = BoardGame.boardGamesList.get(position);
 
-        Picasso.with(ivBoardGame.getContext()).load(boardGame.getImageUrl()).into(ivBoardGame);
+
+
+//        Picasso.with(ivBoardGame.getContext()).load(boardGame.getImageUrl()).into(ivBoardGame);
 
         String name = boardGame.getName();
 
-        tvName.setText(name);
+//        tvName.setText(name);
 
         tvNumberOfPlayer.setText(String.format("%d - %d", boardGame.getMinPlayer(), boardGame.getMaxPlayer()));
 
@@ -116,9 +140,9 @@ public class BoardGameInformationFragment extends Fragment {
         tvPlayType.setText(playType);
     }
 
-    @OnClick(R.id.bt_back)
-    public void backFromBackStack() {
-        EventBus.getDefault().post(new BackEvent(true));
-    }
+//    @OnClick(R.id.bt_back)
+//    public void backFromBackStack() {
+//        EventBus.getDefault().post(new BackEvent(true));
+//    }
 
 }

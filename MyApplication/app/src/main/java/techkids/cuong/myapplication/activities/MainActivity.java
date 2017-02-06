@@ -1,17 +1,9 @@
 package techkids.cuong.myapplication.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,35 +13,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CursorAdapter;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import techkids.cuong.myapplication.BoardGameDetailActivity;
-import techkids.cuong.myapplication.BoardGamesRulesFragment;
 import techkids.cuong.myapplication.R;
-import techkids.cuong.myapplication.events.BackEvent;
-import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.events.SearchEvent;
-import techkids.cuong.myapplication.fragments.BoardGameInformationFragment;
 import techkids.cuong.myapplication.fragments.BoardGameListFragment;
 import techkids.cuong.myapplication.events.ChangeFragmentEvent;
-import techkids.cuong.myapplication.fragments.QuestionAndAnswerFragment;
-import techkids.cuong.myapplication.models.BoardGame;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String BOARDGAME_NAME_KEY = "boardgame_name";
+    public static final String BOARDGAME_KEY = "boardgame";
+
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
 
@@ -214,7 +197,8 @@ public class MainActivity extends AppCompatActivity
     @Subscribe
     public void toDetailActivity(BoardGameDetailActivity.ToDetailActivityEvent event){
         Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
-        intent.putExtra(BOARDGAME_NAME_KEY,event.getBoardGame().getName());
+        intent.putExtra(BOARDGAME_KEY, event.getPosition());
+//        intent.putExtra(BOARDGAME_NAME_KEY,event.getBoardGame().getName());
         startActivity(intent);
     }
     @Subscribe

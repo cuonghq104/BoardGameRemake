@@ -14,12 +14,8 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import techkids.cuong.myapplication.BoardGameDetailActivity;
-import techkids.cuong.myapplication.BoardGamesRulesFragment;
+import techkids.cuong.myapplication.activities.BoardGameDetailActivity;
 import techkids.cuong.myapplication.R;
-import techkids.cuong.myapplication.fragments.BoardGameInformationFragment;
-import techkids.cuong.myapplication.events.ChangeFragmentEvent;
-import techkids.cuong.myapplication.fragments.QuestionAndAnswerFragment;
 import techkids.cuong.myapplication.models.BoardGame;
 import techkids.cuong.myapplication.models.Paragraph;
 import techkids.cuong.myapplication.models.QuestionAndAnswer;
@@ -60,7 +56,8 @@ public class BoardGameViewHolder extends RecyclerView.ViewHolder{
 
         //todo debugging
 //        EventBus.getDefault().post(new ChangeFragmentEvent(new BoardGameInformationFragment(), true, position));
-        BoardGame boardGame = BoardGame.boardGamesList.get(position);
-        EventBus.getDefault().post(new BoardGameDetailActivity.ToDetailActivityEvent(boardGame));
+
+//        BoardGame boardGame = BoardGame.boardGamesList.get(position);
+        EventBus.getDefault().post(new BoardGameDetailActivity.ToDetailActivityEvent(position));
     }
 }

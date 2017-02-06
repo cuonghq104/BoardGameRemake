@@ -1,12 +1,13 @@
 package techkids.cuong.myapplication.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Cuong on 1/5/2017.
  */
-public class BoardGame {
+public class BoardGame implements Serializable {
 
     public static String BOARD_GAME = "boardgame";
 

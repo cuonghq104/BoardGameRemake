@@ -1,28 +1,28 @@
-package techkids.cuong.myapplication;
+package techkids.cuong.myapplication.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import techkids.cuong.myapplication.activities.MainActivity;
+import techkids.cuong.myapplication.fragments.BoardGamesRulesFragment;
+import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.events.BackEvent;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.fragments.BoardGameInformationFragment;
@@ -35,12 +35,16 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     @BindView(R.id.bottom_bar)
     BottomBar bb;
 
+
+    @BindView(R.id.iv_boardgame)
+    ImageView ivBoardGame;
+
     private Toolbar toolbar;
 
 //    @BindView(R.id.v_gap)
 //    View vGap;
 
-    private MaterialSearchView searchView;
+//    private MaterialSearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +52,16 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board_game_detail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         ButterKnife.bind(this);
-        String boardgameName = getIntent().getStringExtra(MainActivity.BOARDGAME_NAME_KEY);
-        toolbar.setTitle(boardgameName);
+        int position = getIntent().getIntExtra(MainActivity.BOARDGAME_KEY, -1);
+//        BoardGame boardGame= (BoardGame) getIntent().getSerializableExtra(MainActivity.BOARDGAME_KEY);
+        BoardGame boardGame = BoardGame.boardGamesList.get(position);
+        toolbar.setTitle(boardGame.getName());
+        Picasso.with(ivBoardGame.getContext()).load(boardGame.getImageUrl()).into(ivBoardGame);
 
         setSupportActionBar(toolbar);
         addListener();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setVisibility(View.GONE);
+//        toolbar.setVisibility(View.GONE);
 //        vGap.setVisibility(View.GONE);
 
     }
@@ -80,10 +87,10 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(BoardGameDetailActivity.this, MainActivity.class);
-                startActivity(intent);
-                return true;
+//            case android.R.id.home:
+//                Intent intent = new Intent(BoardGameDetailActivity.this, MainActivity.class);
+//                startActivity(intent);
+//                return true;
             default:
                 return this.onOptionsItemSelected(item);
         }
@@ -95,11 +102,11 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 
         MenuItem item = menu.findItem(R.id.action_search);
 
-        searchView = (MaterialSearchView) findViewById(R.id.msv);
-
-        searchView.setMenuItem(item);
-
-        searchView.setVisibility(View.GONE);
+//        searchView = (MaterialSearchView) findViewById(R.id.msv);
+//
+//        searchView.setMenuItem(item);
+//
+//        searchView.setVisibility(View.GONE);
 
         return true;
     }
@@ -125,7 +132,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 
     private void changeFragment(Fragment fragment, boolean addToBackStack) {
 
-        toolbar.setVisibility(View.VISIBLE);
+//        toolbar.setVisibility(View.VISIBLE);
 //        vGap.setVisibility(View.VISIBLE);
         if (addToBackStack)
             getSupportFragmentManager()
@@ -145,14 +152,14 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         if (hideToolbarEvent.isHideToolbar()) {
             toolbar.setVisibility(View.GONE);
 //            vGap.setVisibility(View.GONE);
-            searchView.setVisibility(View.GONE);
+//            searchView.setVisibility(View.GONE);
 //            searchView.setVisibility(View.GONE);
 //            MenuItem item = (MenuItem) findViewById(R.id.action_search);
 //            item.setIcon(null);
         } else {
             toolbar.setVisibility(View.VISIBLE);
 //            vGap.setVisibility(View.VISIBLE);
-            searchView.setVisibility(View.VISIBLE);
+//            searchView.setVisibility(View.VISIBLE);
 //            searchView.setVisibility(View.VISIBLE);
         }
 
@@ -169,14 +176,23 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     }
 
     public static class ToDetailActivityEvent{
-        private BoardGame boardGame;
+        //        private BoardGame boardGame;
+//
+//        public ToDetailActivityEvent(BoardGame boardGame) {
+//            this.boardGame = boardGame;
+//        }
+//
+//        public BoardGame getBoardGame() {
+//            return boardGame;
+//        }
+        private int position;
 
-        public ToDetailActivityEvent(BoardGame boardGame) {
-            this.boardGame = boardGame;
+        public ToDetailActivityEvent(int position) {
+            this.position = position;
         }
 
-        public BoardGame getBoardGame() {
-            return boardGame;
+        public int getPosition() {
+            return position;
         }
     }
 }

@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BoardGameDetailActivity"
+            android:name=".activities.BoardGameDetailActivity"
             android:label="@string/title_activity_board_game_detail"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

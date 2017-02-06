@@ -1,4 +1,4 @@
-package techkids.cuong.myapplication;
+package techkids.cuong.myapplication.fragments;
 
 
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.adapters.ParagraphAdapter;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
 

@@ -47,7 +47,7 @@ public class QuestionAndAnswerFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().post(new HideToolbarEvent(false, false));
+//        EventBus.getDefault().post(new HideToolbarEvent(false, false));
     }
 
     private void setupUI() {
