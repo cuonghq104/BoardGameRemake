@@ -11,7 +11,7 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimaryText"
         android:textSize="20dp"
         android:textStyle="bold"/>
 
@@ -31,7 +31,7 @@
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimaryText"
         android:layout_marginTop="5dp"/>
 
 </LinearLayout>

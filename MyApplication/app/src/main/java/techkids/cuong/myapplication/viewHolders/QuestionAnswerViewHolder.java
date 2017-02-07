@@ -25,15 +25,15 @@ public class QuestionAnswerViewHolder extends RecyclerView.ViewHolder{
 
     @BindView(R.id.tv_question)
     TextView tvQuestion;
+//
+//    @BindView(R.id.iv_avatar)
+//    ImageView ivAvatar;
 
-    @BindView(R.id.iv_avatar)
-    ImageView ivAvatar;
-
-    @BindView(R.id.tv_writer)
-    TextView tvWriter;
-
-    @BindView(R.id.tv_answer)
-    TextView tvAnswer;
+//    @BindView(R.id.tv_writer)
+//    TextView tvWriter;
+//
+//    @BindView(R.id.tv_answer)
+//    TextView tvAnswer;
 
     private QuestionAndAnswer qaa;
 
@@ -49,13 +49,13 @@ public class QuestionAnswerViewHolder extends RecyclerView.ViewHolder{
 
         Answer answer = qaa.getAnswer()[0];
 
-        String writer = String.format("%s : %s", ivAvatar.getContext().getResources().getString(R.string.answer_from), answer.getWriter());
-
-        tvWriter.setText(writer);
-
-        tvAnswer.setText(answer.getAnswer());
-
-        Picasso.with(itemView.getContext()).load("http://www.designofsignage.com/application/symbol/building/image/600x600/no-photo.jpg")
-                .transform(new CircleTransform()).into(ivAvatar);
+//        String writer = String.format("%s : %s", ivAvatar.getContext().getResources().getString(R.string.answer_from), answer.getWriter());
+//
+//        tvWriter.setText(writer);
+//
+//        tvAnswer.setText(answer.getAnswer());
+//
+//        Picasso.with(itemView.getContext()).load("http://www.designofsignage.com/application/symbol/building/image/600x600/no-photo.jpg")
+//                .transform(new CircleTransform()).into(ivAvatar);
     }
 }

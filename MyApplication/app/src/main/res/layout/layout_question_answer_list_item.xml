@@ -2,64 +2,72 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <android.support.v7.widget.CardView
         android:layout_margin="1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <ImageView
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:id="@+id/iv_avatar"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
 
-
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_question"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="How to connect to an Oracle database from IntelliJ IDEA 14 and so on and on and on?"
+                android:textAlignment="textStart"
+                android:textSize="24sp"
+                android:textColor="@color/colorPrimaryText"/>
+            <TextView
+                android:id="@+id/tv_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_question"
+                android:layout_marginTop="15dp"
+                android:text="like"
+                android:textSize="15sp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:textAllCaps="true"
+                />
+            <TextView
+                android:id="@+id/tv_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_question"
+                android:layout_marginTop="15dp"
+                android:text="answer"
+                android:textSize="15sp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
+                android:textAllCaps="true"
+                android:layout_toRightOf="@id/tv_likes"
+                />
 
-            <ImageView
-                android:paddingRight="5dp"
-                android:paddingLeft="5dp"
-                android:id="@+id/iv_avatar"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
 
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:layout_weight="3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/tv_question"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Question"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:layout_marginBottom="20dp"/>
 
-                <TextView
-                    android:id="@+id/tv_writer"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/answer_from"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="Answer"
-                    android:id="@+id/tv_answer"
-                    />
-            </LinearLayout>
 
-        </LinearLayout>
+
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

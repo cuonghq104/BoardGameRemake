@@ -12,7 +12,7 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:bb_activeTabColor="@color/white"
+        app:bb_activeTabColor="@color/colorWhiteText"
         app:bb_inActiveTabColor="#80DEEA"
         app:bb_tabXmlResource="@xml/bottombar_tabs" />
     <android.support.design.widget.CoordinatorLayout
