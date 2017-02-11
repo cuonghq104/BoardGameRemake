@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,77 +8,86 @@
     android:fitsSystemWindows="true"
     tools:context="techkids.cuong.myapplication.activities.BoardGameDetailActivity">
 
-    <com.roughike.bottombar.BottomBar
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        app:bb_activeTabColor="@color/colorWhiteText"
-        app:bb_inActiveTabColor="#80DEEA"
-        app:bb_tabXmlResource="@xml/bottombar_tabs" />
-
-    <android.support.design.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:fitsSystemWindows="false"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            app:bb_activeTabColor="@color/colorWhiteText"
+            app:bb_inActiveTabColor="#80DEEA"
+            app:bb_tabXmlResource="@xml/bottombar_tabs" />
 
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|snap|enterAlwaysCollapsed|exitUntilCollapsed"
-                app:titleEnabled="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/iv_boardgame"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/vtd"
-                        app:layout_collapseMode="parallax" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="80sp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/gradient_box"
-                        app:layout_collapseMode="parallax" />
-                </RelativeLayout>
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"></android.support.v7.widget.Toolbar>
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
-
-        <FrameLayout
-            android:id="@+id/fl_container"
-
-
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>
+            android:layout_above="@id/bottom_bar"
+            android:fitsSystemWindows="true">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:fitsSystemWindows="true"
+                android:theme="@style/AppTheme.AppBarOverlay">
+
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:id="@+id/toolbar_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    app:contentScrim="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|snap|enterAlwaysCollapsed|exitUntilCollapsed"
+                    app:titleEnabled="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/iv_boardgame"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/vtd"
+                            app:layout_collapseMode="parallax" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="80sp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/gradient_box"
+                            app:layout_collapseMode="parallax" />
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:layout_collapseMode="pin"
+                        app:popupTheme="@style/AppTheme.PopupOverlay"></android.support.v7.widget.Toolbar>
+                </android.support.design.widget.CollapsingToolbarLayout>
+            </android.support.design.widget.AppBarLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <FrameLayout
+                    android:id="@+id/fl_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></FrameLayout>
 
 
-    </android.support.design.widget.CoordinatorLayout>
+            </RelativeLayout>
+        </android.support.design.widget.CoordinatorLayout>
+    </RelativeLayout>
 
 
     <!--<com.miguelcatalan.materialsearchview.MaterialSearchView-->
@@ -87,4 +97,4 @@
     <!--</com.miguelcatalan.materialsearchview.MaterialSearchView>-->
 
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
