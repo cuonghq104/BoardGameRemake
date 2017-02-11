@@ -9,18 +9,18 @@
 
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottom_bar"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
         app:bb_activeTabColor="@color/colorWhiteText"
         app:bb_inActiveTabColor="#80DEEA"
         app:bb_tabXmlResource="@xml/bottombar_tabs" />
+
     <android.support.design.widget.CoordinatorLayout
-        android:layout_above="@id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        >
+        android:layout_above="@id/bottom_bar"
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -67,23 +67,17 @@
                     app:popupTheme="@style/AppTheme.PopupOverlay"></android.support.v7.widget.Toolbar>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
-        <RelativeLayout
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+        <FrameLayout
+            android:id="@+id/fl_container"
+
+
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <FrameLayout
-                android:id="@+id/fl_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </FrameLayout>
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>
 
 
-
-        </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
-
-
-
 
 
     <!--<com.miguelcatalan.materialsearchview.MaterialSearchView-->
@@ -91,9 +85,6 @@
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="wrap_content">-->
     <!--</com.miguelcatalan.materialsearchview.MaterialSearchView>-->
-
-
-
 
 
 </RelativeLayout>

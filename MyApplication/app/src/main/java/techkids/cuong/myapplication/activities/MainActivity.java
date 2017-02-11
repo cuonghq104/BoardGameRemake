@@ -3,7 +3,10 @@ package techkids.cuong.myapplication.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,7 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -26,12 +32,21 @@ import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.events.SearchEvent;
 import techkids.cuong.myapplication.fragments.BoardGameListFragment;
 import techkids.cuong.myapplication.events.ChangeFragmentEvent;
+import techkids.cuong.myapplication.models.BoardGame;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String BOARDGAME_NAME_KEY = "boardgame_name";
     public static final String BOARDGAME_KEY = "boardgame";
+
+    @Subscribe
+    public void toDetailActivity(BoardGameDetailActivity.ToDetailActivityEvent event){
+        Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
+        intent.putExtra(BOARDGAME_KEY, event.getPosition());
+        startActivity(intent);
+    }
+
 
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
@@ -41,8 +56,13 @@ public class MainActivity extends AppCompatActivity
 
     private Toolbar toolbar;
 
-    @BindView(R.id.v_gap)
-    View vGap;
+    @BindView(R.id.sv_boardgames)
+    SearchView svBoardGames;
+
+    @BindView(R.id.tv_search)
+    TextView tvSearch;
+
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +72,73 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(R.drawable.ic_toggle);
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.LEFT);
+            }
+        });
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         ButterKnife.bind(this);
+        setupUI();
+        addListener();
         changeFragment(new BoardGameListFragment(), false);
+
+    }
+
+    private void setupUI() {
+        EditText editText = (EditText) svBoardGames.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        editText.setTextColor(getResources().getColor(R.color.colorPrimaryText));
+        editText.setHintTextColor(getResources().getColor(R.color.colorSecondaryText));
+        editText.setHint(getResources().getString(R.string.search_hint));
+
+        ImageView mag = (ImageView) svBoardGames.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
+        mag.setVisibility(View.GONE);
+
+    }
+
+    private void addListener() {
+
+        tvSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvSearch.setVisibility(View.GONE);
+                svBoardGames.setIconified(false);
+                toggle.setDrawerIndicatorEnabled(false);
+                toggle.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+                toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        svBoardGames.setIconified(true);
+                        tvSearch.setVisibility(View.VISIBLE);
+                        toggle.setDrawerIndicatorEnabled(false);
+                        toggle.setHomeAsUpIndicator(R.drawable.ic_toggle);
+                    }
+                });
+            }
+        });
+
+        svBoardGames.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                EventBus.getDefault().postSticky(new SearchEvent(newText));
+                return false;
+            }
+        });
     }
 
 
@@ -81,7 +157,7 @@ public class MainActivity extends AppCompatActivity
     private void changeFragment(Fragment fragment, boolean addToBackStack) {
 
         toolbar.setVisibility(View.VISIBLE);
-        vGap.setVisibility(View.VISIBLE);
+//        vGap.setVisibility(View.VISIBLE);
         if (addToBackStack)
             getSupportFragmentManager()
                     .beginTransaction()
@@ -128,26 +204,26 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        });
 
-        getMenuInflater().inflate(R.menu.rules_menu, menu);
-
-        MenuItem item = menu.findItem(R.id.action_search);
-
-        MaterialSearchView searchView = (MaterialSearchView) findViewById(R.id.msv);
-
-        searchView.setMenuItem(item);
-
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                EventBus.getDefault().post(new SearchEvent(newText));
-                return false;
-            }
-        });
+//        getMenuInflater().inflate(R.menu.rules_menu, menu);
+//
+//        MenuItem item = menu.findItem(R.id.action_search);
+//
+//        MaterialSearchView searchView = (MaterialSearchView) findViewById(R.id.msv);
+//
+//        searchView.setMenuItem(item);
+//
+//        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                EventBus.getDefault().post(new SearchEvent(newText));
+//                return false;
+//            }
+//        });
 
 
         return true;
@@ -192,45 +268,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-    @Subscribe
-    public void toDetailActivity(BoardGameDetailActivity.ToDetailActivityEvent event){
-        Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
-        intent.putExtra(BOARDGAME_KEY, event.getPosition());
-//        intent.putExtra(BOARDGAME_NAME_KEY,event.getBoardGame().getName());
-        startActivity(intent);
-    }
-    @Subscribe
-    public void goToDetailFragment(ChangeFragmentEvent changeFragmentEvent) {
-
-//        Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
-//        intent.putExtra(BOARDGAME_NAME_KEY,)
-//        startActivity(intent);
-
-//        int boardgame = changeFragmentEvent.getPosition();
-//
-//
-//        if (!BoardGame.boardGamesList.get(boardgame).getName().equals("Werewolf basic")) {
-//            Snackbar snackbar = Snackbar.make(clRoot, "Đang phát triển", Snackbar.LENGTH_SHORT);
-//            snackbar.show();
-//            return;
-//        }
-//
-//        Bundle bundle = new Bundle();
-//
-//        bundle.putInt(BoardGame.BOARD_GAME, boardgame);
-//
-//        Fragment fragment = changeFragmentEvent.getFragment();
-//
-//        fragment.setArguments(bundle);
-//
-////        toolbar.setVisibility(View.GONE);
-////        vGap.setVisibility(View.GONE);
-//
-//        changeFragment(fragment, changeFragmentEvent.isAddToBackStack());
-    }
-
-
 
 }

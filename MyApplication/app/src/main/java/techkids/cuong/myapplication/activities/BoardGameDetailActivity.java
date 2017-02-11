@@ -55,12 +55,14 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         int position = getIntent().getIntExtra(MainActivity.BOARDGAME_KEY, -1);
 //        BoardGame boardGame= (BoardGame) getIntent().getSerializableExtra(MainActivity.BOARDGAME_KEY);
         BoardGame boardGame = BoardGame.boardGamesList.get(position);
-        toolbar.setTitle(boardGame.getName());
+//        toolbar.setTitle(boardGame.getName());
+        toolbar.setTitle("");
         Picasso.with(ivBoardGame.getContext()).load(boardGame.getImageUrl()).into(ivBoardGame);
+
 
         setSupportActionBar(toolbar);
         addListener();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 //        toolbar.setVisibility(View.GONE);
 //        vGap.setVisibility(View.GONE);
 
@@ -78,23 +80,15 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public boolean onNavigateUp() {
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                Intent intent = new Intent(BoardGameDetailActivity.this, MainActivity.class);
-//                startActivity(intent);
-//                return true;
-            default:
-                return this.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+////            case android.R.id.home:
+////                onBackPressed();
+//            default:
+//                return this.onOptionsItemSelected(item);
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

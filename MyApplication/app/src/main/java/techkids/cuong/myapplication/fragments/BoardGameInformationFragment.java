@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import techkids.cuong.myapplication.R;
+import techkids.cuong.myapplication.adapters.CategoryAdapter;
 import techkids.cuong.myapplication.events.BackEvent;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.models.BoardGame;
@@ -34,60 +37,51 @@ import techkids.cuong.myapplication.models.BoardGame;
  */
 public class BoardGameInformationFragment extends Fragment {
 
-
-//    @BindView(R.id.tv_name)
-//    TextView tvName;
+//    @BindView(R.id.iv_boardgame)
+//    ImageView ivBoardGame;
+    //
+    @BindView(R.id.tv_name)
+    TextView tvName;
 
     @BindView(R.id.tv_number_of_player)
     TextView tvNumberOfPlayer;
-
+    //
     @BindView(R.id.tv_suggested_player)
     TextView tvSuggestedPlayer;
-
+    //
     @BindView(R.id.tv_playing_time)
     TextView tvPlayingTime;
 
-    @BindView(R.id.tv_categories)
-    TextView tvCategories;
+    @BindView(R.id.rv_categories)
+    RecyclerView rvCategories;
 
-    @BindView(R.id.tv_play_type)
-    TextView tvPlayType;
+    @BindView(R.id.rv_play_type) RecyclerView rvPlayType;
 
     BoardGame boardGame;
-    AppCompatActivity activity;
 
-//    @BindView(R.id.toolbar)
-//    Toolbar toolbar;
+    int position;
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     public BoardGameInformationFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        activity = (AppCompatActivity) context;
-
-    }
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_board_game_information, container, false);
+//        YoYo.with(Techniques.ZoomIn)
+//                .duration(300)
+//                .playOn(getActivity().findViewById(R.id.fl_container));
         ButterKnife.bind(this, view);
         setupUI();
         return view;
     }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        toolbar.setTitle(boardGame.getName());
-//        activity.setSupportActionBar(toolbar);
-//        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-
 
     @Override
     public void onStart() {
@@ -95,54 +89,37 @@ public class BoardGameInformationFragment extends Fragment {
 //        EventBus.getDefault().post(new HideToolbarEvent(true, false));
     }
 
+    private CategoryAdapter adapter;
+
+    private CategoryAdapter playTypeAdapter;
+
     private void setupUI() {
 
-        //todo ko fix cung
-        int position = 0;
         boardGame = BoardGame.boardGamesList.get(position);
 
-
-
 //        Picasso.with(ivBoardGame.getContext()).load(boardGame.getImageUrl()).into(ivBoardGame);
-
+//
         String name = boardGame.getName();
-
-//        tvName.setText(name);
-
+//
+        tvName.setText(name.toUpperCase());
+//
         tvNumberOfPlayer.setText(String.format("%d - %d", boardGame.getMinPlayer(), boardGame.getMaxPlayer()));
-
-        tvSuggestedPlayer.setText(String.format(boardGame.getFavoritePlayer()));
-
+//
+        tvSuggestedPlayer.setText(String.format("Suggested : %s players", boardGame.getFavoritePlayer()));
+//
         tvPlayingTime.setText(String.format("%d %s", boardGame.getPlayingTime(), getString(R.string.min)));
 
-        String categories = "";
+        adapter = new CategoryAdapter(boardGame.getCategories());
+        rvCategories.setLayoutManager(new GridLayoutManager(this.getContext(), 3));
+        rvCategories.setAdapter(adapter);
 
-        int size = boardGame.getCategories().length;
-        for (int i = 0; i < size; i++) {
-            categories += boardGame.getCategories()[i];
-            if (i != size - 1) {
-                categories += " , ";
-            }
-        }
-
-        tvCategories.setText(String.format("%s", categories));
-
-        String playType = "";
-
-        size = boardGame.getPlayType().length;
-        for (int i = 0; i < size; i++) {
-            playType += boardGame.getPlayType()[i];
-            if (i != size - 1) {
-                playType += " , ";
-            }
-        }
-
-        tvPlayType.setText(playType);
+        playTypeAdapter = new CategoryAdapter(boardGame.getPlayType());
+        rvPlayType.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
+        rvPlayType.setAdapter(playTypeAdapter);
     }
 
 //    @OnClick(R.id.bt_back)
 //    public void backFromBackStack() {
 //        EventBus.getDefault().post(new BackEvent(true));
 //    }
-
 }

@@ -9,51 +9,80 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <RelativeLayout
+                android:padding="10dp"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="#FFFFFF"
+                    android:titleTextColor="@color/colorPrimaryText"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+                <android.support.v7.widget.SearchView
+                    android:id="@+id/sv_boardgames"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.SearchView>
+
+                <TextView
+                    android:id="@+id/tv_search"
+                    android:paddingLeft="10dp"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorSecondaryText"
+                    android:text="Search Board Game"
+                    android:layout_centerVertical="true"
+                    android:layout_alignBottom="@id/sv_boardgames"
+                    android:layout_marginLeft="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <!--<com.miguelcatalan.materialsearchview.MaterialSearchView-->
+                <!--android:id="@+id/msv"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--</com.miguelcatalan.materialsearchview.MaterialSearchView>-->
+
+            </RelativeLayout>
+
+        </android.support.design.widget.AppBarLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-            <com.miguelcatalan.materialsearchview.MaterialSearchView
-                android:id="@+id/msv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </com.miguelcatalan.materialsearchview.MaterialSearchView>
-
-        </RelativeLayout>
-
-</android.support.design.widget.AppBarLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <View
-                android:id="@+id/v_gap"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"/>
 
-            <FrameLayout
-                android:id="@+id/fl_container"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </FrameLayout>
-        </LinearLayout>
 
-    </RelativeLayout>
+                <FrameLayout
+                    android:id="@+id/fl_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </FrameLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
 
 
 </android.support.design.widget.CoordinatorLayout>
