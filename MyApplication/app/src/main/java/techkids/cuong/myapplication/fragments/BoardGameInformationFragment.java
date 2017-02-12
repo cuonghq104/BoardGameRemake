@@ -40,6 +40,10 @@ public class BoardGameInformationFragment extends Fragment {
 //    @BindView(R.id.iv_boardgame)
 //    ImageView ivBoardGame;
     //
+
+    @BindView(R.id.iv_boardgame)
+    ImageView ivBoardGame;
+
     @BindView(R.id.tv_name)
     TextView tvName;
 
@@ -98,8 +102,10 @@ public class BoardGameInformationFragment extends Fragment {
 
     private void setupUI() {
 
+
         boardGame = BoardGame.boardGamesList.get(position);
 
+        Picasso.with(ivBoardGame.getContext()).load(boardGame.getImageUrl()).into(ivBoardGame);
 //        Picasso.with(ivBoardGame.getContext()).load(boardGame.getImageUrl()).into(ivBoardGame);
 //
         String name = boardGame.getName();

@@ -36,8 +36,8 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     BottomBar bb;
 
 
-    @BindView(R.id.iv_boardgame)
-    ImageView ivBoardGame;
+//    @BindView(R.id.iv_boardgame)
+//    ImageView ivBoardGame;
 
     private Toolbar toolbar;
 
@@ -56,8 +56,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 //        BoardGame boardGame= (BoardGame) getIntent().getSerializableExtra(MainActivity.BOARDGAME_KEY);
         BoardGame boardGame = BoardGame.boardGamesList.get(position);
 //        toolbar.setTitle(boardGame.getName());
-        toolbar.setTitle("");
-        Picasso.with(ivBoardGame.getContext()).load(boardGame.getImageUrl()).into(ivBoardGame);
+        toolbar.setTitle("fuck you");
 
 
         setSupportActionBar(toolbar);
