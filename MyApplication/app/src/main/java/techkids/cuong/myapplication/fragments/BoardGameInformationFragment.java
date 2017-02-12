@@ -57,6 +57,9 @@ public class BoardGameInformationFragment extends Fragment {
 
     @BindView(R.id.rv_play_type) RecyclerView rvPlayType;
 
+    @BindView(R.id.tv_description)
+    TextView tvDescription;
+
     BoardGame boardGame;
 
     int position;
@@ -105,9 +108,11 @@ public class BoardGameInformationFragment extends Fragment {
 //
         tvNumberOfPlayer.setText(String.format("%d - %d", boardGame.getMinPlayer(), boardGame.getMaxPlayer()));
 //
-        tvSuggestedPlayer.setText(String.format("Suggested : %s players", boardGame.getFavoritePlayer()));
+        tvSuggestedPlayer.setText(String.format("Suggested : %s", boardGame.getFavoritePlayer()));
 //
         tvPlayingTime.setText(String.format("%d %s", boardGame.getPlayingTime(), getString(R.string.min)));
+
+        tvDescription.setText(boardGame.getDescription());
 
         adapter = new CategoryAdapter(boardGame.getCategories());
         rvCategories.setLayoutManager(new GridLayoutManager(this.getContext(), 3));

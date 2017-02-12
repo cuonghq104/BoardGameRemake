@@ -29,9 +29,11 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import techkids.cuong.myapplication.R;
+import techkids.cuong.myapplication.events.LoginEvent;
 import techkids.cuong.myapplication.events.SearchEvent;
 import techkids.cuong.myapplication.fragments.BoardGameListFragment;
 import techkids.cuong.myapplication.events.ChangeFragmentEvent;
+import techkids.cuong.myapplication.fragments.SignUpFragment;
 import techkids.cuong.myapplication.models.BoardGame;
 
 public class MainActivity extends AppCompatActivity
@@ -47,6 +49,10 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    @Subscribe
+    public void onLoginEvent(LoginEvent event) {
+        changeFragment(new BoardGameListFragment(), false);
+    }
 
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
@@ -91,7 +97,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setupUI();
         addListener();
-        changeFragment(new BoardGameListFragment(), false);
+        changeFragment(new SignUpFragment(), false);
 
     }
 
