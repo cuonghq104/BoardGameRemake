@@ -48,7 +48,9 @@ public class BoardGameListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_board_game_list, container, false);
         ButterKnife.bind(this, view);
+        EventBus.getDefault().post(new HideToolbarEvent(false));
         setupUI();
+
         super.onStart();
         return view;
     }

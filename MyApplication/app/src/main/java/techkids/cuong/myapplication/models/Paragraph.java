@@ -1,5 +1,6 @@
 package techkids.cuong.myapplication.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * Created by Cuong on 1/5/2017.
  */
-public class Paragraph {
+public class Paragraph implements Serializable{
     public static final String TEXT_TYPE = "text";
     public static final String IMAGE_TYPE = "image";
     public static final String COMBINE_TYPE = "combine";

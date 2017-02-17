@@ -21,6 +21,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import techkids.cuong.myapplication.events.BoardGameEvent;
 import techkids.cuong.myapplication.fragments.BoardGamesRulesFragment;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.events.BackEvent;
@@ -45,6 +46,8 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     BoardGamesRulesFragment rulesFragment;
     private Object references;
 
+    private BoardGame boardGame;
+
 //    @BindView(R.id.v_gap)
 //    View vGap;
 
@@ -54,13 +57,13 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_game_detail);
         ButterKnife.bind(this);
-
-
-        int position = getIntent().getIntExtra(MainActivity.BOARDGAME_KEY, -1);
+        boardGame = (BoardGame) getIntent().getSerializableExtra(MainActivity.BOARDGAME_KEY);
 //        BoardGame boardGame= (BoardGame) getIntent().getSerializableExtra(MainActivity.BOARDGAME_KEY);
-        BoardGame boardGame = BoardGame.boardGamesList.get(position);
+//        BoardGame boardGame = BoardGame.boardGamesList.get(position);
 //        toolbar.setTitle(boardGame.getName());
         toolbar.setTitle("Detail");
+        EventBus.getDefault().postSticky(new BoardGameEvent(boardGame));
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -155,28 +158,28 @@ public class BoardGameDetailActivity extends AppCompatActivity {
                     .commit();
     }
 
-    @Subscribe
-    public void hideToolbar(HideToolbarEvent hideToolbarEvent) {
-        if (hideToolbarEvent.isHideToolbar()) {
-            toolbar.setVisibility(View.GONE);
-//            vGap.setVisibility(View.GONE);
-//            searchView.setVisibility(View.GONE);
-//            searchView.setVisibility(View.GONE);
-//            MenuItem item = (MenuItem) findViewById(R.id.action_search);
-//            item.setIcon(null);
-        } else {
-            toolbar.setVisibility(View.VISIBLE);
-//            vGap.setVisibility(View.VISIBLE);
-//            searchView.setVisibility(View.VISIBLE);
-//            searchView.setVisibility(View.VISIBLE);
-        }
-
-        if (hideToolbarEvent.isHideBottomNavi()) {
-            bb.setVisibility(View.GONE);
-        } else {
-            bb.setVisibility(View.VISIBLE);
-        }
-    }
+//    @Subscribe
+//    public void hideToolbar(HideToolbarEvent hideToolbarEvent) {
+//        if (hideToolbarEvent.isHideToolbar()) {
+//            toolbar.setVisibility(View.GONE);
+////            vGap.setVisibility(View.GONE);
+////            searchView.setVisibility(View.GONE);
+////            searchView.setVisibility(View.GONE);
+////            MenuItem item = (MenuItem) findViewById(R.id.action_search);
+////            item.setIcon(null);
+//        } else {
+//            toolbar.setVisibility(View.VISIBLE);
+////            vGap.setVisibility(View.VISIBLE);
+////            searchView.setVisibility(View.VISIBLE);
+////            searchView.setVisibility(View.VISIBLE);
+//        }
+//
+//        if (hideToolbarEvent.isHideBottomNavi()) {
+//            bb.setVisibility(View.GONE);
+//        } else {
+//            bb.setVisibility(View.VISIBLE);
+//        }
+//    }
 
     @Subscribe
     public void backToMainActivity(BackEvent backEvent) {
@@ -197,15 +200,25 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 //        public BoardGame getBoardGame() {
 //            return boardGame;
 //        }
-        private int position;
+//        private int position;
 
-        public ToDetailActivityEvent(int position) {
-            this.position = position;
+        private BoardGame boardGame;
+
+        public ToDetailActivityEvent(BoardGame boardGame) {
+            this.boardGame = boardGame;
         }
 
-        public int getPosition() {
-            return position;
+        public BoardGame getBoardGame() {
+            return boardGame;
         }
+
+        //        public ToDetailActivityEvent(int position) {
+//            this.position = position;
+//        }
+//
+//        public int getPosition() {
+//            return position;
+//        }
     }
 
 }

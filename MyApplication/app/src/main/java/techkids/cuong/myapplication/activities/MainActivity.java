@@ -20,7 +20,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -29,9 +31,13 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import techkids.cuong.myapplication.CatalogueFullFragment;
+import techkids.cuong.myapplication.LoginActivity;
 import techkids.cuong.myapplication.R;
+import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.events.LoginEvent;
 import techkids.cuong.myapplication.events.SearchEvent;
+import techkids.cuong.myapplication.fragments.BoardGameCatalogueFragment;
 import techkids.cuong.myapplication.fragments.BoardGameListFragment;
 import techkids.cuong.myapplication.events.ChangeFragmentEvent;
 import techkids.cuong.myapplication.fragments.SignUpFragment;
@@ -46,14 +52,21 @@ public class MainActivity extends AppCompatActivity
     @Subscribe
     public void toDetailActivity(BoardGameDetailActivity.ToDetailActivityEvent event){
         Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
-        intent.putExtra(BOARDGAME_KEY, event.getPosition());
+        intent.putExtra(BOARDGAME_KEY, event.getBoardGame());
+        if (!event.getBoardGame().getName().equals("Werewolf basic - a very basic game")) {
+            Toast.makeText(MainActivity.this, "Dang phat trien", Toast.LENGTH_SHORT).show();
+            return;
+        }
         startActivity(intent);
     }
 
     @Subscribe
     public void onLoginEvent(LoginEvent event) {
-        changeFragment(new BoardGameListFragment(), false);
+        changeFragment(new BoardGameCatalogueFragment(), false);
     }
+
+    @BindView(R.id.rl_container)
+    RelativeLayout rlContainer;
 
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
@@ -98,18 +111,23 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         setupUI();
-        changeFragment(new SignUpFragment(), false);
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        rlContainer.setVisibility(View.GONE);
         addListener();
-
-
+        changeFragment(new SignUpFragment(), false);
     }
 
+    @Subscribe
+    public void goToFullCatalogueFragment(CatalogueFullFragment.CatalogueFullEvent event) {
+        changeFragment(new CatalogueFullFragment(), true);
+    }
+    @Subscribe
+    public void onHideToolbarEvent (HideToolbarEvent event) {
+        if (event.isHideToolbar()) {
+            rlContainer.setVisibility(View.GONE);
+        } else {
+            rlContainer.setVisibility(View.VISIBLE);
+        }
+    }
     private void setupUI() {
         EditText editText = (EditText) svBoardGames.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         editText.setTextColor(getResources().getColor(R.color.colorPrimaryText));

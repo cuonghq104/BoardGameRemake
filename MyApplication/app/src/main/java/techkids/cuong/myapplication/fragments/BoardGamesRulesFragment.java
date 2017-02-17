@@ -55,9 +55,13 @@ public class BoardGamesRulesFragment extends Fragment implements MaterialSearchV
     @Override
     public void onStart() {
         super.onStart();
-//        EventBus.getDefault().register(this);
-        EventBus.getDefault().post(new HideToolbarEvent(false, false));
-
+        EventBus.getDefault().register(this);
+//<<<<<<< HEAD
+//        EventBus.getDefault().post(new HideToolbarEvent(false, false));
+//
+//=======
+//        EventBus.getDefault().post(new HideToolbarEvent(false));
+//>>>>>>> Add publisher card, add catalogue fragment
     }
 
     @Override
