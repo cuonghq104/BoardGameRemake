@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/cl_root"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".activities.MainActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical">-->
+
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <RelativeLayout
-                android:padding="10dp"
-                android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:padding="10dp">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -30,29 +30,28 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="#FFFFFF"
                     android:titleTextColor="@color/colorPrimaryText"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
 
                 <android.support.v7.widget.SearchView
                     android:id="@+id/sv_boardgames"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="40dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.SearchView>
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40dp"></android.support.v7.widget.SearchView>
 
                 <TextView
                     android:id="@+id/tv_search"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"
-                    android:gravity="center_vertical"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorSecondaryText"
-                    android:text="Search Board Game"
-                    android:layout_centerVertical="true"
-                    android:layout_alignBottom="@id/sv_boardgames"
-                    android:layout_marginLeft="40dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_alignBottom="@id/sv_boardgames"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Search Board Game"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <!--<com.miguelcatalan.materialsearchview.MaterialSearchView-->
                 <!--android:id="@+id/msv"-->
@@ -64,24 +63,17 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <RelativeLayout
+        <android.support.v4.widget.NestedScrollView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <FrameLayout
+                android:id="@+id/fl_container"
 
-            <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"></FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/fl_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </FrameLayout>
-            </LinearLayout>
-
-        </RelativeLayout>
-    </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
 
 
