@@ -50,7 +50,7 @@ public class BoardGameViewHolder extends RecyclerView.ViewHolder{
 
     @OnClick(R.id.iv_boardgame)
     public void changeDetailFragment() {
-        Paragraph.list = Arrays.asList(BoardGame.boardGamesList.get(position).getTutorialBlocks());
+//        Paragraph.list = Arrays.asList(BoardGame.boardGamesList.get(position).getTutorialBlocks());
 
         QuestionAndAnswer.questionAndAnswerList = Arrays.asList(QuestionAndAnswer.questionAndAnswersArrays);
 

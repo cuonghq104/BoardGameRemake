@@ -66,7 +66,7 @@ public class BoardGameInformationFragment extends Fragment {
 
     BoardGame boardGame;
 
-    int position;
+    int position = 0;
 
     public void setPosition(int position) {
         this.position = position;

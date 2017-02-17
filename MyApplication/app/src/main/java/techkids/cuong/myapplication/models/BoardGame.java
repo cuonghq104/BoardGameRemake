@@ -33,11 +33,11 @@ public class BoardGame implements Serializable {
 
     private String[] playType;
 
-    private Paragraph[] tutorialBlocks;
+    private String rules;
 
     private String description;
 
-    public BoardGame(String name, String imageUrl, String detailUrl, String rulesUrl, String thumbUrl, int minPlayer, int maxPlayer, String favoritePlayer, int playingTime, String[] categories, String[] playType, Paragraph[] tutorialBlocks, String description) {
+    public BoardGame(String name, String imageUrl, String detailUrl, String rulesUrl, String thumbUrl, int minPlayer, int maxPlayer, String favoritePlayer, int playingTime, String[] categories, String[] playType, String rules, String description) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.detailUrl = detailUrl;
@@ -48,9 +48,9 @@ public class BoardGame implements Serializable {
         this.favoritePlayer = favoritePlayer;
         this.playingTime = playingTime;
         this.categories = categories;
-        this.tutorialBlocks = tutorialBlocks;
         this.playType = playType;
         this.description = description;
+        this.rules = rules;
     }
 
     public String getThumbUrl() {
@@ -89,6 +89,10 @@ public class BoardGame implements Serializable {
         return detailUrl;
     }
 
+    public String getRules() {
+        return rules;
+    }
+
     //    "https://cf.geekdo-images.com/images/pic2016054_md.jpg",
 //            "https://view.publitas.com/p222-11815/coup/page/1",
     public static BoardGame[] boardGameArray = {
@@ -100,57 +104,75 @@ public class BoardGame implements Serializable {
                     8, 18,
                     "11-15",
                     30,
-                    new String[] {"buffing", "deduction", "horror", "murder", "mystery", "party"},
-                    new String[] {"partnership", "player elimination", "role playing", "voting"},
-                    new Paragraph[]  {
-                            Paragraph.createText("Trình tự game", "1. Giai đoạn ban đêm: Mọi người nhắm mắt, Quản Trò gọi vai trò đặc biệt nào thì vai trò ấy mở mắt và thực hiện chức năng của mình trong-yên-lặng. Trình tự gọi của Quản Trò như sau: \n" +
-                                            "\t\t1. Ăn trộm (Chỉ đêm đầu tiên)\n" +
-                                            "\t\t2. Cupid (Chỉ đêm đầu tiên)\n" +
-                                            "\t\t3. 2 người yêu nhau (Chỉ đêm đầu tiên)\n" +
-                                            "\t\t4.Bảo vệ\n" +
-                                            "\t\t5.Sói\n" +
-                                            "\t\t6.Tiên Tri\n" +
-                                            "\t\t7.Phù Thủy\n" +
-                                            "\t\t8.Thổi sáo\n" +
-                                            "\t\t9.Những người bị thôi miên\n" +
-                                            "\t\t10.Già Làng (Chỉ đêm đầu tiên)\n" +
-                                            "\t\t11.Thợ Săn (Chỉ đêm đầu tiên)\n" +
-                                            "2. Ban ngày: Quản trò ra hiệu mọi người mở mắt, thông báo những ai đã chết đêm qua. Sau đó, dân làng bình bầu treo cổ một người bị nghi ngờ là Ma Sói trong ban ngày (Có thể hoãn không treo). Nếu có 2 người cùng có số phiếu bầu treo như nhau thì không ai bị treo cả.",
-                                    new String[] {"ban ngày", "ban đêm"}),
-                            Paragraph.createCombine("Tiên tri", "Mỗi đêm, khi được gọi dậy Tiên Tri sẽ chỉ một người. Nếu người đó là Sói Quản trò sẽ gật đầu.\n" , "https://raw.githubusercontent.com/cuonghq104/Images/master/Card/seer.png",
-                                    new String[] {"sói", "mỗi đêm"}),
-                            Paragraph.createCombine("Thợ săn", "Khi thợ săn chết, dù là dưới bất kỳ hình thức nào cũng có thể chọn một người chơi khác và kéo hắn xuống “Tuyền đường” cùng Thợ Săn", "https://raw.githubusercontent.com/cuonghq104/Images/master/Card/hunter.png",
-                                    new String[] {"chết", "mỗi đêm", "giết"}),
-                            Paragraph.createCombine("Phù thủy", "Phù Thủy có hai bình thuốc: Một bình dùng để cứu một người, còn một bình dùng để giết một người. Mỗi đêm, Quản trò khi gọi Phù Thủy dậy sẽ cho Phù Thủy biết người bị giết bởi Sói đêm đó, và Phù Thủy được quyền quyết định xem có cứu người ấy hay không. Sau đó, quản trò sẽ hỏi xem Phù Thủy có dùng bình giết giết ai hay không. Một khi đã dùng bình thì Phù Thủy sẽ mất đi chức năng tương ứng, tuy nhiên vẫn được gọi dậy mỗi đêm và biết ai chết. Lưu ý: Nếu đêm đó Bảo Vệ đã Bảo Vệ đúng người thì Quản trò sẽ lắc tay, ra dấu là không ai chết cả.", "https://raw.githubusercontent.com/cuonghq104/Images/master/Card/witch.png",
-                                    new String[] {"giết", "cứu"}),
-                            Paragraph.createCombine("Cupid", "Đầu mỗi ván chơi, Cupid sẽ được gọi dậy và chọn ra hai người yêu nhau. Cupid sau đó nhắm mắt lại và hai người yêu nhau sẽ được Quản Trò gọi dậy để biết mặt và Vai Trò của nhau. Nếu hai người thuộc hai phe khác nhau (Sói vs Dân) thì họ thành phe thứ ba với nhiệm vụ là hai người cuối cùng sống sót.", "https://raw.githubusercontent.com/cuonghq104/Images/master/Card/cupid.png",
-                                    new String[] {"đêm đầu tiên", "sói", "dân"}),
-                            Paragraph.createCombine("Ma Sói", "Mỗi đêm thức dậy, các Sói sẽ biết mặt lẫn nhau và sẽ cùng thống nhất giết một người. Sói có quyền không giết, và cũng có quyền tự giết lẫn nhau.", "https://raw.githubusercontent.com/cuonghq104/Images/master/Card/WereWolf.jpg",
-                                    new String[] {"mỗi đêm", "giết", "tiên tri"}),
-                            Paragraph.createCombine("Dân làng", "Năng lực rất đơn giản: Chết khi bị giết. Ngoài ra còn có năng lực bỏ phiếu treo người khác", "https://raw.githubusercontent.com/cuonghq104/Images/master/Card/villager.png",
-                                    new String[] {"chết, giết, bỏ phiếu"}),
-                            Paragraph.createText("Luật chơi", "Cách chơi của trò chơi là mỗi người sẽ được nhận lần lượt 1 lá bài để biết chức năng của mình, sau đó sẽ được quản trò bảo đi ngủ trong từng đêm. Mỗi đêm, quản trò gọi từng chức năng đặc biệt thức dậy như sói, cupid, witch ... để thực hiện công việc của mình rồi tiếp tục đi ngủ. Sau khi gọi lên hết cách chức năng. Quản trò thông báo mọi người mở mắt dậy và sẽ cho biết đêm qua ai bị giết.\n" +
-                                            "\n" +
-                                            "Sáng đó, mọi người sẽ cùng ngồi thảo luận với nhau, và bằng cơ sở lý luận, lập luận hay troll nhau gì gì đó ... mà cùng nhau tìm ra và treo cổ những con sói tinh ma.\n" +
-                                            "\n" +
-                                            "Còn về phía phe sói, thì cùng bảo vệ nhau để ly gián dân làng giành được chiến thắng cuối cùng.\n" +
-                                            "\n" +
-                                            "Nếu một người bị giết hay loại khỏi trò chơi vì quy phạm nội quy game, quản trò sẽ không cho biết chức năng của họ cho đến khi kết thúc game.\n" +
-                                            "\n" +
-                                            "Thứ tự gọi mỗi nhân vật trong đêm, phải theo 1 thứ tự nhất định không được thay đổi. Nếu quản trò gọi thứ tự sai, đôi khi sẽ gây sự nhầm lẫn hoặc sai sót trong game.\n" +
-                                            "\n" +
-                                            "Người chơi đã bị loại khỏi game do bị giết hoặc vi phạm, phải tuyệt đối tuân thủ và tôn trọng những người chơi khác bằng cách giữ im lặng và theo dõi game tiếp tục diễn ra.\n" +
-                                            "\n" +
-                                            "Mỗi buổi sáng, dân làng có tối đa 2 phút để cùng thảo luận với nhau.\n" +
-                                            "\n" +
-                                            "Sau đó có 5 giây để chỉ tay về phía người mình tình nghi, nếu ai bị chỉ tay nhiều nhất sẽ có 1 phút để tự bào chữa cho mình.\n" +
-                                            "\n" +
-                                            "Trong quá trình 1 phút tự bào chữa của người bị tình nghi, những người còn lại không được phép lên tiếng, nếu lên tiếng sẽ bị loại khỏi game. Trường hợp lên tiếng khi được người tình nghi hỏi trong lúc đang bào chữa cho mình, người lên tiếng sẽ bị mất quyền bỏ phiếu. Nếu nói chuyện ngoài luồng và cãi nhau, người chơi bị loại khỏi game.\n" +
-                                            "Hết 1 phút, những người có quyền bỏ phiếu sẽ biểu quyết xem có chấp nhận phần tự bào chữa của người bị tình nghi không. Nếu số phiếu chấp nhận nhiều hơn số phiếu không chấp nhận thì người đó được sống và tiếp tục trò chơi, ngược lại thì người đó sẽ chết (quản trò sẽ thu lại lá bài chức năng)\n" +
-                                            "\n" +
-                                            "Dù người chơi bị chết giữ chức năng quan trọng nào đó, quản trò vẫn không được tiết lộ nên mỗi đêm vẫn phải gọi hết tất cả các chức năng của trò chơi lên để đánh lạc hướng người chơi và làm cơ sở cho phe sói có thời gian giả dạng đánh lừa dân làng. Do đó, việc bạn có chức năng đặc biệt nào đó mà bạn bị giết rồi mà quản trò vẫn gọi chức năng đó là điều hoàn toàn bình thường, đừng tỏ ra thắc mắc mà hãy im lặng theo dõi đến khi kết thúc trò chơi.",
-                                    new String[] {})
-                    },
+                    new String[]{"buffing", "deduction", "horror", "murder", "mystery", "party"},
+                    new String[]{"partnership", "player elimination", "role playing", "voting"},
+
+                    "##Trình tự game\n" +
+                            "\n" +
+                            "### Giai đoạn ban đêm: \n" +
+                            "Mọi người nhắm mắt, Quản Trò gọi vai trò đặc biệt nào thì vai trò ấy mở mắt và thực hiện chức năng của mình trong-yên-lặng. Trình tự gọi của Quản Trò như sau:\n" +
+                            "1. Ăn trộm (Chỉ đêm đầu tiên)\n" +
+                            "2. Cupid (Chỉ đêm đầu tiên)\n" +
+                            "3.  2 người yêu nhau (Chỉ đêm đầu tiên)\n" +
+                            "4. Bảo vệ\n" +
+                            "5. Sói\n" +
+                            "6. Tiên Tri\n" +
+                            "7. Phù Thủy\n" +
+                            "8. Thổi sáo\n" +
+                            "9. Những người bị thôi miên\n" +
+                            "10. Già Làng (Chỉ đêm đầu tiên)\n" +
+                            "11. Thợ Săn\n" +
+                            "###Ban ngày:\n" +
+                            "Quản trò ra hiệu mọi người mở mắt, thông báo những ai đã chết đêm qua. Sau đó, dân làng bình bầu treo cổ một người bị nghi ngờ là Ma Sói trong ban ngày (Có thể hoãn không treo). Nếu có 2 người cùng có số phiếu bầu treo như nhau thì không ai bị treo cả.\n" +
+                            "#####Tiên tri\n" +
+                            "![enter image description here](https://raw.githubusercontent.com/cuonghq104/Images/master/Card/seer.png)\n" +
+                            "\n" +
+                            "> Mỗi đêm, khi được gọi dậy Tiên Tri sẽ chỉ một người. Nếu người đó là Sói Quản trò sẽ gật đầu.\n" +
+                            "\n" +
+                            "#####Thợ săn\n" +
+                            "![enter image description here](https://raw.githubusercontent.com/cuonghq104/Images/master/Card/hunter.png)\n" +
+                            ">Khi thợ săn chết, dù là dưới bất kỳ hình thức nào cũng có thể chọn một người chơi khác và kéo hắn xuống “Tuyền đường” cùng Thợ Săn\n" +
+                            "\n" +
+                            "#####Phù thủy\n" +
+                            "![enter image description here](https://raw.githubusercontent.com/cuonghq104/Images/master/Card/witch.png)\n" +
+                            ">Phù Thủy có hai bình thuốc: Một bình dùng để cứu một người, còn một bình dùng để giết một người. Mỗi đêm, Quản trò khi gọi Phù Thủy dậy sẽ cho Phù Thủy biết người bị giết bởi Sói đêm đó, và Phù Thủy được quyền quyết định xem có cứu người ấy hay không. Sau đó, quản trò sẽ hỏi xem Phù Thủy có dùng bình giết giết ai hay không. Một khi đã dùng bình thì Phù Thủy sẽ mất đi chức năng tương ứng, tuy nhiên vẫn được gọi dậy mỗi đêm và biết ai chết. Lưu ý: Nếu đêm đó Bảo Vệ đã Bảo Vệ đúng người thì Quản trò sẽ lắc tay, ra dấu là không ai chết cả.\n" +
+                            "\n" +
+                            "\n" +
+                            "#####Cupid\n" +
+                            "![enter image description here](https://raw.githubusercontent.com/cuonghq104/Images/master/Card/cupid.png)\n" +
+                            ">Đầu mỗi ván chơi, Cupid sẽ được gọi dậy và chọn ra hai người yêu nhau. Cupid sau đó nhắm mắt lại và hai người yêu nhau sẽ được Quản Trò gọi dậy để biết mặt và Vai Trò của nhau. Nếu hai người thuộc hai phe khác nhau (Sói vs Dân) thì họ thành phe thứ ba với nhiệm vụ là hai người cuối cùng sống sót.\n" +
+                            "#####Ma Sói\n" +
+                            "![enter\t image description here](https://raw.githubusercontent.com/cuonghq104/Images/master/Card/WereWolf.jpg)\n" +
+                            ">Mỗi đêm thức dậy, các Sói sẽ biết mặt lẫn nhau và sẽ cùng thống nhất giết một người. Sói có quyền không giết, và cũng có quyền tự giết lẫn nhau.\n" +
+                            "#####Dân làng\n" +
+                            "![enter image description here](https://raw.githubusercontent.com/cuonghq104/Images/master/Card/villager.png)\n" +
+                            ">Năng lực rất đơn giản: Chết khi bị giết. Ngoài ra còn có năng lực bỏ phiếu treo người khác\n" +
+                            "\n" +
+                            "\n" +
+                            "##Luật chơi\n" +
+                            "\n" +
+                            "Cách chơi của trò chơi là mỗi người sẽ được nhận lần lượt 1 lá bài để biết chức năng của mình, sau đó sẽ được quản trò bảo đi ngủ trong từng đêm. Mỗi đêm, quản trò gọi từng chức năng đặc biệt thức dậy như sói, cupid, witch ... để thực hiện công việc của mình rồi tiếp tục đi ngủ. Sau khi gọi lên hết cách chức năng. Quản trò thông báo mọi người mở mắt dậy và sẽ cho biết đêm qua ai bị giết.\n" +
+                            "\n" +
+                            "Sáng đó, mọi người sẽ cùng ngồi thảo luận với nhau, và bằng cơ sở lý luận, lập luận hay troll nhau gì gì đó ... mà cùng nhau tìm ra và treo cổ những con sói tinh ma.\n" +
+                            "\n" +
+                            "Còn về phía phe sói, thì cùng bảo vệ nhau để ly gián dân làng giành được chiến thắng cuối cùng.\n" +
+                            "\n" +
+                            "Nếu một người bị giết hay loại khỏi trò chơi vì quy phạm nội quy game, quản trò sẽ không cho biết chức năng của họ cho đến khi kết thúc game.\n" +
+                            "\n" +
+                            "Thứ tự gọi mỗi nhân vật trong đêm, phải theo 1 thứ tự nhất định không được thay đổi. Nếu quản trò gọi thứ tự sai, đôi khi sẽ gây sự nhầm lẫn hoặc sai sót trong game.\n" +
+                            "\n" +
+                            "Người chơi đã bị loại khỏi game do bị giết hoặc vi phạm, phải tuyệt đối tuân thủ và tôn trọng những người chơi khác bằng cách giữ im lặng và theo dõi game tiếp tục diễn ra.\n" +
+                            "\n" +
+                            "Mỗi buổi sáng, dân làng có tối đa 2 phút để cùng thảo luận với nhau.\n" +
+                            "\n" +
+                            "Sau đó có 5 giây để chỉ tay về phía người mình tình nghi, nếu ai bị chỉ tay nhiều nhất sẽ có 1 phút để tự bào chữa cho mình.\n" +
+                            "\n" +
+                            "Trong quá trình 1 phút tự bào chữa của người bị tình nghi, những người còn lại không được phép lên tiếng, nếu lên tiếng sẽ bị loại khỏi game. Trường hợp lên tiếng khi được người tình nghi hỏi trong lúc đang bào chữa cho mình, người lên tiếng sẽ bị mất quyền bỏ phiếu. Nếu nói chuyện ngoài luồng và cãi nhau, người chơi bị loại khỏi game\n" +
+                            "\n" +
+                            "Hết 1 phút, những người có quyền bỏ phiếu sẽ biểu quyết xem có chấp nhận phần tự bào chữa của người bị tình nghi không. Nếu số phiếu chấp nhận nhiều hơn số phiếu không chấp nhận thì người đó được sống và tiếp tục trò chơi, ngược lại thì người đó sẽ chết (quản trò sẽ thu lại lá bài chức năng)\n" +
+                            "\n" +
+                            "Dù người chơi bị chết giữ chức năng quan trọng nào đó, quản trò vẫn không được tiết lộ nên mỗi đêm vẫn phải gọi hết tất cả các chức năng của trò chơi lên để đánh lạc hướng người chơi và làm cơ sở cho phe sói có thời gian giả dạng đánh lừa dân làng. Do đó, việc bạn có chức năng đặc biệt nào đó mà bạn bị giết rồi mà quản trò vẫn gọi chức năng đó là điều hoàn toàn bình thường, đừng tỏ ra thắc mắc mà hãy im lặng theo dõi đến khi kết thúc trò chơi.",
+
                     "Werewolf takes place in a small village which is haunted by werewolves.\n" +
                             "\n" +
                             "Each player is secretly assigned a role - Werewolf, Villager, or Seer (a special Villager). There is also a Moderator who controls the flow of the game.\n" +
@@ -166,8 +188,8 @@ public class BoardGame implements Serializable {
                     2, 10,
                     "4-6",
                     30,
-                    new String[] {"popular", "family", "children", "tactical"},
-                    new String[] {"hand management"},
+                    new String[]{"popular", "family", "children", "tactical"},
+                    new String[]{"hand management"},
                     null,
                     ""),
             new BoardGame("Coup",
@@ -178,8 +200,8 @@ public class BoardGame implements Serializable {
                     2, 6,
                     "5",
                     15,
-                    new String[] {"Bluffing", "Card", "Deduction"},
-                    new String[] {"Memory", "Player Elimination", "Take that"},
+                    new String[]{"Bluffing", "Card", "Deduction"},
+                    new String[]{"Memory", "Player Elimination", "Take that"},
                     null,
                     ""),
 
@@ -189,16 +211,16 @@ public class BoardGame implements Serializable {
                     4, 8,
                     "7-8",
                     45,
-                    new String[] {"Adventure", "Buffing", "Card", "Deduction", "Horror", "Party Game"},
-                    new String[] {"Dice Rolling", "Partnership", "Player Elimination"},
+                    new String[]{"Adventure", "Buffing", "Card", "Deduction", "Horror", "Party Game"},
+                    new String[]{"Dice Rolling", "Partnership", "Player Elimination"},
                     null,
                     ""),
             new BoardGame("Exploding Kittens", "", "", "", "http://is1.mzstatic.com/image/thumb/Purple20/v4/88/68/ca/8868cac2-e6f3-2239-43a5-3de6e4b637a2/source/512x512bb.jpg",
                     2, 5,
                     "4-5",
                     20,
-                    new String[] {"Card Game", "Humour", "Animal",},
-                    new String[] {"Hand Management"},
+                    new String[]{"Card Game", "Humour", "Animal",},
+                    new String[]{"Hand Management"},
                     null,
                     ""
             )
@@ -208,9 +230,6 @@ public class BoardGame implements Serializable {
 
     public static List<BoardGame> boardGamesList = new ArrayList<>();
 
-    public Paragraph[] getTutorialBlocks() {
-        return tutorialBlocks;
-    }
 
     public String getRulesUrl() {
         return rulesUrl;

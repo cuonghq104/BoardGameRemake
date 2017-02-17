@@ -34,33 +34,38 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.bottom_bar)
     BottomBar bb;
-
+    @BindView(R.id.search_view)
+    MaterialSearchView searchView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
 //    @BindView(R.id.iv_boardgame)
 //    ImageView ivBoardGame;
 
-    private Toolbar toolbar;
+    BoardGamesRulesFragment rulesFragment;
+    private Object references;
 
 //    @BindView(R.id.v_gap)
 //    View vGap;
 
-//    private MaterialSearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_game_detail);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         ButterKnife.bind(this);
+
+
         int position = getIntent().getIntExtra(MainActivity.BOARDGAME_KEY, -1);
 //        BoardGame boardGame= (BoardGame) getIntent().getSerializableExtra(MainActivity.BOARDGAME_KEY);
         BoardGame boardGame = BoardGame.boardGamesList.get(position);
 //        toolbar.setTitle(boardGame.getName());
-        toolbar.setTitle("fuck you");
-
-
+        toolbar.setTitle("Detail");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         addListener();
+        getReferences();
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 //        toolbar.setVisibility(View.GONE);
 //        vGap.setVisibility(View.GONE);
@@ -79,29 +84,36 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-////            case android.R.id.home:
-////                onBackPressed();
-//            default:
-//                return this.onOptionsItemSelected(item);
-//        }
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+//            case R.id.action_search:
+//                searchView.setVisibility(View.VISIBLE);
+
+            default:
+                return this.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.rules_menu, menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
-
-//        searchView = (MaterialSearchView) findViewById(R.id.msv);
-//
-//        searchView.setMenuItem(item);
-//
-//        searchView.setVisibility(View.GONE);
-
+        searchView.setMenuItem(item);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        } else {
+            super.onBackPressed();
+        }
+
     }
 
     private void addListener() {
@@ -113,7 +125,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
                         changeFragment(new BoardGameInformationFragment(), false);
                         return;
                     case R.id.tab_rules:
-                        changeFragment(new BoardGamesRulesFragment(), false);
+                        changeFragment(rulesFragment, false);
                         return;
                     case R.id.tab_question:
                         changeFragment(new QuestionAndAnswerFragment(), false);
@@ -121,6 +133,9 @@ public class BoardGameDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        searchView.setOnQueryTextListener(rulesFragment);
+        searchView.setOnSearchViewListener(rulesFragment);
     }
 
     private void changeFragment(Fragment fragment, boolean addToBackStack) {
@@ -168,7 +183,11 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         this.finish();
     }
 
-    public static class ToDetailActivityEvent{
+    private void getReferences() {
+        rulesFragment = new BoardGamesRulesFragment();
+    }
+
+    public static class ToDetailActivityEvent {
         //        private BoardGame boardGame;
 //
 //        public ToDetailActivityEvent(BoardGame boardGame) {
@@ -188,4 +207,5 @@ public class BoardGameDetailActivity extends AppCompatActivity {
             return position;
         }
     }
+
 }
