@@ -97,22 +97,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        setupUI();
-//        changeFragment(new SignUpFragment(), false);
-//        tvSearch.setVisibility(View.GONE);
-//        svBoardGames.setIconified(false);
-//        toggle.setDrawerIndicatorEnabled(false);
-//        toggle.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-//        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                svBoardGames.setIconified(true);
-//                tvSearch.setVisibility(View.VISIBLE);
-//                toggle.setDrawerIndicatorEnabled(false);
-//                toggle.setHomeAsUpIndicator(R.drawable.ic_toggle);
-//            }
-//        });
-        changeFragment(new BoardGameListFragment(),false);
+        setupUI();
+        changeFragment(new SignUpFragment(), false);
 
     }
 
@@ -137,50 +123,50 @@ public class MainActivity extends AppCompatActivity
 
     private void addListener() {
 
-//        tvSearch = (TextView) findViewById(R.id.tv_search);
-//        tvSearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tvSearch.setVisibility(View.GONE);
-//        svBoardGames.setIconified(false);
-//        toggle.setDrawerIndicatorEnabled(false);
-//        toggle.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-//        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                svBoardGames.setIconified(true);
-//                tvSearch.setVisibility(View.VISIBLE);
-//                toggle.setDrawerIndicatorEnabled(false);
-//                toggle.setHomeAsUpIndicator(R.drawable.ic_toggle);
-//            }
-//        });
-//            }
-//        });
+        tvSearch = (TextView) findViewById(R.id.tv_search);
+        tvSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvSearch.setVisibility(View.GONE);
+                svBoardGames.setIconified(false);
+                toggle.setDrawerIndicatorEnabled(false);
+                toggle.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+                toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        svBoardGames.setIconified(true);
+                        tvSearch.setVisibility(View.VISIBLE);
+                        toggle.setDrawerIndicatorEnabled(false);
+                        toggle.setHomeAsUpIndicator(R.drawable.ic_toggle);
+                    }
+                });
+            }
+        });
 
-//        svBoardGames.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                EventBus.getDefault().postSticky(new SearchEvent(newText));
-//                return false;
-//            }
-//        });
+        svBoardGames.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-//        svBoardGames.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                EventBus.getDefault().postSticky(new SearchEvent(newText));
+                return false;
+            }
+        });
+
+        svBoardGames.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
 
