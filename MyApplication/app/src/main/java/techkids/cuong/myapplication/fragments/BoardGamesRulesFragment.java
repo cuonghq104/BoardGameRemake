@@ -46,7 +46,7 @@ public class BoardGamesRulesFragment extends Fragment {
     public void onStart() {
         super.onStart();
 //        EventBus.getDefault().register(this);
-        EventBus.getDefault().post(new HideToolbarEvent(false, false));
+        EventBus.getDefault().post(new HideToolbarEvent(false));
     }
 
     @Override

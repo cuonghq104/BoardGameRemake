@@ -12,7 +12,7 @@ import techkids.cuong.myapplication.viewHolders.CategoryViewHolder;
  * Created by Cuong on 2/6/2017.
  */
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
+public class CategoryTextAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
     private String[] categories;
 
@@ -37,7 +37,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
         return categories.length;
     }
 
-    public CategoryAdapter(String[] categories) {
+    public CategoryTextAdapter(String[] categories) {
         super();
         this.categories = categories;
     }

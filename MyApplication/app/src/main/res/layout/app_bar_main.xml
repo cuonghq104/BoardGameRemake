@@ -19,6 +19,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <RelativeLayout
+                android:id="@+id/rl_container"
                 android:padding="10dp"
                 android:background="@color/colorPrimary"
                 android:layout_width="match_parent"

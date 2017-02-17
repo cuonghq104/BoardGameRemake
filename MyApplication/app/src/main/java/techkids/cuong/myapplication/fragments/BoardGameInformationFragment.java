@@ -1,34 +1,27 @@
 package techkids.cuong.myapplication.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import techkids.cuong.myapplication.R;
-import techkids.cuong.myapplication.adapters.CategoryAdapter;
-import techkids.cuong.myapplication.events.BackEvent;
-import techkids.cuong.myapplication.events.HideToolbarEvent;
+import techkids.cuong.myapplication.adapters.CategoryTextAdapter;
+import techkids.cuong.myapplication.events.BoardGameEvent;
 import techkids.cuong.myapplication.models.BoardGame;
 
 
@@ -60,12 +53,23 @@ public class BoardGameInformationFragment extends Fragment {
     @BindView(R.id.tv_description)
     TextView tvDescription;
 
+    @BindView(R.id.tv_publisher)
+    TextView tvPublisher;
+
+    @BindView(R.id.iv_publisher)
+    ImageView ivPublisher;
+
     BoardGame boardGame;
 
     int position;
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public void setBoardGame(BoardGame boardGame) {
+        this.boardGame = boardGame;
+        setupUI();
     }
 
     public BoardGameInformationFragment() {
@@ -82,30 +86,42 @@ public class BoardGameInformationFragment extends Fragment {
 //                .duration(300)
 //                .playOn(getActivity().findViewById(R.id.fl_container));
         ButterKnife.bind(this, view);
-        setupUI();
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
 //        EventBus.getDefault().post(new HideToolbarEvent(true, false));
     }
 
-    private CategoryAdapter adapter;
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 
-    private CategoryAdapter playTypeAdapter;
+    @Subscribe(sticky =  true)
+    public void onBoardGameEvent(BoardGameEvent event) {
+        boardGame = event.getBoardGame();
+        setupUI();
+    }
+    private CategoryTextAdapter adapter;
+
+    private CategoryTextAdapter playTypeAdapter;
 
     private void setupUI() {
 
-        boardGame = BoardGame.boardGamesList.get(position);
+//        boardGame = BoardGame.boardGamesList.get(position);
 
 //        Picasso.with(ivBoardGame.getContext()).load(boardGame.getImageUrl()).into(ivBoardGame);
 //
         String name = boardGame.getName();
 //
         tvName.setText(name.toUpperCase());
-//
+
         tvNumberOfPlayer.setText(String.format("%d - %d", boardGame.getMinPlayer(), boardGame.getMaxPlayer()));
 //
         tvSuggestedPlayer.setText(String.format("Suggested : %s", boardGame.getFavoritePlayer()));
@@ -114,13 +130,17 @@ public class BoardGameInformationFragment extends Fragment {
 
         tvDescription.setText(boardGame.getDescription());
 
-        adapter = new CategoryAdapter(boardGame.getCategories());
+        adapter = new CategoryTextAdapter(boardGame.getCategories());
         rvCategories.setLayoutManager(new GridLayoutManager(this.getContext(), 3));
         rvCategories.setAdapter(adapter);
 
-        playTypeAdapter = new CategoryAdapter(boardGame.getPlayType());
+        playTypeAdapter = new CategoryTextAdapter(boardGame.getPlayType());
         rvPlayType.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
         rvPlayType.setAdapter(playTypeAdapter);
+
+        tvPublisher.setText(boardGame.getPublisher().getName());
+
+        Picasso.with(getContext()).load(boardGame.getPublisher().getThumb()).into(ivPublisher);
     }
 
 //    @OnClick(R.id.bt_back)

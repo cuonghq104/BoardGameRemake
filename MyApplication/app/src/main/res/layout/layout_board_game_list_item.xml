@@ -6,28 +6,88 @@
     android:padding="2dp">
 
     <android.support.v7.widget.CardView
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
         <LinearLayout
+            android:background="@color/colorWhiteText"
             android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <ImageView
+                android:layout_margin="5dp"
                 android:src="@drawable/vtd"
                 android:scaleType="centerCrop"
                 android:id="@+id/iv_boardgame"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:adjustViewBounds="true"/>
 
-            <TextView
-                android:padding="20sp"
-                android:id="@+id/tv_name"
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:padding="5dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="name"/>
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:text="name"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10sp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_time"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:id="@+id/tv_playing_time"
+                        android:layout_marginLeft="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="playing time"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10sp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/people"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:id="@+id/tv_players"
+                        android:layout_marginLeft="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="players"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>

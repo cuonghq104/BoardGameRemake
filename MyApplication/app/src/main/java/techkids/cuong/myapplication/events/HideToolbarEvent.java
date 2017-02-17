@@ -7,16 +7,16 @@ public class HideToolbarEvent {
 
     private boolean hideToolbar;
 
-    private boolean hideBottomNavi;
+//    private boolean hideBottomNavi;
 
-    public HideToolbarEvent(boolean hideToolbar, boolean hideBottomNavi) {
+    public HideToolbarEvent(boolean hideToolbar) {
         this.hideToolbar = hideToolbar;
-        this.hideBottomNavi = hideBottomNavi;
+//        this.hideBottomNavi = hideBottomNavi;
     }
 
-    public boolean isHideBottomNavi() {
-        return hideBottomNavi;
-    }
+//    public boolean isHideBottomNavi() {
+//        return hideBottomNavi;
+//    }
 
     public boolean isHideToolbar() {
         return hideToolbar;

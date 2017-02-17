@@ -37,7 +37,9 @@ public class BoardGame implements Serializable {
 
     private String description;
 
-    public BoardGame(String name, String imageUrl, String detailUrl, String rulesUrl, String thumbUrl, int minPlayer, int maxPlayer, String favoritePlayer, int playingTime, String[] categories, String[] playType, Paragraph[] tutorialBlocks, String description) {
+    private Publisher publisher;
+
+    public BoardGame(String name, String imageUrl, String detailUrl, String rulesUrl, String thumbUrl, int minPlayer, int maxPlayer, String favoritePlayer, int playingTime, String[] categories, String[] playType, Paragraph[] tutorialBlocks, String description, Publisher publisher) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.detailUrl = detailUrl;
@@ -51,6 +53,7 @@ public class BoardGame implements Serializable {
         this.tutorialBlocks = tutorialBlocks;
         this.playType = playType;
         this.description = description;
+        this.publisher = publisher;
     }
 
     public String getThumbUrl() {
@@ -92,7 +95,7 @@ public class BoardGame implements Serializable {
     //    "https://cf.geekdo-images.com/images/pic2016054_md.jpg",
 //            "https://view.publitas.com/p222-11815/coup/page/1",
     public static BoardGame[] boardGameArray = {
-            new BoardGame("Werewolf basic",
+            new BoardGame("Werewolf basic - a very basic game",
                     "http://www.spielbude.ch/platform/apps/shop/images/obj-100839-4904-original.jpg",
                     "https://view.publitas.com/31715/238002/pdfs/29e027e72495889a166168ef7381e724e457f61b.pdf",
                     "https://view.publitas.com/31715/238026/pdfs/9a62cfa203a163ccae30cc9a02ca872e2321c5d6.pdf",
@@ -157,7 +160,8 @@ public class BoardGame implements Serializable {
                             "\n" +
                             "The game alternates between night and day phases. At night, the Werewolves secretly choose a Villager to kill. Also, the Seer (if still alive) asks whether another player is a Werewolf or not. During the day, the Villager who was killed is revealed and is out of the game. The remaining Villagers then vote on the player they suspect is a Werewolf. That player reveals his/her role and is out of the game.\n" +
                             "\n" +
-                            "Werewolves win when there are an equal number of Villagers and Werewolves. Villagers win when they have killed all Werewolves. Werewolf is a social game that requires no equipment to play, and can accommodate almost any large group of players."),
+                            "Werewolves win when there are an equal number of Villagers and Werewolves. Villagers win when they have killed all Werewolves. Werewolf is a social game that requires no equipment to play, and can accommodate almost any large group of players.",
+                    new Publisher("Asterion Press", "http://www.negoziogiochi.it/media/catalog/category/Asterion_400B1_1.jpg")),
             new BoardGame("Uno",
                     "http://boardgame.vn/uploads/u/boardgame.vn/product/2016/08/23/23/31/boa1471948306.JPG",
                     "https://view.publitas.com/31715/238002/pdfs/29e027e72495889a166168ef7381e724e457f61b.pdf",
@@ -169,7 +173,8 @@ public class BoardGame implements Serializable {
                     new String[] {"popular", "family", "children", "tactical"},
                     new String[] {"hand management"},
                     null,
-                    ""),
+                    "",
+                    null),
             new BoardGame("Coup",
                     "http://www.pubmeeple.com/wp-content/uploads/Coup3.jpg",
                     "https://view.publitas.com/31715/237992/pdfs/c27b7e30e500a8b9f1b7259db53f6eb5b974e76a.pdf",
@@ -181,7 +186,8 @@ public class BoardGame implements Serializable {
                     new String[] {"Bluffing", "Card", "Deduction"},
                     new String[] {"Memory", "Player Elimination", "Take that"},
                     null,
-                    ""),
+                    "",
+                    null),
 
             new BoardGame("Shadow Hunters", "http://cf.geekdo-images.com/images/pic1215982.jpg", "",
                     "http://cf.geekdo-images.com/images/pic1215982_t.jpg",
@@ -192,7 +198,8 @@ public class BoardGame implements Serializable {
                     new String[] {"Adventure", "Buffing", "Card", "Deduction", "Horror", "Party Game"},
                     new String[] {"Dice Rolling", "Partnership", "Player Elimination"},
                     null,
-                    ""),
+                    "",
+                    null),
             new BoardGame("Exploding Kittens", "", "", "", "http://is1.mzstatic.com/image/thumb/Purple20/v4/88/68/ca/8868cac2-e6f3-2239-43a5-3de6e4b637a2/source/512x512bb.jpg",
                     2, 5,
                     "4-5",
@@ -200,7 +207,8 @@ public class BoardGame implements Serializable {
                     new String[] {"Card Game", "Humour", "Animal",},
                     new String[] {"Hand Management"},
                     null,
-                    ""
+                    "",
+                    null
             )
     };
 
@@ -222,5 +230,9 @@ public class BoardGame implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
     }
 }
