@@ -141,9 +141,11 @@ public class BoardGame implements Serializable {
                             "#####Cupid\n" +
                             "![enter image description here](https://raw.githubusercontent.com/cuonghq104/Images/master/Card/cupid.png)\n" +
                             ">Đầu mỗi ván chơi, Cupid sẽ được gọi dậy và chọn ra hai người yêu nhau. Cupid sau đó nhắm mắt lại và hai người yêu nhau sẽ được Quản Trò gọi dậy để biết mặt và Vai Trò của nhau. Nếu hai người thuộc hai phe khác nhau (Sói vs Dân) thì họ thành phe thứ ba với nhiệm vụ là hai người cuối cùng sống sót.\n" +
+                            "\n" +
                             "#####Ma Sói\n" +
                             "![enter\t image description here](https://raw.githubusercontent.com/cuonghq104/Images/master/Card/WereWolf.jpg)\n" +
                             ">Mỗi đêm thức dậy, các Sói sẽ biết mặt lẫn nhau và sẽ cùng thống nhất giết một người. Sói có quyền không giết, và cũng có quyền tự giết lẫn nhau.\n" +
+                            "\n" +
                             "#####Dân làng\n" +
                             "![enter image description here](https://raw.githubusercontent.com/cuonghq104/Images/master/Card/villager.png)\n" +
                             ">Năng lực rất đơn giản: Chết khi bị giết. Ngoài ra còn có năng lực bỏ phiếu treo người khác\n" +
@@ -171,7 +173,10 @@ public class BoardGame implements Serializable {
                             "\n" +
                             "Hết 1 phút, những người có quyền bỏ phiếu sẽ biểu quyết xem có chấp nhận phần tự bào chữa của người bị tình nghi không. Nếu số phiếu chấp nhận nhiều hơn số phiếu không chấp nhận thì người đó được sống và tiếp tục trò chơi, ngược lại thì người đó sẽ chết (quản trò sẽ thu lại lá bài chức năng)\n" +
                             "\n" +
-                            "Dù người chơi bị chết giữ chức năng quan trọng nào đó, quản trò vẫn không được tiết lộ nên mỗi đêm vẫn phải gọi hết tất cả các chức năng của trò chơi lên để đánh lạc hướng người chơi và làm cơ sở cho phe sói có thời gian giả dạng đánh lừa dân làng. Do đó, việc bạn có chức năng đặc biệt nào đó mà bạn bị giết rồi mà quản trò vẫn gọi chức năng đó là điều hoàn toàn bình thường, đừng tỏ ra thắc mắc mà hãy im lặng theo dõi đến khi kết thúc trò chơi.",
+                            "Dù người chơi bị chết giữ chức năng quan trọng nào đó, quản trò vẫn không được tiết lộ nên mỗi đêm vẫn phải gọi hết tất cả các chức năng của trò chơi lên để đánh lạc hướng người chơi và làm cơ sở cho phe sói có thời gian giả dạng đánh lừa dân làng. Do đó, việc bạn có chức năng đặc biệt nào đó mà bạn bị giết rồi mà quản trò vẫn gọi chức năng đó là điều hoàn toàn bình thường, đừng tỏ ra thắc mắc mà hãy im lặng theo dõi đến khi kết thúc trò chơi.\n" +
+                            "\n" +
+                            "<iframe width=\"100%\" height=\"260\" src=\"https://www.youtube.com/embed/-4uDuH4xXLg\" frameborder=\"0\" allowfullscreen></iframe>" +
+                            "",
 
                     "Werewolf takes place in a small village which is haunted by werewolves.\n" +
                             "\n" +

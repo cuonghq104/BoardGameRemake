@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -56,6 +57,7 @@ public class BoardGamesRulesFragment extends Fragment implements MaterialSearchV
         super.onStart();
 //        EventBus.getDefault().register(this);
         EventBus.getDefault().post(new HideToolbarEvent(false, false));
+
     }
 
     @Override
@@ -80,6 +82,9 @@ public class BoardGamesRulesFragment extends Fragment implements MaterialSearchV
     private void setupUI() {
 
         markdownView.loadMarkdown(boardgame.getRules(), "file:///android_asset/classic.css");
+
+        WebSettings webSettings = markdownView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 //        markdownView.loadMarkdown();
 //        adapter = new ParagraphAdapter();
 //        rvRules.setLayoutManager(new LinearLayoutManager(getContext()));
