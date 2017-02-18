@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -42,12 +43,15 @@ import techkids.cuong.myapplication.fragments.BoardGameListFragment;
 import techkids.cuong.myapplication.events.ChangeFragmentEvent;
 import techkids.cuong.myapplication.fragments.SignUpFragment;
 import techkids.cuong.myapplication.models.BoardGame;
+import techkids.cuong.myapplication.models.User;
+import techkids.cuong.myapplication.transforms.CircleTransform;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String BOARDGAME_NAME_KEY = "boardgame_name";
     public static final String BOARDGAME_KEY = "boardgame";
+
 
 
 
@@ -70,14 +74,26 @@ public class MainActivity extends AppCompatActivity
 
     private ActionBarDrawerToggle toggle;
 
+    @BindView(R.id.nav_view)
+    NavigationView navView;
 
+    View headerView;
+
+    private ImageView ivProfile;
+
+    private TextView tvName;
+
+    private TextView tvMail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        headerView = navView.getHeaderView(0);
+        ivProfile = (ImageView) headerView.findViewById(R.id.iv_profile);
+        tvName = (TextView) headerView.findViewById(R.id.tv_name);
+        tvMail = (TextView) headerView.findViewById(R.id.tv_mail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -117,7 +133,13 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe
     public void onLoginEvent(LoginEvent event) {
+//        Picasso.with(this).load(User.getProfile().getProfilePictureUri(50, 50)).into(ivProfile);
+//        tvName.setText(User.getProfile().getName());
         changeFragment(new BoardGameCatalogueFragment(), false);
+        Picasso.with(this).load(User.getProfile().getProfilePictureUri(80, 80)).transform(new CircleTransform()).into(ivProfile);
+        tvName.setText(User.getProfile().getName());
+        tvMail.setText(User.userName);
+        Toast.makeText(this, User.getProfile().getName(), Toast.LENGTH_SHORT).show();
     }
     @Subscribe
     public void goToFullCatalogueFragment(CatalogueFullFragment.CatalogueFullEvent event) {

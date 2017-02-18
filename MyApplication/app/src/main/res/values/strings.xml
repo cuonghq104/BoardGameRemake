@@ -15,6 +15,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="answer_from">Answer from</string>
     <string name="title_activity_board_game_detail">BoardGameDetailActivity</string>
-    <string name="facebook_app_id">386920305004259</string>
-    <string name="fb_login_protocol_scheme">fb386920305004259</string>
+    <string name="facebook_app_id">1928391744047702</string>
+    <string name="fb_login_protocol_scheme">fb1928391744047702</string>
 </resources>

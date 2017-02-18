@@ -14,10 +14,16 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +31,7 @@ import butterknife.OnClick;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.events.LoginEvent;
+import techkids.cuong.myapplication.models.User;
 
 
 /**
@@ -67,8 +74,16 @@ public class SignUpFragment extends Fragment {
         // Callback registration
         btFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-//                EventBus.getDefault().post(new LoginEvent());
+            public void onSuccess(final LoginResult loginResult) {
+                ProfileTracker profileTracker = new ProfileTracker() {
+                    @Override
+                    protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                        User.setProfile(currentProfile);
+//                        User.userName = currentProfile.getName();
+//                        Toast.makeText(getContext(), User.getProfile().getName(), Toast.LENGTH_SHORT).show();
+                        EventBus.getDefault().post(new LoginEvent());
+                    }
+                };
             }
 
             @Override
@@ -81,6 +96,8 @@ public class SignUpFragment extends Fragment {
                 EventBus.getDefault().post(new LoginEvent());
             }
         });
+
+
 
         return view;
     }
