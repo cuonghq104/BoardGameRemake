@@ -8,65 +8,96 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.MainActivity">
 
+
+
     <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
         <!--android:orientation="vertical">-->
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+        <!--<android.support.design.widget.AppBarLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:theme="@style/AppTheme.AppBarOverlay">-->
 
-            <RelativeLayout
-                android:id="@+id/rl_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways"
-                android:background="@color/colorPrimary"
-                android:padding="10dp">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="#FFFFFF"
-                    android:titleTextColor="@color/colorPrimaryText"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-                <android.support.v7.widget.SearchView
-                    android:id="@+id/sv_boardgames"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="40dp"></android.support.v7.widget.SearchView>
-
-                <TextView
-                    android:id="@+id/tv_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignBottom="@id/sv_boardgames"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="40dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="Search Board Game"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <!--<com.miguelcatalan.materialsearchview.MaterialSearchView-->
-                <!--android:id="@+id/msv"-->
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/rl_container"-->
                 <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--</com.miguelcatalan.materialsearchview.MaterialSearchView>-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_scrollFlags="scroll|enterAlways"-->
+                <!--android:background="@color/colorPrimary"-->
+                <!--android:padding="10dp">-->
 
-            </RelativeLayout>
+                <!--<android.support.v7.widget.Toolbar-->
+                    <!--android:id="@+id/toolbar"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="?attr/actionBarSize"-->
+                    <!--android:background="#FFFFFF"-->
+                    <!--android:titleTextColor="@color/colorPrimaryText"-->
+                    <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
 
-        </android.support.design.widget.AppBarLayout>
+                <!--<android.support.v7.widget.SearchView-->
+                    <!--android:id="@+id/sv_boardgames"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="40dp">-->
+
+                <!--</android.support.v7.widget.SearchView>-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_search"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_alignBottom="@id/sv_boardgames"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="40dp"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="Search Board Game"-->
+                    <!--android:textColor="@color/colorSecondaryText"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:textStyle="bold" />-->
+
+                <!--&lt;!&ndash;<com.miguelcatalan.materialsearchview.MaterialSearchView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/msv"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content">&ndash;&gt;-->
+                <!--&lt;!&ndash;</com.miguelcatalan.materialsearchview.MaterialSearchView>&ndash;&gt;-->
+
+            <!--</RelativeLayout>-->
+
+        <!--</android.support.design.widget.AppBarLayout>-->
+
+    <RelativeLayout
+
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <com.arlib.floatingsearchview.FloatingSearchView
+                android:id="@+id/floating_search_view"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:floatingSearch_dismissOnOutsideTouch="true"
+                app:floatingSearch_leftActionMode="showHamburger"
+                app:floatingSearch_menu="@menu/menu_search_view"
+                app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
+                app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
+                app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
+                app:floatingSearch_searchHint="Search..."
+                app:floatingSearch_showSearchKey="true"
+                app:floatingSearch_suggestionsListAnimDuration="250"
+                app:floatingSearch_dimBackground="false"
+                app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
+
+
 
         <android.support.v4.widget.NestedScrollView
+            android:layout_marginTop="60dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <FrameLayout
@@ -76,6 +107,9 @@
                 android:layout_height="match_parent"></FrameLayout>
 
         </android.support.v4.widget.NestedScrollView>
+    </RelativeLayout>
+
+
 
 
 
