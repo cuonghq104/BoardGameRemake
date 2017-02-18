@@ -59,7 +59,10 @@ public class BoardGameViewHolder extends RecyclerView.ViewHolder{
 
         tvPlayers.setText(String.format("%d - %d", boardGame.getMinPlayer(), boardGame.getMaxPlayer()));
 
-        Picasso.with(ivBoardGame.getContext()).load(boardGame.getThumbUrl()).into(ivBoardGame);
+        Picasso.with(ivBoardGame.getContext())
+                .load(boardGame.getThumbUrl())
+                .placeholder(R.drawable.default_placeholder)
+                .into(ivBoardGame);
     }
 
     @OnClick(R.id.iv_boardgame)

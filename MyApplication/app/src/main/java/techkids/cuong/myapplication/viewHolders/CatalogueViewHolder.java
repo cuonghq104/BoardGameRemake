@@ -55,7 +55,10 @@ public class CatalogueViewHolder extends RecyclerView.ViewHolder{
     public void bind(int position) {
         this.boardGame = list.get(position);
 
-        Picasso.with(ivBoardGame.getContext()).load(boardGame.getThumbUrl()).into(ivBoardGame);
+        Picasso.with(ivBoardGame.getContext())
+                .load(boardGame.getThumbUrl())
+                .placeholder(R.drawable.default_placeholder)
+                .into(ivBoardGame);
 
         tvName.setText(boardGame.getName());
 

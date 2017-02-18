@@ -5,12 +5,75 @@
     tools:context="techkids.cuong.myapplication.fragments.BoardGamesRulesFragment">
 
 
-    <us.feras.mdv.MarkdownView
-        android:id="@+id/markdown_view"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_title"
+            android:text="Cards"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_cards"
+            android:layout_below="@id/tv_title"
+            android:layout_marginTop="10dp"
+            tools:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
 
-    </us.feras.mdv.MarkdownView>
+        <android.support.v4.widget.NestedScrollView
+
+            android:id="@+id/nsv_card_detail"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/rv_cards"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                >
+                <TextView
+                    android:id="@+id/tv_card_name"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="20sp"
+                    android:layout_marginTop="25dp"
+                    tools:text="tho san"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_card_detail"
+                    android:layout_below="@id/tv_card_name"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16sp"
+                    tools:text="ahihhhisfasdfasfasdfsdsdfsdf"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <us.feras.mdv.MarkdownView
+
+            android:id="@+id/markdown_view"
+            android:layout_below="@id/nsv_card_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </us.feras.mdv.MarkdownView>
+
+    </RelativeLayout>
+
     <!--<android.support.v7.widget.RecyclerView-->
         <!--android:id="@+id/rv_board_game_rules"-->
         <!--android:layout_width="match_parent"-->

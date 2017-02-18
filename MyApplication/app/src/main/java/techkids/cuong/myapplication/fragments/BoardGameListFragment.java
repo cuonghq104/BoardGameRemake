@@ -74,9 +74,10 @@ public class BoardGameListFragment extends Fragment {
 
         adapter = new BoardGameItemAdapter();
 
+
         rvBoardGameList.setAdapter(adapter);
 
-        rvBoardGameList.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
+        rvBoardGameList.setLayoutManager(new StaggeredGridLayoutManager(1, 0));
 
     }
 

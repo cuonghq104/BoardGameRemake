@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7804ecfd-e680-4c2f-9238-314c8b3f04dc" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MyApplication/.idea/.name" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MyApplication/.idea/encodings.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MyApplication/.idea/compiler.xml" afterPath="$PROJECT_DIR$/MyApplication/.idea/compiler.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MyApplication/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MyApplication/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MyApplication/.idea/gradle.xml" afterPath="$PROJECT_DIR$/MyApplication/.idea/gradle.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MyApplication/.idea/misc.xml" afterPath="$PROJECT_DIR$/MyApplication/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MyApplication/.idea/modules.xml" afterPath="$PROJECT_DIR$/MyApplication/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MyApplication/.idea/runConfigurations.xml" afterPath="$PROJECT_DIR$/MyApplication/.idea/runConfigurations.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MyApplication/build.gradle" afterPath="$PROJECT_DIR$/MyApplication/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MyApplication/app/src/main/java/techkids/cuong/myapplication/fragments/BoardGameListFragment.java" afterPath="$PROJECT_DIR$/MyApplication/app/src/main/java/techkids/cuong/myapplication/fragments/BoardGameListFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MyApplication/app/src/main/java/techkids/cuong/myapplication/fragments/BoardGamesRulesFragment.java" afterPath="$PROJECT_DIR$/MyApplication/app/src/main/java/techkids/cuong/myapplication/fragments/BoardGamesRulesFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MyApplication/app/src/main/java/techkids/cuong/myapplication/models/BoardGame.java" afterPath="$PROJECT_DIR$/MyApplication/app/src/main/java/techkids/cuong/myapplication/models/BoardGame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MyApplication/app/src/main/res/layout/fragment_board_games_rules.xml" afterPath="$PROJECT_DIR$/MyApplication/app/src/main/res/layout/fragment_board_games_rules.xml" />
     </list>
     <ignored path="BoardGameRemake.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,10 +69,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane />
       </pane>

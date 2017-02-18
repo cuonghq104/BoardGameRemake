@@ -92,6 +92,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                return true;
 //            case R.id.action_search:
 //                searchView.setVisibility(View.VISIBLE);
 

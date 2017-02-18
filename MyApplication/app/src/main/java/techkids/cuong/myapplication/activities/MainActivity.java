@@ -49,21 +49,7 @@ public class MainActivity extends AppCompatActivity
     public static final String BOARDGAME_NAME_KEY = "boardgame_name";
     public static final String BOARDGAME_KEY = "boardgame";
 
-    @Subscribe
-    public void toDetailActivity(BoardGameDetailActivity.ToDetailActivityEvent event){
-        Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
-        intent.putExtra(BOARDGAME_KEY, event.getBoardGame());
-        if (!event.getBoardGame().getName().equals("Werewolf basic - a very basic game")) {
-            Toast.makeText(MainActivity.this, "Dang phat trien", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        startActivity(intent);
-    }
 
-    @Subscribe
-    public void onLoginEvent(LoginEvent event) {
-        changeFragment(new BoardGameCatalogueFragment(), false);
-    }
 
     @BindView(R.id.rl_container)
     RelativeLayout rlContainer;
@@ -83,6 +69,8 @@ public class MainActivity extends AppCompatActivity
     TextView tvSearch;
 
     private ActionBarDrawerToggle toggle;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +104,21 @@ public class MainActivity extends AppCompatActivity
         changeFragment(new SignUpFragment(), false);
     }
 
+    @Subscribe
+    public void toDetailActivity(BoardGameDetailActivity.ToDetailActivityEvent event){
+        Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
+        intent.putExtra(BOARDGAME_KEY, event.getBoardGame());
+        if (!event.getBoardGame().getName().equals("Werewolf basic - a very basic game")) {
+            Toast.makeText(MainActivity.this, "Dang phat trien", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        startActivity(intent);
+    }
+
+    @Subscribe
+    public void onLoginEvent(LoginEvent event) {
+        changeFragment(new BoardGameCatalogueFragment(), false);
+    }
     @Subscribe
     public void goToFullCatalogueFragment(CatalogueFullFragment.CatalogueFullEvent event) {
         changeFragment(new CatalogueFullFragment(), true);
@@ -174,17 +177,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        svBoardGames.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
     }
 
 

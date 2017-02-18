@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,18 +13,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
+import android.widget.TextView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import techkids.cuong.myapplication.R;
+import techkids.cuong.myapplication.adapters.CardDetailAdapter;
 import techkids.cuong.myapplication.adapters.ParagraphAdapter;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.models.BoardGame;
+import techkids.cuong.myapplication.models.CardDetail;
 import us.feras.mdv.MarkdownView;
 
 
@@ -45,6 +51,15 @@ public class BoardGamesRulesFragment extends Fragment implements MaterialSearchV
     @BindView(R.id.markdown_view)
     MarkdownView markdownView;
 
+    @BindView(R.id.rv_cards)
+    RecyclerView recyclerViewCars;
+    @BindView(R.id.tv_card_detail)
+    TextView tvCardDetail;
+    @BindView(R.id.tv_card_name)
+    TextView tvCardName;
+
+    CardDetailAdapter adapter;
+
     BoardGame boardgame;
 
     public BoardGamesRulesFragment() {
@@ -56,12 +71,6 @@ public class BoardGamesRulesFragment extends Fragment implements MaterialSearchV
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-//<<<<<<< HEAD
-//        EventBus.getDefault().post(new HideToolbarEvent(false, false));
-//
-//=======
-//        EventBus.getDefault().post(new HideToolbarEvent(false));
-//>>>>>>> Add publisher card, add catalogue fragment
     }
 
     @Override
@@ -89,6 +98,19 @@ public class BoardGamesRulesFragment extends Fragment implements MaterialSearchV
 
         WebSettings webSettings = markdownView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+
+        adapter = new CardDetailAdapter(Arrays.asList(CardDetail.cardDetails), recyclerViewCars);
+        adapter.setOnCardDetailClickedListener(new CardDetailAdapter.CardDetailClickListener() {
+            @Override
+            public void onClick(CardDetail cardDetail) {
+                tvCardName.setText(cardDetail.getCardName());
+                tvCardDetail.setText("    "+cardDetail.getContent());
+            }
+        });
+        recyclerViewCars.setAdapter(adapter);
+        recyclerViewCars.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+
+
 //        markdownView.loadMarkdown();
 //        adapter = new ParagraphAdapter();
 //        rvRules.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -127,8 +149,6 @@ public class BoardGamesRulesFragment extends Fragment implements MaterialSearchV
         }
 
     }
-
-
 
 
     public static class RuleSearchEvent {

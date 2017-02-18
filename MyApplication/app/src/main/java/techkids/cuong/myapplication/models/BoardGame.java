@@ -2,6 +2,7 @@ package techkids.cuong.myapplication.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -240,7 +241,7 @@ public class BoardGame implements Serializable {
 
 //    public List<Paragraph> list = new ArrayList<>();
 
-    public static List<BoardGame> boardGamesList = new ArrayList<>();
+    public static List<BoardGame> boardGamesList = Arrays.asList(boardGameArray);
 
 
     public String getRulesUrl() {
