@@ -32,7 +32,6 @@ import techkids.cuong.myapplication.models.BoardGame;
 
 public class BoardGameDetailActivity extends AppCompatActivity {
 
-
     @BindView(R.id.bottom_bar)
     BottomBar bb;
     @BindView(R.id.search_view)
@@ -44,7 +43,6 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 //    ImageView ivBoardGame;
 
     BoardGamesRulesFragment rulesFragment;
-    private Object references;
 
     private BoardGame boardGame;
 
@@ -92,6 +90,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                return true;
 //            case R.id.action_search:
 //                searchView.setVisibility(View.VISIBLE);
 
@@ -103,7 +102,6 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.rules_menu, menu);
-
         MenuItem item = menu.findItem(R.id.action_search);
         searchView.setMenuItem(item);
         return true;
