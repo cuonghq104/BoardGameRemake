@@ -14,6 +14,8 @@ import com.facebook.appevents.AppEventsLogger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import techkids.cuong.myapplication.managers.DBContext;
+
 /**
  * Created by Cuong on 2/14/2017.
  */
@@ -25,6 +27,8 @@ public class MyApplication extends Application {
         super.onCreate();
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
+        DBContext.init(this);
+
 //        getKey();
     }
 

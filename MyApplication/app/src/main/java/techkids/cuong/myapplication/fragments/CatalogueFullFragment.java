@@ -1,4 +1,4 @@
-package techkids.cuong.myapplication;
+package techkids.cuong.myapplication.fragments;
 
 
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.adapters.CatalogueAdapter;
 import techkids.cuong.myapplication.models.BoardGame;
 
@@ -61,9 +62,7 @@ public class CatalogueFullFragment extends Fragment {
         String title = event.getTitle();
 
         list = event.getBoardGames();
-
-        adapter = new CatalogueAdapter();
-        adapter.setList(list);
+        adapter = new CatalogueAdapter(list);
 
         rvCatalogue.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rvCatalogue.setAdapter(adapter);

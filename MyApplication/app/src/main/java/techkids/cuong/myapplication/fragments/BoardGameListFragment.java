@@ -33,6 +33,7 @@ import techkids.cuong.myapplication.models.BoardGame;
 public class BoardGameListFragment extends Fragment {
 
 
+    //todo this is no longer being used
     @BindView(R.id.rv_board_game_list)
     RecyclerView rvBoardGameList;
 

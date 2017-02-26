@@ -28,6 +28,7 @@ import techkids.cuong.myapplication.events.BackEvent;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.fragments.BoardGameInformationFragment;
 import techkids.cuong.myapplication.fragments.QuestionAndAnswerFragment;
+import techkids.cuong.myapplication.managers.DBContext;
 import techkids.cuong.myapplication.models.BoardGame;
 
 public class BoardGameDetailActivity extends AppCompatActivity {
@@ -55,7 +56,8 @@ public class BoardGameDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_game_detail);
         ButterKnife.bind(this);
-        boardGame = (BoardGame) getIntent().getSerializableExtra(MainActivity.BOARDGAME_KEY);
+        String boardgameID = getIntent().getStringExtra(MainActivity.BOARDGAME_ID_KEY);
+        boardGame = DBContext.getInstance().getBoardGameById(boardgameID);
 //        BoardGame boardGame= (BoardGame) getIntent().getSerializableExtra(MainActivity.BOARDGAME_KEY);
 //        BoardGame boardGame = BoardGame.boardGamesList.get(position);
 //        toolbar.setTitle(boardGame.getName());
@@ -189,34 +191,16 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     }
 
     public static class ToDetailActivityEvent {
-        //        private BoardGame boardGame;
-//
-//        public ToDetailActivityEvent(BoardGame boardGame) {
-//            this.boardGame = boardGame;
-//        }
-//
-//        public BoardGame getBoardGame() {
-//            return boardGame;
-//        }
-//        private int position;
 
-        private BoardGame boardGame;
+        private String boardGameId;
 
-        public ToDetailActivityEvent(BoardGame boardGame) {
-            this.boardGame = boardGame;
+        public ToDetailActivityEvent(String boardGameId) {
+            this.boardGameId = boardGameId;
         }
 
-        public BoardGame getBoardGame() {
-            return boardGame;
+        public String getBoardGameId() {
+            return boardGameId;
         }
-
-        //        public ToDetailActivityEvent(int position) {
-//            this.position = position;
-//        }
-//
-//        public int getPosition() {
-//            return position;
-//        }
     }
 
 }

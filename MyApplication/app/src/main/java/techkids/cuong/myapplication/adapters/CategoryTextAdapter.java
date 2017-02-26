@@ -5,7 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.RealmList;
 import techkids.cuong.myapplication.R;
+import techkids.cuong.myapplication.models.RealmString;
 import techkids.cuong.myapplication.viewHolders.CategoryViewHolder;
 
 /**
@@ -14,7 +19,7 @@ import techkids.cuong.myapplication.viewHolders.CategoryViewHolder;
 
 public class CategoryTextAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
-    private String[] categories;
+    private ArrayList<String> categories;
 
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -22,22 +27,23 @@ public class CategoryTextAdapter extends RecyclerView.Adapter<CategoryViewHolder
 
         View view = inflater.inflate(R.layout.item_category, parent, false);
 
-        CategoryViewHolder viewHolder = new CategoryViewHolder(view, categories);
+        CategoryViewHolder viewHolder = new CategoryViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
-        holder.bind(position);
+
+        holder.bind(categories.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return categories.length;
+        return categories.size();
     }
 
-    public CategoryTextAdapter(String[] categories) {
+    public CategoryTextAdapter(ArrayList<String> categories) {
         super();
         this.categories = categories;
     }

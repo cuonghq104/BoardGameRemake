@@ -5,12 +5,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Cuong on 1/5/2017.
  */
-public class BoardGame implements Serializable {
+public class BoardGame extends RealmObject implements Serializable {
 
     public static String BOARD_GAME = "boardgame";
+
+    @PrimaryKey
+    private String id;
 
     private String name;
 
@@ -30,16 +37,23 @@ public class BoardGame implements Serializable {
 
     private int playingTime;
 
-    private String[] categories;
+    private RealmList<RealmString> categories;
 
-    private String[] playType;
+    private RealmList<RealmString> playType;
 
     private String rules;
 
     private String description;
     private Publisher publisher;
 
-    public BoardGame(String name, String imageUrl, String detailUrl, String rulesUrl, String thumbUrl, int minPlayer, int maxPlayer, String favoritePlayer, int playingTime, String[] categories, String[] playType,  String rules, String description, Publisher publisher) {
+    private AppCategory appCategory;
+
+
+    public BoardGame() {
+    }
+
+    public BoardGame(String id,String name, String imageUrl, String detailUrl, String rulesUrl, String thumbUrl, int minPlayer, int maxPlayer, String favoritePlayer, int playingTime, RealmString[] categories, RealmString[] playType, String rules, String description, Publisher publisher,AppCategory appCategory) {
+        this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.detailUrl = detailUrl;
@@ -49,11 +63,38 @@ public class BoardGame implements Serializable {
         this.maxPlayer = maxPlayer;
         this.favoritePlayer = favoritePlayer;
         this.playingTime = playingTime;
-        this.categories = categories;
-        this.playType = playType;
+        this.categories = new RealmList<>();
+        this.categories.addAll(Arrays.asList(categories));
+        this.playType = new RealmList<>();
+        this.playType.addAll(Arrays.asList(playType));
         this.description = description;
         this.rules = rules;
         this.publisher = publisher;
+        this.appCategory = appCategory;
+    }
+    public BoardGame(String id,String name, String imageUrl, String detailUrl, String rulesUrl, String thumbUrl, int minPlayer, int maxPlayer, String favoritePlayer, int playingTime, String[] categories, String[] playType, String rules, String description, Publisher publisher,AppCategory appCategory) {
+        this.id = id;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.detailUrl = detailUrl;
+        this.rulesUrl = rulesUrl;
+        this.thumbUrl = thumbUrl;
+        this.minPlayer = minPlayer;
+        this.maxPlayer = maxPlayer;
+        this.favoritePlayer = favoritePlayer;
+        this.playingTime = playingTime;
+        this.categories = new RealmList<>();
+        for (String str : categories) {
+            this.categories.add(new RealmString(str));
+        }
+        this.playType = new RealmList<>();
+        for (String str : playType) {
+            this.playType.add(new RealmString(str));
+        }
+        this.description = description;
+        this.rules = rules;
+        this.publisher = publisher;
+        this.appCategory = appCategory;
     }
 
     public String getThumbUrl() {
@@ -76,9 +117,16 @@ public class BoardGame implements Serializable {
         return playingTime;
     }
 
-    public String[] getCategories() {
-        return categories;
+
+    public ArrayList<String> createCategoryStringList() {
+        ArrayList<String> stringList = new ArrayList<>();
+        for (RealmString realmString : categories) {
+            stringList.add(realmString.getValue());
+        }
+
+        return stringList;
     }
+
 
     public String getName() {
         return name;
@@ -98,8 +146,36 @@ public class BoardGame implements Serializable {
 
     //    "https://cf.geekdo-images.com/images/pic2016054_md.jpg",
 //            "https://view.publitas.com/p222-11815/coup/page/1",
+
+
+    public String getId() {
+        return id;
+    }
+
+    public String getRulesUrl() {
+        return rulesUrl;
+    }
+
+    public ArrayList<String> createPlayTypeStringList() {
+        ArrayList<String> stringList = new ArrayList<>();
+        for (RealmString realmString : playType) {
+            stringList.add(realmString.getValue());
+        }
+
+        return stringList;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+
     public static BoardGame[] boardGameArray = {
-            new BoardGame("Werewolf basic - a very basic game",
+            new BoardGame("000001","Werewolf basic - a very basic game",
                     "http://www.spielbude.ch/platform/apps/shop/images/obj-100839-4904-original.jpg",
                     "https://view.publitas.com/31715/238002/pdfs/29e027e72495889a166168ef7381e724e457f61b.pdf",
                     "https://view.publitas.com/31715/238026/pdfs/9a62cfa203a163ccae30cc9a02ca872e2321c5d6.pdf",
@@ -188,8 +264,9 @@ public class BoardGame implements Serializable {
                             "The game alternates between night and day phases. At night, the Werewolves secretly choose a Villager to kill. Also, the Seer (if still alive) asks whether another player is a Werewolf or not. During the day, the Villager who was killed is revealed and is out of the game. The remaining Villagers then vote on the player they suspect is a Werewolf. That player reveals his/her role and is out of the game.\n" +
                             "\n" +
                             "Werewolves win when there are an equal number of Villagers and Werewolves. Villagers win when they have killed all Werewolves. Werewolf is a social game that requires no equipment to play, and can accommodate almost any large group of players.",
-                    new Publisher("Asterion Press", "http://www.negoziogiochi.it/media/catalog/category/Asterion_400B1_1.jpg")),
-            new BoardGame("Uno",
+                    new Publisher("Asterion Press", "http://www.negoziogiochi.it/media/catalog/category/Asterion_400B1_1.jpg"),
+                    new AppCategory(false,true)),
+            new BoardGame("000002","Uno",
                     "http://boardgame.vn/uploads/u/boardgame.vn/product/2016/08/23/23/31/boa1471948306.JPG",
                     "https://view.publitas.com/31715/238002/pdfs/29e027e72495889a166168ef7381e724e457f61b.pdf",
                     "https://view.publitas.com/31715/238026/pdfs/9a62cfa203a163ccae30cc9a02ca872e2321c5d6.pdf",
@@ -201,8 +278,9 @@ public class BoardGame implements Serializable {
                     new String[]{"hand management"},
                     null,
                     "",
-                    null),
-            new BoardGame("Coup",
+                    null,
+                    new AppCategory(true,false)),
+            new BoardGame("000003","Coup",
                     "http://www.pubmeeple.com/wp-content/uploads/Coup3.jpg",
                     "https://view.publitas.com/31715/237992/pdfs/c27b7e30e500a8b9f1b7259db53f6eb5b974e76a.pdf",
                     "https://view.publitas.com/31715/238019/pdfs/7249eafcc8b80beac36891431e3282f6803d9a0b.pdf",
@@ -214,9 +292,10 @@ public class BoardGame implements Serializable {
                     new String[]{"Memory", "Player Elimination", "Take that"},
                     null,
                     "",
-                    null),
+                    null,
+                    new AppCategory(true,false)),
 
-            new BoardGame("Shadow Hunters", "http://cf.geekdo-images.com/images/pic1215982.jpg", "",
+            new BoardGame("000004","Shadow Hunters", "http://cf.geekdo-images.com/images/pic1215982.jpg", "",
                     "http://cf.geekdo-images.com/images/pic1215982_t.jpg",
                     "http://boardgame.vn/uploads/u/boardgame.vn/product/2015/10/23/05/49/cov1445532563.jpg",
                     4, 8,
@@ -226,8 +305,9 @@ public class BoardGame implements Serializable {
                     new String[]{"Dice Rolling", "Partnership", "Player Elimination"},
                     null,
                     "",
-                    null),
-            new BoardGame("Exploding Kittens", "", "", "", "http://is1.mzstatic.com/image/thumb/Purple20/v4/88/68/ca/8868cac2-e6f3-2239-43a5-3de6e4b637a2/source/512x512bb.jpg",
+                    null,
+                    new AppCategory(true,false)),
+            new BoardGame("000005","Exploding Kittens", "", "", "", "http://is1.mzstatic.com/image/thumb/Purple20/v4/88/68/ca/8868cac2-e6f3-2239-43a5-3de6e4b637a2/source/512x512bb.jpg",
                     2, 5,
                     "4-5",
                     20,
@@ -235,7 +315,8 @@ public class BoardGame implements Serializable {
                     new String[]{"Hand Management"},
                     null,
                     "",
-                    null
+                    null,
+                    new AppCategory(true,false)
             )
     };
 
@@ -243,20 +324,4 @@ public class BoardGame implements Serializable {
 
     public static List<BoardGame> boardGamesList = Arrays.asList(boardGameArray);
 
-
-    public String getRulesUrl() {
-        return rulesUrl;
-    }
-
-    public String[] getPlayType() {
-        return playType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Publisher getPublisher() {
-        return publisher;
-    }
 }

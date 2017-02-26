@@ -20,15 +20,16 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueViewHolder> 
 
     private List<BoardGame> list;
 
+    public CatalogueAdapter(List<BoardGame> list) {
+        this.list = list;
+    }
+
     @Override
     public CatalogueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         View view = inflater.inflate(R.layout.layout_board_game_list_item, parent, false);
-
         CatalogueViewHolder viewHolder = new CatalogueViewHolder(view);
-
-        viewHolder.setList(list);
 
         return viewHolder;
     }
@@ -36,7 +37,7 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueViewHolder> 
     @Override
     public void onBindViewHolder(CatalogueViewHolder holder, int position) {
 
-        holder.bind(position);
+        holder.bind(list.get(position));
     }
 
     @Override

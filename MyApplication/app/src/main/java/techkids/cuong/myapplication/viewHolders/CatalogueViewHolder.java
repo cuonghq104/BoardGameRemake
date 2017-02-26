@@ -27,11 +27,6 @@ import techkids.cuong.myapplication.models.QuestionAndAnswer;
  */
 public class CatalogueViewHolder extends RecyclerView.ViewHolder{
 
-    private List<BoardGame> list;
-
-    public void setList(List<BoardGame> list) {
-        this.list = list;
-    }
 
     public CatalogueViewHolder(View itemView) {
         super(itemView);
@@ -52,8 +47,8 @@ public class CatalogueViewHolder extends RecyclerView.ViewHolder{
     @BindView(R.id.tv_playing_time)
     TextView tvPlayingTime;
 
-    public void bind(int position) {
-        this.boardGame = list.get(position);
+    public void bind(BoardGame boardGame) {
+        this.boardGame = boardGame;
 
         Picasso.with(ivBoardGame.getContext())
                 .load(boardGame.getThumbUrl())
@@ -77,7 +72,7 @@ public class CatalogueViewHolder extends RecyclerView.ViewHolder{
 //        EventBus.getDefault().post(new ChangeFragmentEvent(new BoardGameInformationFragment(), true, position));
 
 //        BoardGame boardGame = BoardGame.boardGamesList.get(position);
-        EventBus.getDefault().post(new BoardGameDetailActivity.ToDetailActivityEvent(boardGame));
+        EventBus.getDefault().post(new BoardGameDetailActivity.ToDetailActivityEvent(boardGame.getId()));
 
     }
 }

@@ -25,4 +25,10 @@ public class BoardgameSuggestion implements SearchSuggestion {
     public void writeToParcel(Parcel dest, int flags) {
 
 }
+
+    @Override
+    //todo debugging
+    public String toString() {
+        return "ahihi";
+    }
 }

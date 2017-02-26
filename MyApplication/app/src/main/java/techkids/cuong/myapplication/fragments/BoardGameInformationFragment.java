@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -135,11 +134,11 @@ public class BoardGameInformationFragment extends Fragment {
 
         tvDescription.setText(boardGame.getDescription());
 
-        adapter = new CategoryTextAdapter(boardGame.getCategories());
+        adapter = new CategoryTextAdapter(boardGame.createCategoryStringList());
         rvCategories.setLayoutManager(new GridLayoutManager(this.getContext(), 3));
         rvCategories.setAdapter(adapter);
 
-        playTypeAdapter = new CategoryTextAdapter(boardGame.getPlayType());
+        playTypeAdapter = new CategoryTextAdapter(boardGame.createPlayTypeStringList());
         rvPlayType.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
         rvPlayType.setAdapter(playTypeAdapter);
 

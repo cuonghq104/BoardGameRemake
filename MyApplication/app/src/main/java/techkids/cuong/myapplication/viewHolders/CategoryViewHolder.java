@@ -13,19 +13,17 @@ import techkids.cuong.myapplication.R;
  */
 public class CategoryViewHolder extends RecyclerView.ViewHolder{
 
-    private String[] categories;
 
     @BindView(R.id.tv_category)
     TextView tvCategory;
 
-    public CategoryViewHolder(View itemView, String[] categories) {
+    public CategoryViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        this.categories = categories;
     }
 
-    public void bind(int position) {
-        tvCategory.setText(categories[position]);
+    public void bind(String category) {
+        tvCategory.setText(category);
     }
 
 }

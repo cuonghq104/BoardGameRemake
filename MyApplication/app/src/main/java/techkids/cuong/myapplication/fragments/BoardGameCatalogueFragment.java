@@ -12,16 +12,15 @@ import android.widget.LinearLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import techkids.cuong.myapplication.CatalogueFullFragment;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.adapters.CatalogueAdapter;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
+import techkids.cuong.myapplication.managers.DBContext;
 import techkids.cuong.myapplication.models.BoardGame;
 
 
@@ -45,6 +44,9 @@ public class BoardGameCatalogueFragment extends Fragment {
     RecyclerView rvHotGames;
 
     private CatalogueAdapter hotGamesAdapter;
+    private List<BoardGame> commingSoonList;
+
+    private List<BoardGame> hotGamesList;
 
     public BoardGameCatalogueFragment() {
         // Required empty public constructor
@@ -62,36 +64,33 @@ public class BoardGameCatalogueFragment extends Fragment {
         return view;
     }
 
-    private List<BoardGame> list;
 
-    private List<BoardGame> hotGamesList;
 
     private void setupUI() {
-        adapter = new CatalogueAdapter();
-        list = new ArrayList<>();
-        for (int i = 1; i < BoardGame.boardGameArray.length; i++) {
-            list.add(BoardGame.boardGameArray[i]);
-        }
 
-        adapter.setList(list);
+
+        commingSoonList = DBContext.getInstance().getCommingSoonBoardGames();
+//        for (int i = 1; i < BoardGame.boardGameArray.length; i++) {
+//            commingSoonList.add(BoardGame.boardGameArray[i]);
+//        }
+        adapter = new CatalogueAdapter(commingSoonList);
+
         rvComingSoon.setAdapter(adapter);
         rvComingSoon.setLayoutManager(new StaggeredGridLayoutManager(1, 0));
 
-        hotGamesAdapter = new CatalogueAdapter();
 
-        hotGamesList = new ArrayList<>();
 
-        hotGamesList.add(BoardGame.boardGameArray[0]);
-
-        hotGamesAdapter.setList(hotGamesList);
+        hotGamesList = DBContext.getInstance().getHotBoardGames();
+//        hotGamesList.add(BoardGame.boardGameArray[0]);
+        hotGamesAdapter = new CatalogueAdapter(hotGamesList);
         rvHotGames.setAdapter(hotGamesAdapter);
         rvHotGames.setLayoutManager(new StaggeredGridLayoutManager(1, 0));
     }
 
     @OnClick(R.id.ll_coming_soon)
     public void goToCatalogueFullFragment() {
-//        EventBus.getDefault().post(new CatalogueFullFragment.CatalogueFullEvent("Coming soon",list ));
-        EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Coming soon",list ));
+//        EventBus.getDefault().post(new CatalogueFullFragment.CatalogueFullEvent("Coming soon",commingSoonList ));
+        EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Coming soon", commingSoonList));
     }
 
     @OnClick(R.id.ll_hot_games)

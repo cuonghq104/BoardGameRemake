@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,13 +29,15 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import techkids.cuong.myapplication.CatalogueFullFragment;
+import techkids.cuong.myapplication.fragments.CatalogueFullFragment;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.events.LoginEvent;
 import techkids.cuong.myapplication.events.SearchEvent;
 import techkids.cuong.myapplication.fragments.BoardGameCatalogueFragment;
-import techkids.cuong.myapplication.fragments.SignUpFragment;
+import techkids.cuong.myapplication.managers.DBContext;
+import techkids.cuong.myapplication.models.BoardGame;
+import techkids.cuong.myapplication.models.BoardgameSuggestion;
 import techkids.cuong.myapplication.models.User;
 import techkids.cuong.myapplication.transforms.CircleTransform;
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String BOARDGAME_NAME_KEY = "boardgame_name";
-    public static final String BOARDGAME_KEY = "boardgame";
+    public static final String BOARDGAME_ID_KEY = "boardgame_ID";
 
 
 //    @BindView(R.id.rl_container)
@@ -88,10 +89,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         getReferences();
+
+        DBContext.getInstance().putBoardGameList(BoardGame.boardGamesList);
+
         navigationView.setNavigationItemSelectedListener(this);
         floatingSearchView.attachNavigationDrawerToMenuButton(drawerLayout);
 
-
+        //todo code for not using floatingSerchView
 //        setSupportActionBar(toolbar);
 
 
@@ -113,14 +117,20 @@ public class MainActivity extends AppCompatActivity
 
         setupUI();
         addListener();
-        changeFragment(new SignUpFragment(), false);
+        //todo no need login first
+//        changeFragment(new SignUpFragment(), false);
+        changeFragment(new BoardGameCatalogueFragment(),false);
+
     }
 
     @Subscribe
     public void toDetailActivity(BoardGameDetailActivity.ToDetailActivityEvent event) {
         Intent intent = new Intent(MainActivity.this, BoardGameDetailActivity.class);
-        intent.putExtra(BOARDGAME_KEY, event.getBoardGame());
-        if (!event.getBoardGame().getName().equals("Werewolf basic - a very basic game")) {
+
+        intent.putExtra(BOARDGAME_ID_KEY, event.getBoardGameId());
+
+        if (!DBContext.getInstance().getBoardGameById(event.getBoardGameId())
+                .getName().equals("Werewolf basic - a very basic game")) {
             Toast.makeText(MainActivity.this, "Dang phat trien", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -153,6 +163,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupUI() {
+
+
         //        rlContainer.setVisibility(View.GONE);
 
 
@@ -171,7 +183,7 @@ public class MainActivity extends AppCompatActivity
         floatingSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, String newQuery) {
-                floatingSearchView.swapSuggestions(Arrays.asList(new String[]{"ahihi"}));
+                floatingSearchView.swapSuggestions(Arrays.asList(new BoardgameSuggestion()));
             }
         });
 //        tvSearch = (TextView) findViewById(R.id.tv_search);

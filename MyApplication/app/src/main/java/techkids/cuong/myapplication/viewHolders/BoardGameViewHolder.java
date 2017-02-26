@@ -73,6 +73,6 @@ public class BoardGameViewHolder extends RecyclerView.ViewHolder{
 //        EventBus.getDefault().post(new ChangeFragmentEvent(new BoardGameInformationFragment(), true, position));
 
 //        BoardGame boardGame = BoardGame.boardGamesList.get(position);
-        EventBus.getDefault().post(new BoardGameDetailActivity.ToDetailActivityEvent(boardGame));
+        EventBus.getDefault().post(new BoardGameDetailActivity.ToDetailActivityEvent(boardGame.getId()));
     }
 }
