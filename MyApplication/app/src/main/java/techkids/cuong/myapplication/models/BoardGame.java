@@ -97,6 +97,13 @@ public class BoardGame extends RealmObject implements Serializable {
         this.appCategory = appCategory;
     }
 
+    @Override
+    public String toString() {
+        return "BoardGame{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+
     public String getThumbUrl() {
         return thumbUrl;
     }
@@ -170,8 +177,16 @@ public class BoardGame extends RealmObject implements Serializable {
     }
 
     public Publisher getPublisher() {
-        return publisher;
+        //todo debugging
+        if (publisher != null) {
+
+            return publisher;
+        } else {
+            return new Publisher("null", null);
+        }
+
     }
+
 
 
     public static BoardGame[] boardGameArray = {

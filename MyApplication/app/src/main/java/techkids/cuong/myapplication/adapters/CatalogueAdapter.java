@@ -10,7 +10,6 @@ import java.util.List;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.models.BoardGame;
 import techkids.cuong.myapplication.viewHolders.CatalogueViewHolder;
-import techkids.cuong.myapplication.viewHolders.CategoryViewHolder;
 
 /**
  * Created by Cuong on 2/18/2017.
@@ -28,7 +27,7 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueViewHolder> 
     public CatalogueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View view = inflater.inflate(R.layout.layout_board_game_list_item, parent, false);
+        View view = inflater.inflate(R.layout.item_boardgame_list, parent, false);
         CatalogueViewHolder viewHolder = new CatalogueViewHolder(view);
 
         return viewHolder;

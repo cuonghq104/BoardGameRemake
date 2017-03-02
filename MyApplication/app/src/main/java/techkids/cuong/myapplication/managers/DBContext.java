@@ -6,6 +6,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
@@ -132,6 +133,12 @@ public class DBContext {
 
     }
 
+    public List<BoardGame> searchBoardgameByName(String subString){
+        RealmResults<BoardGame> boardGames = realm
+                .where(BoardGame.class).contains("name", subString, Case.INSENSITIVE).findAll();
+        return boardGames.subList(0, boardGames.size());
+    }
+
     public static void init(Context context) {
         Realm.init(context);
         RealmConfiguration config = new RealmConfiguration.Builder()
@@ -140,6 +147,7 @@ public class DBContext {
         Realm.setDefaultConfiguration(config);
         instance = new DBContext();
     }
+
 
 
 }

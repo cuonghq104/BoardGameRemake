@@ -62,16 +62,13 @@ public class CatalogueViewHolder extends RecyclerView.ViewHolder{
         tvPlayers.setText(String.format("%d - %d", boardGame.getMinPlayer(), boardGame.getMaxPlayer()));
     }
 
-    @OnClick(R.id.iv_boardgame)
+    @OnClick(R.id.cv_container)
     public void changeDetailFragment() {
-
-
-            QuestionAndAnswer.questionAndAnswerList = Arrays.asList(QuestionAndAnswer.questionAndAnswersArrays);
-
         //todo debugging
 //        EventBus.getDefault().post(new ChangeFragmentEvent(new BoardGameInformationFragment(), true, position));
 
 //        BoardGame boardGame = BoardGame.boardGamesList.get(position);
+
         EventBus.getDefault().post(new BoardGameDetailActivity.ToDetailActivityEvent(boardGame.getId()));
 
     }

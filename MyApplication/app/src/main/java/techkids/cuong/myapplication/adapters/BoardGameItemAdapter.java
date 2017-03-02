@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.zip.Inflater;
-
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.models.BoardGame;
 import techkids.cuong.myapplication.viewHolders.BoardGameViewHolder;
@@ -20,7 +18,7 @@ public class BoardGameItemAdapter extends RecyclerView.Adapter<BoardGameViewHold
     public BoardGameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View view = inflater.inflate(R.layout.layout_board_game_list_item, parent, false);
+        View view = inflater.inflate(R.layout.item_boardgame_list, parent, false);
 
         BoardGameViewHolder viewHolder = new BoardGameViewHolder(view);
 

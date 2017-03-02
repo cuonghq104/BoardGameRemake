@@ -18,7 +18,7 @@ public class QuestionAnswerAdapter extends RecyclerView.Adapter<QuestionAnswerVi
     public QuestionAnswerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View view = inflater.inflate(R.layout.layout_question_answer_list_item, parent, false);
+        View view = inflater.inflate(R.layout.item_question_answer, parent, false);
 
         QuestionAnswerViewHolder questionAnswerViewHolder = new QuestionAnswerViewHolder(view);
 

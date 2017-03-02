@@ -4,13 +4,13 @@
     <item android:id="@+id/action_voice_rec"
         android:title="Search by voice"
         android:orderInCategory="1"
-        android:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_keyboard_voice_black_24px"
         />
-    <item android:id="@+id/action_voice_rec_2"
-        android:title="Search by voice 2"
-        android:orderInCategory="2"
-        android:showAsAction="always"
-        android:icon="@drawable/ic_keyboard_voice_black_24px"
-        />
+    <!--<item android:id="@+id/action_voice_rec_2"-->
+        <!--android:title="Search by voice 2"-->
+        <!--android:orderInCategory="2"-->
+        <!--app:showAsAction="always"-->
+        <!--android:icon="@drawable/ic_keyboard_voice_black_24px"-->
+        <!--/>-->
 </menu>

@@ -1,9 +1,14 @@
 package techkids.cuong.myapplication.activities;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,6 +41,7 @@ import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.events.LoginEvent;
 import techkids.cuong.myapplication.events.SearchEvent;
 import techkids.cuong.myapplication.fragments.BoardGameCatalogueFragment;
+import techkids.cuong.myapplication.fragments.SearchResultFragment;
 import techkids.cuong.myapplication.managers.DBContext;
 import techkids.cuong.myapplication.models.BoardGame;
 import techkids.cuong.myapplication.models.BoardgameSuggestion;
@@ -42,10 +49,12 @@ import techkids.cuong.myapplication.models.User;
 import techkids.cuong.myapplication.transforms.CircleTransform;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener
+        ,FragmentManager.OnBackStackChangedListener{
 
     public static final String BOARDGAME_NAME_KEY = "boardgame_name";
     public static final String BOARDGAME_ID_KEY = "boardgame_ID";
+    private static final String TAG = MainActivity.class.toString();
 
 
 //    @BindView(R.id.rl_container)
@@ -83,15 +92,19 @@ public class MainActivity extends AppCompatActivity
 
     private TextView tvMail;
 
+    @BindView(R.id.appbar)
+    AppBarLayout mAppBar;
+
+    String mLastQuery = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         getReferences();
-
         DBContext.getInstance().putBoardGameList(BoardGame.boardGamesList);
-
         navigationView.setNavigationItemSelectedListener(this);
         floatingSearchView.attachNavigationDrawerToMenuButton(drawerLayout);
 
@@ -117,6 +130,14 @@ public class MainActivity extends AppCompatActivity
 
         setupUI();
         addListener();
+
+        mAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                floatingSearchView.setTranslationY(verticalOffset);
+            }
+        });
+
         //todo no need login first
 //        changeFragment(new SignUpFragment(), false);
         changeFragment(new BoardGameCatalogueFragment(),false);
@@ -186,6 +207,35 @@ public class MainActivity extends AppCompatActivity
                 floatingSearchView.swapSuggestions(Arrays.asList(new BoardgameSuggestion()));
             }
         });
+        floatingSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            @Override
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+
+            }
+
+            @Override
+            public void onSearchAction(String currentQuery) {
+                mLastQuery = currentQuery;
+                Log.d(TAG, "onSearchAction:");
+                changeFragment(SearchResultFragment.create(currentQuery),true);
+            }
+        });
+
+        floatingSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+            @Override
+            public void onFocus() {
+//                fadeDimBackground(0, 150, null);
+            }
+
+            @Override
+            public void onFocusCleared() {
+//                floatingSearchView.setSearchBarTitle(mLastQuery);
+
+                Log.d(TAG, "onFocusCleared: ");
+            }
+        });
+
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
 //        tvSearch = (TextView) findViewById(R.id.tv_search);
 //        tvSearch.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -222,10 +272,18 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
     @Override
     protected void onStart() {
+        Log.d(TAG, "onStart: ");
         super.onStart();
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
     }
 
     @Override
@@ -356,4 +414,32 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
     }
+
+    @Override
+    public void onBackStackChanged() {
+
+        int backStackEntryCount =  getSupportFragmentManager().getBackStackEntryCount();
+        Log.d(TAG, "onBackStackChanged: backStackEntryCount = "+ backStackEntryCount);
+        if (backStackEntryCount > 0) {
+            floatingSearchView.setLeftActionMode(FloatingSearchView.LEFT_ACTION_MODE_SHOW_HOME);
+        }else{
+            floatingSearchView.setLeftActionMode(FloatingSearchView.LEFT_ACTION_MODE_SHOW_HAMBURGER);
+        }
+    }
+//    private void fadeDimBackground(int from, int to, Animator.AnimatorListener listener) {
+//        ValueAnimator anim = ValueAnimator.ofInt(from, to);
+//        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            @Override
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//
+//                int value = (Integer) animation.getAnimatedValue();
+//                mDimDrawable.setAlpha(value);
+//            }
+//        });
+//        if(listener != null) {
+//            anim.addListener(listener);
+//        }
+//        anim.setDuration(ANIM_DURATION);
+//        anim.start();
+//    }
 }

@@ -41,7 +41,7 @@ public class QuestionAndAnswer {
                     new Answer[] {new Answer("Chết sure vcl bạn nhé, chiến binh chỉ bảo vệ mục tiêu bị sói cắn thôi còn phù thủy thì chịu nhé", "Quách Tĩnh")})
     };
 
-    public static List<QuestionAndAnswer> questionAndAnswerList = new ArrayList<>();
+    public static List<QuestionAndAnswer> questionAndAnswerList = Arrays.asList(QuestionAndAnswer.questionAndAnswersArrays);
 
     @Override
     public String toString() {
