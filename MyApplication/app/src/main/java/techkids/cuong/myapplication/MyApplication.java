@@ -4,17 +4,19 @@ import android.app.Application;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.squareup.picasso.Picasso;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import techkids.cuong.myapplication.managers.DBContext;
+import techkids.cuong.myapplication.utils.DBContext;
 
 /**
  * Created by Cuong on 2/14/2017.
@@ -28,6 +30,10 @@ public class MyApplication extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         DBContext.init(this);
+
+        Picasso.Builder builder = new Picasso.Builder(this);
+        builder.defaultBitmapConfig(Bitmap.Config.RGB_565);
+        Picasso.setSingletonInstance(builder.build());
 
 //        getKey();
     }

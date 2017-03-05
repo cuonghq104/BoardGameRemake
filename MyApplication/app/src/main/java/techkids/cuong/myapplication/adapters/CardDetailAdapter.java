@@ -82,6 +82,8 @@ public class CardDetailAdapter extends RecyclerView.Adapter<CardDetailViewHolder
 }
 class CardDetailViewHolder extends RecyclerView.ViewHolder {
 
+    private static final int IMAGE_WIDTH = 150;
+    private static final int IMAGE_HEIGHT = 150;
     @BindView(R.id.imv_card)
     ImageView imvCard;
     Context context;
@@ -94,7 +96,10 @@ class CardDetailViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(CardDetail cardDetail){
         Picasso.with(context).load(cardDetail.getImageUrl())
+                .resize(IMAGE_WIDTH,IMAGE_HEIGHT)
+                .centerCrop()
                 .placeholder(R.drawable.default_placeholder)
+                .error(R.drawable.default_placeholder)
                 .into(imvCard);
     }
 }

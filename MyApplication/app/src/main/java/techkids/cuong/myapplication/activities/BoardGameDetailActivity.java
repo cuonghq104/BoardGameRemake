@@ -1,6 +1,5 @@
 package techkids.cuong.myapplication.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -8,13 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -25,10 +21,9 @@ import techkids.cuong.myapplication.events.BoardGameEvent;
 import techkids.cuong.myapplication.fragments.BoardGamesRulesFragment;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.events.BackEvent;
-import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.fragments.BoardGameInformationFragment;
 import techkids.cuong.myapplication.fragments.QuestionAndAnswerFragment;
-import techkids.cuong.myapplication.managers.DBContext;
+import techkids.cuong.myapplication.utils.DBContext;
 import techkids.cuong.myapplication.models.BoardGame;
 
 public class BoardGameDetailActivity extends AppCompatActivity {

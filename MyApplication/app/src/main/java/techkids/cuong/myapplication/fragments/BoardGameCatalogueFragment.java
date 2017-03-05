@@ -20,7 +20,7 @@ import butterknife.OnClick;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.adapters.CatalogueAdapter;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
-import techkids.cuong.myapplication.managers.DBContext;
+import techkids.cuong.myapplication.utils.DBContext;
 import techkids.cuong.myapplication.models.BoardGame;
 
 

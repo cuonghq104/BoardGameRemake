@@ -2,6 +2,7 @@ package techkids.cuong.myapplication.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,8 @@ public class BoardGameResultAdapter extends RecyclerView.Adapter<BoardGameResult
 
 class BoardGameResultViewHolder extends RecyclerView.ViewHolder {
 
+    private static final int IMAGE_WIDTH = 90;
+    private static final int IMAGE_HEIGHT = 90;
     @BindView(R.id.iv_boardgame)
     ImageView imvBoardGame;
     @BindView(R.id.tv_title)
@@ -77,6 +80,10 @@ class BoardGameResultViewHolder extends RecyclerView.ViewHolder {
     public void bind(BoardGame boardGame) {
         boardGameId = boardGame.getId();
         Picasso.with(context).load(boardGame.getThumbUrl())
+                .resize(IMAGE_WIDTH,IMAGE_HEIGHT)
+                .centerCrop()
+                .placeholder(R.drawable.default_placeholder)
+                .error(R.drawable.default_placeholder)
                 .into(imvBoardGame);
         tvTitle.setText(boardGame.getName());
         tvDescription.setText(boardGame.getPublisher().getName());

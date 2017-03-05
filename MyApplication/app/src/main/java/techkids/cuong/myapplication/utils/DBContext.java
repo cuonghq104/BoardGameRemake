@@ -1,15 +1,13 @@
-package techkids.cuong.myapplication.managers;
+package techkids.cuong.myapplication.utils;
 
 import android.content.Context;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 import techkids.cuong.myapplication.models.BoardGame;
 

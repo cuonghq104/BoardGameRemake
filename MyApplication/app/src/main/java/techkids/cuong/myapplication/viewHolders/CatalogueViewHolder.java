@@ -27,6 +27,8 @@ import techkids.cuong.myapplication.models.QuestionAndAnswer;
  */
 public class CatalogueViewHolder extends RecyclerView.ViewHolder{
 
+    private static final int IMAGE_WIDTH = 150;
+    private static final int IMAGE_HEIGHT = 150;
 
     public CatalogueViewHolder(View itemView) {
         super(itemView);
@@ -52,7 +54,10 @@ public class CatalogueViewHolder extends RecyclerView.ViewHolder{
 
         Picasso.with(ivBoardGame.getContext())
                 .load(boardGame.getThumbUrl())
+                .resize(IMAGE_WIDTH,IMAGE_HEIGHT)
+                .centerCrop()
                 .placeholder(R.drawable.default_placeholder)
+                .error(R.drawable.default_placeholder)
                 .into(ivBoardGame);
 
         tvName.setText(boardGame.getName());
