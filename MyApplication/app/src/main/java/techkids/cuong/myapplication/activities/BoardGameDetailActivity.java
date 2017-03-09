@@ -1,5 +1,6 @@
 package techkids.cuong.myapplication.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import techkids.cuong.myapplication.events.BoardGameEvent;
 import techkids.cuong.myapplication.fragments.BoardGamesRulesFragment;
 import techkids.cuong.myapplication.R;
@@ -92,7 +94,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 //                searchView.setVisibility(View.VISIBLE);
 
             default:
-                return this.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -175,6 +177,13 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 //            bb.setVisibility(View.VISIBLE);
 //        }
 //    }
+
+    @OnClick(R.id.fab)
+    public void toRuleActivity(){
+        Intent intent = new Intent(BoardGameDetailActivity.this, RuleActivity_.class);
+        startActivity(intent);
+    }
+
 
     @Subscribe
     public void backToMainActivity(BackEvent backEvent) {
