@@ -3,6 +3,7 @@ package techkids.cuong.myapplication.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
@@ -24,11 +25,14 @@ import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.facebook.login.widget.ProfilePictureView;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindView;
@@ -40,6 +44,7 @@ import techkids.cuong.myapplication.events.LoginEvent;
 import techkids.cuong.myapplication.events.SearchEvent;
 import techkids.cuong.myapplication.fragments.BoardGameCatalogueFragment;
 import techkids.cuong.myapplication.fragments.SearchResultFragment;
+import techkids.cuong.myapplication.fragments.SignUpFragment;
 import techkids.cuong.myapplication.utils.DBContext;
 import techkids.cuong.myapplication.models.BoardGame;
 import techkids.cuong.myapplication.models.BoardgameSuggestion;
@@ -84,7 +89,7 @@ public class MainActivity extends AppCompatActivity
     FloatingSearchView floatingSearchView;
     View headerView;
 
-    private ImageView ivProfile;
+    private ProfilePictureView ivProfile;
 
     private TextView tvName;
 
@@ -138,7 +143,7 @@ public class MainActivity extends AppCompatActivity
 
         //todo no need login first
 //        changeFragment(new SignUpFragment(), false);
-        changeFragment(new BoardGameCatalogueFragment(),false);
+        changeFragment(new SignUpFragment(),false);
 
     }
 
@@ -161,9 +166,15 @@ public class MainActivity extends AppCompatActivity
 //        Picasso.with(this).load(User.getProfile().getProfilePictureUri(50, 50)).into(ivProfile);
 //        tvName.setText(User.getProfile().getName());
         changeFragment(new BoardGameCatalogueFragment(), false);
-        Picasso.with(this).load(User.getProfile().getProfilePictureUri(80, 80)).transform(new CircleTransform()).into(ivProfile);
-        tvName.setText(User.getProfile().getName());
-        tvMail.setText(User.userName);
+        try {
+            tvName.setText(event.getGraphResponse().getJSONObject().getString("name"));
+            tvMail.setText(event.getGraphResponse().getJSONObject().getString("email"));
+            ivProfile.setPresetSize(ProfilePictureView.NORMAL);
+            ivProfile.setProfileId(event.getGraphResponse().getJSONObject().getString("id"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Toast.makeText(this, User.getProfile().getName(), Toast.LENGTH_SHORT).show();
     }
 
@@ -387,18 +398,30 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.closeDrawer(GravityCompat.START);
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_board_game) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_favorite) {
+            item.setCheckable(false);
+            Snackbar.make(flContainer, "Đang phát triển", Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_coming_soon) {
+            ArrayList<BoardGame> list = new ArrayList<>();
+            for (int i = 1; i < BoardGame.boardGameArray.length; i++) {
+                list.add(BoardGame.boardGameArray[i]);
+            }
+            EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Coming soon",list ));
+        } else if (id == R.id.nav_hot) {
+            ArrayList<BoardGame> hotGamesList = new ArrayList<>();
 
-        } else if (id == R.id.nav_slideshow) {
+            hotGamesList.add(BoardGame.boardGameArray[0]);
 
-        } else if (id == R.id.nav_manage) {
+            EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Hot games",hotGamesList));
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_settings) {
+            Snackbar.make(flContainer, "Đang phát triển", Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_about_us) {
+            Snackbar.make(flContainer, "Đang phát triển", Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_log_out) {
+            changeFragment(new SignUpFragment(), false);
         }
 
         return true;
@@ -406,7 +429,7 @@ public class MainActivity extends AppCompatActivity
 
     public void getReferences() {
         headerView = navigationView.getHeaderView(0);
-        ivProfile = (ImageView) headerView.findViewById(R.id.iv_profile);
+        ivProfile = (ProfilePictureView) headerView.findViewById(R.id.iv_profile);
         tvName = (TextView) headerView.findViewById(R.id.tv_name);
         tvMail = (TextView) headerView.findViewById(R.id.tv_mail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);

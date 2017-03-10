@@ -18,6 +18,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -65,6 +66,8 @@ public class SignUpFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         ButterKnife.bind(this, view);
 
+        LoginManager.getInstance().logOut();
+
         EventBus.getDefault().post(new HideToolbarEvent(true));
         callbackManager = CallbackManager.Factory.create();
         btFacebook.setReadPermissions("email");
@@ -75,26 +78,40 @@ public class SignUpFragment extends Fragment {
         btFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
-                ProfileTracker profileTracker = new ProfileTracker() {
-                    @Override
-                    protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                        User.setProfile(currentProfile);
-//                        User.userName = currentProfile.getName();
-//                        Toast.makeText(getContext(), User.getProfile().getName(), Toast.LENGTH_SHORT).show();
-                        EventBus.getDefault().post(new LoginEvent());
-                    }
-                };
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                try {
+                                    Toast.makeText(getActivity(), response.getJSONObject().getString("id"), Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                EventBus.getDefault().post(new LoginEvent(response));
+//                                try {
+//                                    response.getJSONObject().getString("name");
+//                                    response.getJSONObject()
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                };
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender, birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override
             public void onCancel() {
-                EventBus.getDefault().post(new LoginEvent());
+
             }
 
             @Override
-            public void onError(FacebookException exception) {
-                EventBus.getDefault().post(new LoginEvent());
+            public void onError(FacebookException error) {
+
             }
+
         });
 
 
@@ -102,20 +119,7 @@ public class SignUpFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.bt_login)
-    public void onLoginPressed() {
-        EventBus.getDefault().post(new LoginEvent());
-    }
 
-    @OnClick(R.id.bt_sign_up)
-    public void onSignUpPressed() {
-        EventBus.getDefault().post(new LoginEvent());
-    }
-
-    @OnClick(R.id.ll_google)
-    public void onGoogleAccountPressed() {
-        EventBus.getDefault().post(new LoginEvent());
-    }
 
 //    @OnClick(R.id.ll_facebook)
 //    public void onFacebookAccountPressed() {
