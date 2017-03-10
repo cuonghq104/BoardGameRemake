@@ -45,7 +45,13 @@ public class ParagraphAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             CombineViewHolder viewHolder = new CombineViewHolder(view);
 
             return viewHolder;
-        } else {
+        } else if (viewType == 3){
+            View view = inflater.inflate(R.layout.block_combine_above, parent, false);
+
+            CombineViewHolder viewHolder = new CombineViewHolder(view);
+
+            return viewHolder;
+        }  else {
             View view = inflater.inflate(R.layout.block_combine_right, parent, false);
 
             CombineViewHolder viewHolder = new CombineViewHolder(view);
@@ -87,8 +93,10 @@ public class ParagraphAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return 0;
         } else if (Paragraph.list.get(position).getType().equals(Paragraph.COMBINE_TYPE_IMAGE_LEFT)){
             return 2;
-        } else {
+        } else if (Paragraph.list.get(position).getType().equals(Paragraph.COMBINE_TYPE_IMAGE_ABOVE)){
             return 3;
+        } else {
+            return 4;
         }
     }
 }

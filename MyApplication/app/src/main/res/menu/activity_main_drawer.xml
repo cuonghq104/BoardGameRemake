@@ -3,33 +3,37 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_board_game"
+            android:icon="@drawable/ic_chess_horse"
+            android:title="Board Game" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_favorite"
+            android:icon="@drawable/ic_favorite_heart_button"
+            android:title="Favorite" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_coming_soon"
+            android:icon="@drawable/ic_traffic_cone_signal_tool_for_traffic"
+            android:title="Coming soon" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_hot"
+            android:icon="@drawable/ic_alarm"
+            android:title="Hot games" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Help &amp; Feedback">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_setting"
+                android:title="Settings" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_about_us"
+                android:icon="@drawable/ic_user_silhouette"
+                android:title="About us" />
+            <item
+                android:id="@+id/nav_log_out"
+                android:icon="@drawable/ic_exit_to_app_button"
+                android:title="Log out" />
         </menu>
     </item>
 

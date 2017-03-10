@@ -24,27 +24,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
-import com.squareup.picasso.Picasso;
+import com.facebook.login.widget.ProfilePictureView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import techkids.cuong.myapplication.CatalogueFullFragment;
-import techkids.cuong.myapplication.LoginActivity;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.events.HideToolbarEvent;
 import techkids.cuong.myapplication.events.LoginEvent;
 import techkids.cuong.myapplication.events.SearchEvent;
 import techkids.cuong.myapplication.fragments.BoardGameCatalogueFragment;
-import techkids.cuong.myapplication.fragments.BoardGameListFragment;
-import techkids.cuong.myapplication.events.ChangeFragmentEvent;
 import techkids.cuong.myapplication.fragments.SignUpFragment;
 import techkids.cuong.myapplication.models.BoardGame;
 import techkids.cuong.myapplication.models.User;
-import techkids.cuong.myapplication.transforms.CircleTransform;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,9 +66,16 @@ public class MainActivity extends AppCompatActivity
 //        Picasso.with(this).load(User.getProfile().getProfilePictureUri(50, 50)).into(ivProfile);
 //        tvName.setText(User.getProfile().getName());
         changeFragment(new BoardGameCatalogueFragment(), false);
-        Picasso.with(this).load(User.getProfile().getProfilePictureUri(80, 80)).transform(new CircleTransform()).into(ivProfile);
-        tvName.setText(User.getProfile().getName());
-        tvMail.setText(User.userName);
+
+        try {
+            tvName.setText(event.getGraphResponse().getJSONObject().getString("name"));
+            tvMail.setText(event.getGraphResponse().getJSONObject().getString("email"));
+            ivProfile.setPresetSize(ProfilePictureView.NORMAL);
+            ivProfile.setProfileId(event.getGraphResponse().getJSONObject().getString("id"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Toast.makeText(this, User.getProfile().getName(), Toast.LENGTH_SHORT).show();
     }
 
@@ -98,11 +103,13 @@ public class MainActivity extends AppCompatActivity
 
     View headerView;
 
-    private ImageView ivProfile;
+    private ProfilePictureView ivProfile;
 
     private TextView tvName;
 
     private TextView tvMail;
+
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,14 +117,14 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         headerView = navView.getHeaderView(0);
-        ivProfile = (ImageView) headerView.findViewById(R.id.iv_profile);
+        ivProfile = (ProfilePictureView) headerView.findViewById(R.id.iv_profile);
         tvName = (TextView) headerView.findViewById(R.id.tv_name);
         tvMail = (TextView) headerView.findViewById(R.id.tv_mail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.setDrawerIndicatorEnabled(false);
@@ -179,6 +186,13 @@ public class MainActivity extends AppCompatActivity
                         tvSearch.setVisibility(View.VISIBLE);
                         toggle.setDrawerIndicatorEnabled(false);
                         toggle.setHomeAsUpIndicator(R.drawable.ic_toggle);
+                        toggle.setHomeAsUpIndicator(R.drawable.ic_toggle);
+                        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                drawer.openDrawer(Gravity.LEFT);
+                            }
+                        });
                     }
                 });
             }
@@ -319,18 +333,30 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_board_game) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_favorite) {
+            item.setCheckable(false);
+            Snackbar.make(rlContainer, "Đang phát triển", Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_coming_soon) {
+            ArrayList<BoardGame> list = new ArrayList<>();
+            for (int i = 1; i < BoardGame.boardGameArray.length; i++) {
+                list.add(BoardGame.boardGameArray[i]);
+            }
+            EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Coming soon",list ));
+        } else if (id == R.id.nav_hot) {
+            ArrayList<BoardGame> hotGamesList = new ArrayList<>();
 
-        } else if (id == R.id.nav_slideshow) {
+            hotGamesList.add(BoardGame.boardGameArray[0]);
 
-        } else if (id == R.id.nav_manage) {
+            EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Hot games",hotGamesList));
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_settings) {
+            Snackbar.make(rlContainer, "Đang phát triển", Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_about_us) {
+            Snackbar.make(rlContainer, "Đang phát triển", Snackbar.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_log_out) {
+            changeFragment(new SignUpFragment(), false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

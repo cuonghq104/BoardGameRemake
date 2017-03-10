@@ -13,6 +13,7 @@ public class Paragraph implements Serializable{
     public static final String IMAGE_TYPE = "image";
     public static final String COMBINE_TYPE_IMAGE_LEFT = "combine_left";
     public static final String COMBINE_TYPE_IMAGE_RIGHT = "combine_right";
+    public static final String COMBINE_TYPE_IMAGE_ABOVE = "combine_above";
 
     private String type;
 
