@@ -11,7 +11,8 @@ import java.util.List;
 public class Paragraph implements Serializable{
     public static final String TEXT_TYPE = "text";
     public static final String IMAGE_TYPE = "image";
-    public static final String COMBINE_TYPE = "combine";
+    public static final String COMBINE_TYPE_IMAGE_LEFT = "combine_left";
+    public static final String COMBINE_TYPE_IMAGE_RIGHT = "combine_right";
 
     private String type;
 
@@ -46,7 +47,7 @@ public class Paragraph implements Serializable{
     }
 
     public static Paragraph createCombine(String title, String content, String imageUrl, String[] tags) {
-        return new Paragraph(COMBINE_TYPE, title, content, imageUrl, tags);
+        return new Paragraph(COMBINE_TYPE_IMAGE_LEFT, title, content, imageUrl, tags);
     }
 
     public String[] getTags() {

@@ -126,7 +126,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
                         changeFragment(new BoardGameInformationFragment(), false);
                         return;
                     case R.id.tab_rules:
-                        changeFragment(rulesFragment, false);
+                        changeFragment(new BoardGamesRulesFragment(), false);
                         return;
                     case R.id.tab_question:
                         changeFragment(new QuestionAndAnswerFragment(), false);
@@ -135,8 +135,8 @@ public class BoardGameDetailActivity extends AppCompatActivity {
             }
         });
 
-        searchView.setOnQueryTextListener(rulesFragment);
-        searchView.setOnSearchViewListener(rulesFragment);
+//        searchView.setOnQueryTextListener(rulesFragment);
+//        searchView.setOnSearchViewListener(rulesFragment);
     }
 
     private void changeFragment(Fragment fragment, boolean addToBackStack) {

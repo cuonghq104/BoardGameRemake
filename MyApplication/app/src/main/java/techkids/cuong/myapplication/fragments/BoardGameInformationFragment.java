@@ -112,6 +112,7 @@ public class BoardGameInformationFragment extends Fragment {
         boardGame = event.getBoardGame();
         setupUI();
     }
+
     private CategoryTextAdapter adapter;
 
     private CategoryTextAdapter playTypeAdapter;

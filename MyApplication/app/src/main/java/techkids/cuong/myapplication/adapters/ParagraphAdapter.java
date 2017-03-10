@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import techkids.cuong.myapplication.R;
-import techkids.cuong.myapplication.models.BoardGame;
 import techkids.cuong.myapplication.models.Paragraph;
 import techkids.cuong.myapplication.viewHolders.CombineViewHolder;
 import techkids.cuong.myapplication.viewHolders.ImageViewHolder;
@@ -39,9 +38,15 @@ public class ParagraphAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             return viewHolder;
 
-        } else {
+        } else if (viewType == 2){
 
-            View view = inflater.inflate(R.layout.block_combine, parent, false);
+            View view = inflater.inflate(R.layout.block_combine_left, parent, false);
+
+            CombineViewHolder viewHolder = new CombineViewHolder(view);
+
+            return viewHolder;
+        } else {
+            View view = inflater.inflate(R.layout.block_combine_right, parent, false);
 
             CombineViewHolder viewHolder = new CombineViewHolder(view);
 
@@ -60,6 +65,9 @@ public class ParagraphAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         else if (holder.getItemViewType() == 1){
             TextViewHolder textViewHolder = (TextViewHolder) holder;
             textViewHolder.bind(tutorialBlock);
+        } else if (holder.getItemViewType() == 2){
+            CombineViewHolder combineViewHolder = (CombineViewHolder) holder;
+            combineViewHolder.bind(tutorialBlock);
         } else {
             CombineViewHolder combineViewHolder = (CombineViewHolder) holder;
             combineViewHolder.bind(tutorialBlock);
@@ -77,8 +85,10 @@ public class ParagraphAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return 1;
         } else if (Paragraph.list.get(position).getType().equals(Paragraph.IMAGE_TYPE)) {
             return 0;
-        } else {
+        } else if (Paragraph.list.get(position).getType().equals(Paragraph.COMBINE_TYPE_IMAGE_LEFT)){
             return 2;
+        } else {
+            return 3;
         }
     }
 }

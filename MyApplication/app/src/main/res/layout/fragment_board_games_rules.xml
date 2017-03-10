@@ -5,17 +5,17 @@
     tools:context="techkids.cuong.myapplication.fragments.BoardGamesRulesFragment">
 
 
-    <us.feras.mdv.MarkdownView
-        android:id="@+id/markdown_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </us.feras.mdv.MarkdownView>
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/rv_board_game_rules"-->
+    <!--<us.feras.mdv.MarkdownView-->
+        <!--android:id="@+id/markdown_view"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent">-->
-    <!--</android.support.v7.widget.RecyclerView>-->
+
+    <!--</us.feras.mdv.MarkdownView>-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_rules"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
     <!--<FrameLayout-->
         <!--android:id="@+id/toolbar_container"-->
