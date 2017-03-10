@@ -52,6 +52,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_below="@id/iv_avatar"
                 android:textAlignment="textStart"
+                android:ellipsize="end"
+                android:maxLines="3"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="20sp"
                 tools:text="How to connect to an Oracle database from IntelliJ IDEA 14 and so on and on and on?" />

@@ -1,101 +1,48 @@
 package techkids.cuong.myapplication.activities;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.OpenableColumns;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
-import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.shockwave.pdfium.PdfDocument;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-
-import java.util.List;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import techkids.cuong.myapplication.R;
+import techkids.cuong.myapplication.adapters.ContentMenuAdapter;
+import techkids.cuong.myapplication.fragments.RuleMenuContentFragment;
+import techkids.cuong.myapplication.fragments.RulePDFViewingFragment;
 
 
 @EActivity(R.layout.activity_rule)
-public class RuleActivity extends AppCompatActivity  implements OnPageChangeListener, OnLoadCompleteListener {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rule);
-
-    }
-
+public class RuleActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String BACKSTACK_FRAGMENT_TAGS = "Backstacked Fragment";
 
-    private final static int REQUEST_CODE = 42;
-    public static final int PERMISSION_CODE = 42042;
-
-    public static final String SAMPLE_FILE = "DnD_LOW_Rulebook_EN.pdf";
+//    private final static int REQUEST_CODE = 42;
+//
+//    public static final int PERMISSION_CODE = 42042;
+    public static final String SAMPLE_FILE = "Head_First_Android.pdf";
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
 
     @ViewById
     PDFView pdfView;
 
-    @NonConfigurationInstance
-    Uri uri;
+    RulePDFViewingFragment rulePDFViewingFragment;
+    RuleMenuContentFragment ruleMenuContentFragment;
 
-    @NonConfigurationInstance
-    Integer pageNumber = 0;
 
     String pdfFileName;
-//
-//    @OptionsItem(R.id.pickFile)
-//    void pickFile() {
-//        int permissionCheck = ContextCompat.checkSelfPermission(this,
-//                READ_EXTERNAL_STORAGE);
-//
-//        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(
-//                    this,
-//                    new String[]{READ_EXTERNAL_STORAGE},
-//                    PERMISSION_CODE
-//            );
-//
-//            return;
-//        }
-//
-//        launchPicker();
-//    }
 
-    void launchPicker() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("application/pdf");
-        try {
-            startActivityForResult(intent, REQUEST_CODE);
-        } catch (ActivityNotFoundException e) {
-            //alert user that file manager not working
-            Toast.makeText(this, R.string.toast_pick_file_error, Toast.LENGTH_SHORT).show();
-        }
-    }
 
     @AfterViews
     void afterViews() {
@@ -103,118 +50,120 @@ public class RuleActivity extends AppCompatActivity  implements OnPageChangeList
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (uri != null) {
-            displayFromUri(uri);
-        } else {
-            displayFromAsset(SAMPLE_FILE);
-        }
-        setTitle(pdfFileName);
+        rulePDFViewingFragment = RulePDFViewingFragment.create(SAMPLE_FILE, 0);
+        changeFragment(rulePDFViewingFragment, false);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onPDFLoaded(RulePDFViewingFragment.OnPDFLoadedEvent event) {
+        //todo handle stop loading
+
+        RuleMenuContentFragment.bookmarkListHolder = event.getBookmarks();
+        ruleMenuContentFragment = RuleMenuContentFragment.create();
+
+        //todo stop loading here
+    }
+
+
+    @Subscribe
+    public void changePageEvent(ContentMenuAdapter.ContentMenuItemClickedEvent event) {
+        int pageNumber = -1;
+        PdfDocument.Bookmark bookmark = event.getBookmark();
+        if (bookmark != null) {
+            pageNumber = (int) bookmark.getPageIdx();
+        }
+        switchToPDFViewer(pageNumber);
+//        retainFragment(RulePDFViewingFragment.create(SAMPLE_FILE, (int) bookmark.getPageIdx()));
+
+    }
+
+    public void switchToPDFViewer(int pageNumber) {
+        if (pageNumber >= 0) {
+            Log.d(TAG, String.format("switchToPDFViewer: set page number = %s", pageNumber));
+            rulePDFViewingFragment.putPageNumber(pageNumber);
+        }else{
+            Log.d(TAG, String.format("switchToPDFViewer: page number not change", pageNumber));
+        }
+
+        onBackPressed();
+
+//        getSupportFragmentManager().beginTransaction()
+//                .setCustomAnimations(R.anim.slide_to_right_enter, R.anim.slide_to_right_exit)
+//                .replace(R.id.fl_container, rulePDFViewingFragment)
+//                .commit();
+//        retainFragment(ruleMenuContentFragment);
+    }
+
+    @Subscribe
+    public void switchToMenuContent(ChangeToMenuContentFragmentEvent event) {
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_to_left_exit, R.anim.slide_to_left_exit,R.anim.slide_to_right_enter, R.anim.slide_to_right_exit)
+                .addToBackStack(BACKSTACK_FRAGMENT_TAGS)
+                .replace(R.id.fl_container, ruleMenuContentFragment)
+                .commit();
+    }
+
+//    @Subscribe
+//    public void changeFragmentEvent(ChangeFragmentEvent event) {
+//        changeFragment(event.getFragment(), event.isAddToBackstack());
+//    }
+
+    public void retainFragment(Fragment fragment) {
+        getSupportFragmentManager().popBackStack(BACKSTACK_FRAGMENT_TAGS
+                , FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fl_container, fragment)
+                .setCustomAnimations(R.anim.slide_to_right_enter, R.anim.slide_to_right_exit)
+                .commit();
+
+    }
+
+    public void changeFragment(Fragment fragment, boolean addToBackStack) {
+        if (addToBackStack)
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_to_left_enter, R.anim.slide_to_left_exit)
+                    .replace(R.id.fl_container, fragment)
+                    .addToBackStack(BACKSTACK_FRAGMENT_TAGS)
+                    .commit();
+        else
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_to_left_enter, R.anim.slide_to_left_exit)
+                    .replace(R.id.fl_container, fragment)
+                    .commit();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Log.d(TAG, "onOptionsItemSelected: home");
                 onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+    //    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.rules_nosearch_menu, menu);
+//        return true;
+//    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.rules_nosearch_menu,menu);
-        return true;
-    }
-
-
-    private void displayFromAsset(String assetFileName) {
-        pdfFileName = assetFileName;
-
-        pdfView.fromAsset(SAMPLE_FILE)
-                .defaultPage(pageNumber)
-                .onPageChange(this)
-                .enableAnnotationRendering(true)
-                .onLoad(this)
-                .scrollHandle(new DefaultScrollHandle(this))
-                .load();
-
-    }
-
-    private void displayFromUri(Uri uri) {
-        pdfFileName = getFileName(uri);
-
-        pdfView.fromUri(uri)
-                .defaultPage(pageNumber)
-                .onPageChange(this)
-                .enableAnnotationRendering(true)
-                .onLoad(this)
-                .scrollHandle(new DefaultScrollHandle(this))
-                .load();
-    }
-
-    @OnActivityResult(REQUEST_CODE)
-    public void onResult(int resultCode, Intent intent) {
-        if (resultCode == RESULT_OK) {
-            uri = intent.getData();
-            displayFromUri(uri);
-        }
-    }
-
-    @Override
-    public void onPageChanged(int page, int pageCount) {
-        pageNumber = page;
-        setTitle(String.format("%s %s / %s", pdfFileName, page + 1, pageCount));
-    }
-
-    public String getFileName(Uri uri) {
-        String result = null;
-        if (uri.getScheme().equals("content")) {
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            try {
-                if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
-            }
-        }
-        if (result == null) {
-            result = uri.getLastPathSegment();
-        }
-        return result;
-    }
-
-    @Override
-    public void loadComplete(int nbPages) {
-        PdfDocument.Meta meta = pdfView.getDocumentMeta();
-        Log.e(TAG, "title = " + meta.getTitle());
-        Log.e(TAG, "author = " + meta.getAuthor());
-        Log.e(TAG, "subject = " + meta.getSubject());
-        Log.e(TAG, "keywords = " + meta.getKeywords());
-        Log.e(TAG, "creator = " + meta.getCreator());
-        Log.e(TAG, "producer = " + meta.getProducer());
-        Log.e(TAG, "creationDate = " + meta.getCreationDate());
-        Log.e(TAG, "modDate = " + meta.getModDate());
-
-        printBookmarksTree(pdfView.getTableOfContents(), "-");
-
-    }
-
-    public void printBookmarksTree(List<PdfDocument.Bookmark> tree, String sep) {
-        Log.d(TAG, String.format("printBookmarksTree: %s", tree.size()));
-        for (PdfDocument.Bookmark b : tree) {
-
-            Log.e(TAG, String.format("%s %s, p %d", sep, b.getTitle(), b.getPageIdx()));
-            if (b.hasChildren()) {
-                printBookmarksTree(b.getChildren(), sep + "-");
-            }
-        }
-    }
 
     /**
      * Listener for response to user permission request
@@ -223,16 +172,38 @@ public class RuleActivity extends AppCompatActivity  implements OnPageChangeList
      * @param permissions  Permissions that requested
      * @param grantResults Whether permissions granted
      */
-    @Override
-    public void onRequestPermissionsResult( int requestCode, @NonNull String permissions[],
-                                            @NonNull int[] grantResults) {
-        Log.d(TAG, "onRequestPermissionsResult: ");
-        if (requestCode == PERMISSION_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                launchPicker();
-            }
-        }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+//                                           @NonNull int[] grantResults) {
+//        Log.d(TAG, "onRequestPermissionsResult: ");
+//        if (requestCode == PERMISSION_CODE) {
+//            if (grantResults.length > 0
+//                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                launchPicker();
+//            }
+//        }
+//    }
+
+    public static class ChangeToMenuContentFragmentEvent {
+
+
     }
 
+    public static class ChangeFragmentEvent {
+        private Fragment fragment;
+        private boolean addToBackstack;
+
+        public ChangeFragmentEvent(Fragment fragment, boolean addToBackstack) {
+            this.fragment = fragment;
+            this.addToBackstack = addToBackstack;
+        }
+
+        public Fragment getFragment() {
+            return fragment;
+        }
+
+        public boolean isAddToBackstack() {
+            return addToBackstack;
+        }
+    }
 }
