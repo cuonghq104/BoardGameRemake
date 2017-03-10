@@ -1,6 +1,7 @@
 package techkids.cuong.myapplication.fragments;
 
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,10 @@ import com.shockwave.pdfium.PdfDocument;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import butterknife.BindView;
@@ -66,7 +71,8 @@ public class RulePDFViewingFragment extends Fragment implements OnPageChangeList
 //        EventBus.getDefault().register(this);
         Log.d(TAG, "onStart: ");
         isLoaded = false;
-        displayFromAsset(pdfFileName);
+//        displayFromAsset(pdfFileName);
+        displayFromInternal(pdfFileName);
 
     }
 
@@ -97,7 +103,7 @@ public class RulePDFViewingFragment extends Fragment implements OnPageChangeList
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Log.d(TAG, "onCreateOptionsMenu: ");
         if (isLoaded) {
-            inflater.inflate(R.menu.rules_nosearch_menu,menu);
+            inflater.inflate(R.menu.rules_menu,menu);
         }
 
     }
@@ -108,6 +114,11 @@ public class RulePDFViewingFragment extends Fragment implements OnPageChangeList
             case R.id.action_bookmarks:
                 EventBus.getDefault().post(new RuleActivity.ChangeToMenuContentFragmentEvent());
                 Log.d(TAG, "onOptionsItemSelected: R.id.action_bookmarks");
+                return true;
+            case R.id.action_search:
+                Log.d(TAG, "onOptionsItemSelected: R.id.action_search");
+                EventBus.getDefault().post(new RuleActivity.ChangeFragmentEvent
+                        (RuleSearchResultFragment.create(pdfFileName),true));
                 return true;
             case android.R.id.home:
                 getActivity().onBackPressed();
@@ -127,8 +138,22 @@ public class RulePDFViewingFragment extends Fragment implements OnPageChangeList
                 .onLoad(this)
                 .scrollHandle(new DefaultScrollHandle(getContext()))
                 .load();
-
     }
+
+    private void displayFromInternal(String pdfFileName) {
+        String filePath = getActivity().getFilesDir() + "/" + pdfFileName;
+
+        pdfView.fromFile(new File(filePath))
+                .defaultPage(pageNumber)
+                .onPageChange(this)
+                .enableAnnotationRendering(true)
+                .onLoad(this)
+                .scrollHandle(new DefaultScrollHandle(getContext()))
+                .load();
+    }
+
+
+
 
     @Override
     public void onPageChanged(int page, int pageCount) {

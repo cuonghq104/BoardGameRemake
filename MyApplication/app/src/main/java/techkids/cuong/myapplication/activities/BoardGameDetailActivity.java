@@ -20,13 +20,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import techkids.cuong.myapplication.events.BoardGameEvent;
-import techkids.cuong.myapplication.fragments.BoardGamesRulesFragment;
+//import techkids.cuong.myapplication.fragments.BoardGamesRulesFragment;
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.events.BackEvent;
 import techkids.cuong.myapplication.fragments.BoardGameInformationFragment;
 import techkids.cuong.myapplication.fragments.QuestionAndAnswerFragment;
 import techkids.cuong.myapplication.utils.DBContext;
 import techkids.cuong.myapplication.models.BoardGame;
+
+import static techkids.cuong.myapplication.activities.RuleActivity.PDF_FILE_NAME_KEY;
+import static techkids.cuong.myapplication.activities.RuleActivity.SAMPLE_FILE;
 
 public class BoardGameDetailActivity extends AppCompatActivity {
 
@@ -40,7 +43,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 //    @BindView(R.id.iv_boardgame)
 //    ImageView ivBoardGame;
 
-    BoardGamesRulesFragment rulesFragment;
+//    BoardGamesRulesFragment rulesFragment;
 
     private BoardGame boardGame;
 
@@ -125,7 +128,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
                         changeFragment(new BoardGameInformationFragment(), false);
                         return;
                     case R.id.tab_rules:
-                        changeFragment(rulesFragment, false);
+//                        changeFragment(rulesFragment, false);
                         return;
                     case R.id.tab_question:
                         changeFragment(new QuestionAndAnswerFragment(), false);
@@ -134,8 +137,8 @@ public class BoardGameDetailActivity extends AppCompatActivity {
             }
         });
 
-        searchView.setOnQueryTextListener(rulesFragment);
-        searchView.setOnSearchViewListener(rulesFragment);
+//        searchView.setOnQueryTextListener(rulesFragment);
+//        searchView.setOnSearchViewListener(rulesFragment);
     }
 
     private void changeFragment(Fragment fragment, boolean addToBackStack) {
@@ -181,6 +184,8 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     @OnClick(R.id.fab)
     public void toRuleActivity(){
         Intent intent = new Intent(BoardGameDetailActivity.this, RuleActivity_.class);
+        //todo debugging
+        intent.putExtra(PDF_FILE_NAME_KEY, SAMPLE_FILE);
         startActivity(intent);
     }
 
@@ -191,7 +196,7 @@ public class BoardGameDetailActivity extends AppCompatActivity {
     }
 
     private void getReferences() {
-        rulesFragment = new BoardGamesRulesFragment();
+//        rulesFragment = new BoardGamesRulesFragment();
     }
 
     public static class ToDetailActivityEvent {

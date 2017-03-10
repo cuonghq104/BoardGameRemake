@@ -1,5 +1,6 @@
 package techkids.cuong.myapplication.activities;
 
+import android.content.res.AssetManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +12,16 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.shockwave.pdfium.PdfDocument;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.adapters.ContentMenuAdapter;
@@ -26,13 +33,15 @@ import techkids.cuong.myapplication.fragments.RulePDFViewingFragment;
 public class RuleActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String BACKSTACK_FRAGMENT_TAGS = "Backstacked Fragment";
 
-//    private final static int REQUEST_CODE = 42;
+    //    private final static int REQUEST_CODE = 42;
 //
 //    public static final int PERMISSION_CODE = 42042;
-    public static final String SAMPLE_FILE = "Head_First_Android.pdf";
-    public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+//    public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+    public static final String SAMPLE_FILE = "DnD_LOW_Rulebook_EN.pdf";
+
+    private static final String BACKSTACK_FRAGMENT_TAGS = "Backstacked Fragment";
+    public static final String PDF_FILE_NAME_KEY = "pdf file name";
 
     @ViewById
     PDFView pdfView;
@@ -46,12 +55,37 @@ public class RuleActivity extends AppCompatActivity {
 
     @AfterViews
     void afterViews() {
+
+//        pdfFileName = SAMPLE_FILE;
+        pdfFileName = getIntent().getStringExtra(PDF_FILE_NAME_KEY);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        rulePDFViewingFragment = RulePDFViewingFragment.create(SAMPLE_FILE, 0);
+        rulePDFViewingFragment = RulePDFViewingFragment.create(pdfFileName, 0);
+        //todo debugging
+        copyFromAssetToInternal(pdfFileName);
         changeFragment(rulePDFViewingFragment, false);
+    }
+
+    public void copyFromAssetToInternal(String pdfFileName) {
+        AssetManager assetManager = getAssets();
+        InputStream in = null;
+        try {
+            in = assetManager.open(pdfFileName);
+            OutputStream out = openFileOutput(pdfFileName, MODE_PRIVATE);
+            byte[] buffer = new byte[1024];
+            int read = in.read(buffer);
+            while (read != -1) {
+                out.write(buffer, 0, read);
+                read = in.read(buffer);
+            }
+            in.close();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -89,6 +123,9 @@ public class RuleActivity extends AppCompatActivity {
 
     }
 
+
+
+
     public void switchToPDFViewer(int pageNumber) {
         if (pageNumber >= 0) {
             Log.d(TAG, String.format("switchToPDFViewer: set page number = %s", pageNumber));
@@ -115,10 +152,10 @@ public class RuleActivity extends AppCompatActivity {
                 .commit();
     }
 
-//    @Subscribe
-//    public void changeFragmentEvent(ChangeFragmentEvent event) {
-//        changeFragment(event.getFragment(), event.isAddToBackstack());
-//    }
+    @Subscribe
+    public void changeFragmentEvent(ChangeFragmentEvent event) {
+        changeFragment(event.getFragment(), event.isAddToBackstack());
+    }
 
     public void retainFragment(Fragment fragment) {
         getSupportFragmentManager().popBackStack(BACKSTACK_FRAGMENT_TAGS
