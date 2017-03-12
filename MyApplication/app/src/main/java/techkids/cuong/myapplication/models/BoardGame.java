@@ -330,11 +330,99 @@ public class BoardGame extends RealmObject implements Serializable {
                     "",
                     null,
                     new AppCategory(true,false)
-            )
+            ),
+            new BoardGame("000006", "The Castle of Burgundy", "", "", "", "https://cf.geekdo-images.com/images/pic1176894.jpg",
+                    2, 4,
+                    "2",
+                    60,
+                    new String[] {"Dice Rolling", "Set Collection", "Tile Placement"},
+                    new String[] {"Dice", "Medieval"},
+                    null,
+                    "",
+                    null,
+                    new AppCategory(true, false)),
+            new BoardGame("000007", "Qwirkle", "", "", "", "https://cf.geekdo-images.com/images/pic309353.jpg",
+                    2, 4,
+                    "4",
+                    45,
+                    new String[] {"Hand Management", "Pattern Building", "Tile Placement"},
+                    new String[] {"Abstract Strategy"},
+                    null,
+                    "",
+                    null,
+                    new AppCategory(true, false)),
+            new BoardGame("000008", "Saint Petersburg", "", "", "", "https://cf.geekdo-images.com/FZ5guub-VN-89CljKQVjxx7NFDc=/fit-in/246x300/pic246360.jpg",
+                    2, 4,
+                    "4",
+                    45,
+                    new String[] {"Card Drafting", "Set collection"},
+                    new String[] {"Economic", "Age of reason", "Card Game"},
+                    null,
+                    "",
+                    null,
+                    new AppCategory(true, false)),
+            new BoardGame("0000009", "Friday", "", "", "", "https://cf.geekdo-images.com/S14zF8rq3TCld53U5oMF2J6kfho=/fit-in/246x300/pic1513328.jpg",
+                    1, 2,
+                    "1",
+                    20,
+                    new String[] {"Deck/Pool Building", "Hand Management"},
+                    new String[] {"Fighting", "Pirates", "Card Game"},
+                    null,
+                    "",
+                    null,
+                    new AppCategory(true, false)),
+            new BoardGame("0000010", "Hungry Hungry Hippo", "", "", "", "https://cf.geekdo-images.com/qhV8OW7yGeFFzDEC0-lSw06zBM8=/fit-in/246x300/pic152043.jpg",
+                    2, 4,
+                    "4",
+                    10,
+                    new String[] {"Deck/Pool Building", "Hand Management"},
+                    new String[] {"Fighting", "Pirates", "Card Game"},
+                    null,
+                    "",
+                    null,
+                    new AppCategory(true, false)),
+            new BoardGame("0000011", "Zuc Zac", "", "", "", "http://boardgame.vn/uploads/u/boardgame.vn/product/2017/03/01/20/20/600_600/don1488352837.jpg",
+                    2, 6,
+                    "3-4",
+                    30,
+                    new String[] {"Dice Rolling", "Player Elimination", "Press Your Luck"},
+                    new String[] {"Education", "Dice", "Card Game"},
+                    null,
+                    "",
+                    null,
+                    new AppCategory(true, false)),
+
+
     };
 
 //    public List<Paragraph> list = new ArrayList<>();
 
     public static List<BoardGame> boardGamesList = Arrays.asList(boardGameArray);
 
+    public static List<BoardGame> strategyList;
+
+    public static List<BoardGame> familyList;
+
+    public static List<BoardGame> comingSoonList;
+
+    public static List<BoardGame> hotList;
+
+    public static void setUpList() {
+        comingSoonList = new ArrayList<>();
+        BoardGame.familyList = new ArrayList<>();
+        BoardGame.strategyList = new ArrayList<>();
+
+        strategyList.add(boardGameArray[5]);
+        strategyList.add(boardGameArray[6]);
+        strategyList.add(boardGameArray[7]);
+        strategyList.add(boardGameArray[8]);
+        strategyList.add(boardGameArray[4]);
+
+        familyList.add(boardGameArray[9]);
+        familyList.add(boardGameArray[10]);
+
+        comingSoonList.add(boardGameArray[2]);
+        comingSoonList.add(boardGameArray[3]);
+        comingSoonList.add(boardGameArray[1]);
+    }
 }

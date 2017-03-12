@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,9 +45,24 @@ public class BoardGameCatalogueFragment extends Fragment {
     RecyclerView rvHotGames;
 
     private CatalogueAdapter hotGamesAdapter;
+
+    @BindView(R.id.rv_family)
+    RecyclerView rvFamily;
+
+    private CatalogueAdapter familyAdapter;
+
+    @BindView(R.id.rv_strategy)
+    RecyclerView rvStrategy;
+
+    private CatalogueAdapter strategyAdapter;
+
     private List<BoardGame> commingSoonList;
 
     private List<BoardGame> hotGamesList;
+
+    private List<BoardGame> strategyGamesList;
+
+    private List<BoardGame> familyGamesList;
 
     public BoardGameCatalogueFragment() {
         // Required empty public constructor
@@ -85,6 +101,20 @@ public class BoardGameCatalogueFragment extends Fragment {
         hotGamesAdapter = new CatalogueAdapter(hotGamesList);
         rvHotGames.setAdapter(hotGamesAdapter);
         rvHotGames.setLayoutManager(new StaggeredGridLayoutManager(1, 0));
+
+
+
+        BoardGame.setUpList();
+
+        strategyAdapter = new CatalogueAdapter(BoardGame.strategyList);
+
+        familyAdapter = new CatalogueAdapter(BoardGame.familyList);
+
+        rvStrategy.setAdapter(strategyAdapter);
+        rvStrategy.setLayoutManager(new StaggeredGridLayoutManager(1, 0));
+
+        rvFamily.setAdapter(familyAdapter);
+        rvFamily.setLayoutManager(new StaggeredGridLayoutManager(1, 0));
     }
 
     @OnClick(R.id.ll_coming_soon)
@@ -97,5 +127,15 @@ public class BoardGameCatalogueFragment extends Fragment {
     public void onHotGamesClick() {
 //        EventBus.getDefault().post(new CatalogueFullFragment.CatalogueFullEvent("Hot games", hotGamesList));
         EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Hot games", hotGamesList));
+    }
+
+    @OnClick(R.id.ll_strategy_games)
+    public void onStrategyClick() {
+        EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Stragegy", BoardGame.strategyList));
+    }
+
+    @OnClick(R.id.ll_family)
+    public void onFamilyClick() {
+        EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Family", BoardGame.familyList));
     }
 }
