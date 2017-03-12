@@ -18,7 +18,8 @@
     <string name="title_activity_board_game_detail">BoardGameDetailActivity</string>
     <string name="facebook_app_id">1928391744047702</string>
     <string name="fb_login_protocol_scheme">fb1928391744047702</string>
-    <string name="title_activity_rule">RuleActivity</string>
+    <string name="title_activity_rule"></string>
     <string name="toast_pick_file_error">Unable to pick file. Check status of file manager.</string>
     <string name="action_bookmarks">Content Menu</string>
+    <string name="error_loading_file">Error loading file :(</string>
 </resources>

@@ -1,6 +1,7 @@
 package techkids.cuong.myapplication.activities;
 
 import android.content.res.AssetManager;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.itextpdf.text.pdf.PdfReader;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.shockwave.pdfium.PdfDocument;
 
 import org.androidannotations.annotations.AfterViews;
@@ -25,12 +28,14 @@ import java.io.OutputStream;
 
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.adapters.ContentMenuAdapter;
+import techkids.cuong.myapplication.adapters.MyRuleSearchResultRecyclerViewAdapter;
 import techkids.cuong.myapplication.fragments.RuleMenuContentFragment;
 import techkids.cuong.myapplication.fragments.RulePDFViewingFragment;
+import techkids.cuong.myapplication.fragments.RuleSearchResultFragment;
 
 
 @EActivity(R.layout.activity_rule)
-public class RuleActivity extends AppCompatActivity {
+public class RuleActivity extends AppCompatActivity implements RuleSearchResultFragment.OnListFragmentInteractionListener, RuleSearchResultFragment.PdfReaderHolder {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -45,27 +50,74 @@ public class RuleActivity extends AppCompatActivity {
 
     @ViewById
     PDFView pdfView;
+    @ViewById(R.id.search_view)
+    MaterialSearchView searchView;
+
 
     RulePDFViewingFragment rulePDFViewingFragment;
     RuleMenuContentFragment ruleMenuContentFragment;
 
 
     String pdfFileName;
+    PdfReader pdfReader;
 
+    private Handler mHandler;
+    private Runnable mAllBackgroundRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+
+        }
+
+    };
 
     @AfterViews
     void afterViews() {
 
 //        pdfFileName = SAMPLE_FILE;
         pdfFileName = getIntent().getStringExtra(PDF_FILE_NAME_KEY);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.fl_container);
+                if (visibleFragment instanceof RulePDFViewingFragment) {
+                    changeFragment(RuleSearchResultFragment.create(pdfFileName, query), true);
+                    searchView.clearFocus();
+                } else if (visibleFragment instanceof RuleSearchResultFragment) {
+                    try {
+                        ((RuleSearchResultFragment) visibleFragment).startSearching(query);
+                        searchView.clearFocus();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        rulePDFViewingFragment = RulePDFViewingFragment.create(pdfFileName, 0);
-        //todo debugging
+        prepareData();
+    }
+
+    @Background
+    public void prepareData(){
+        //todo debugging (no future assets files)
         copyFromAssetToInternal(pdfFileName);
+        String filePath = getFilesDir() + "/" + pdfFileName;
+        try {
+            pdfReader = new PdfReader(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        rulePDFViewingFragment = RulePDFViewingFragment.create(pdfFileName, 0);
         changeFragment(rulePDFViewingFragment, false);
     }
 
@@ -168,6 +220,7 @@ public class RuleActivity extends AppCompatActivity {
 
     }
 
+    @UiThread
     public void changeFragment(Fragment fragment, boolean addToBackStack) {
         if (addToBackStack)
             getSupportFragmentManager()
@@ -195,9 +248,32 @@ public class RuleActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public void onListFragmentInteraction(MyRuleSearchResultRecyclerViewAdapter.RuleSearchResultItem item) {
+        rulePDFViewingFragment.putPageNumber(item.getPageNumber()-1);
+        onBackPressed();
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pdfReader.close();
+    }
+
+    @Override
+    public PdfReader getPdfReader() {
+        return pdfReader;
+    }
+
+    public MaterialSearchView getSearchView() {
+        return searchView;
+    }
     //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.rules_nosearch_menu, menu);
+//        getMenuInflater().inflate(R.menu.rules_search_only_menu, menu);
 //        return true;
 //    }
 

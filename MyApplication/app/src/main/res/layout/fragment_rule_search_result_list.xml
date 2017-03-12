@@ -6,8 +6,6 @@
     android:name="techkids.cuong.myapplication.fragments.RuleSearchResultFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="techkids.cuong.myapplication.fragments.RuleSearchResultFragment"
     tools:listitem="@layout/item_rule_search_result" />

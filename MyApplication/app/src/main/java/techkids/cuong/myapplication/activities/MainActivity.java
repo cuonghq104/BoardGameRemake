@@ -153,8 +153,9 @@ public class MainActivity extends AppCompatActivity
 
         intent.putExtra(BOARDGAME_ID_KEY, event.getBoardGameId());
 
+        //// TODO: 3/12/2017 need to change
         if (!DBContext.getInstance().getBoardGameById(event.getBoardGameId())
-                .getName().equals("Werewolf basic - a very basic game")) {
+                .getId().equals("000001")) {
             Toast.makeText(MainActivity.this, "Dang phat trien", Toast.LENGTH_SHORT).show();
             return;
         }

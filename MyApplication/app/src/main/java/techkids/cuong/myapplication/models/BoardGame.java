@@ -190,11 +190,11 @@ public class BoardGame extends RealmObject implements Serializable {
 
 
     public static BoardGame[] boardGameArray = {
-            new BoardGame("000001","Werewolf basic - a very basic game",
-                    "http://www.spielbude.ch/platform/apps/shop/images/obj-100839-4904-original.jpg",
+            new BoardGame("000001","One Night Ultimate Werewolf",
+                    "https://cf.geekdo-images.com/images/pic1809824.jpg",
                     "https://view.publitas.com/31715/238002/pdfs/29e027e72495889a166168ef7381e724e457f61b.pdf",
                     "https://view.publitas.com/31715/238026/pdfs/9a62cfa203a163ccae30cc9a02ca872e2321c5d6.pdf",
-                    "http://boardgame.vn/uploads/u/boardgame.vn/product/2015/05/09/10/44/1431161080_935.jpg",
+                    "https://cf.geekdo-images.com/images/pic1809823_t.jpg",
                     8, 18,
                     "11-15",
                     30,
@@ -272,13 +272,11 @@ public class BoardGame extends RealmObject implements Serializable {
                             "<iframe width=\"100%\" height=\"260\" src=\"https://www.youtube.com/embed/-4uDuH4xXLg\" frameborder=\"0\" allowfullscreen></iframe>" +
                             "",
 
-                    "Werewolf takes place in a small village which is haunted by werewolves.\n" +
+                    "No moderator, no elimination, ten-minute games.\n" +
                             "\n" +
-                            "Each player is secretly assigned a role - Werewolf, Villager, or Seer (a special Villager). There is also a Moderator who controls the flow of the game.\n" +
+                            "One Night Ultimate Werewolf is a fast game for 3-10 players in which everyone gets a role: One of the dastardly Werewolves, the tricky Troublemaker, the helpful Seer, or one of a dozen different characters, each with a special ability. In the course of a single morning, your village will decide who is a werewolf...because all it takes is lynching one werewolf to win!\n" +
                             "\n" +
-                            "The game alternates between night and day phases. At night, the Werewolves secretly choose a Villager to kill. Also, the Seer (if still alive) asks whether another player is a Werewolf or not. During the day, the Villager who was killed is revealed and is out of the game. The remaining Villagers then vote on the player they suspect is a Werewolf. That player reveals his/her role and is out of the game.\n" +
-                            "\n" +
-                            "Werewolves win when there are an equal number of Villagers and Werewolves. Villagers win when they have killed all Werewolves. Werewolf is a social game that requires no equipment to play, and can accommodate almost any large group of players.",
+                            "Because One Night Ultimate Werewolf is so fast, fun, and engaging, you'll want to play it again and again, and no two games are ever the same.",
                     new Publisher("Asterion Press", "http://www.negoziogiochi.it/media/catalog/category/Asterion_400B1_1.jpg"),
                     new AppCategory(false,true)),
             new BoardGame("000002","Uno",

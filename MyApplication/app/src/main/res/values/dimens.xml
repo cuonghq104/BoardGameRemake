@@ -10,4 +10,5 @@
     <dimen name="item_small_margin_vertical">5dp</dimen>
     <dimen name="boardgame_catalog_dimen">8dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_margin_small">8dp</dimen>
 </resources>

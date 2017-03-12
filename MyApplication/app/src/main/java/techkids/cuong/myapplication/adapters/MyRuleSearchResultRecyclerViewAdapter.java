@@ -1,6 +1,7 @@
 package techkids.cuong.myapplication.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,10 @@ import java.util.List;
  */
 public class MyRuleSearchResultRecyclerViewAdapter extends RecyclerView.Adapter<MyRuleSearchResultRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<RuleSearchResultItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyRuleSearchResultRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyRuleSearchResultRecyclerViewAdapter(List<RuleSearchResultItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -38,20 +39,7 @@ public class MyRuleSearchResultRecyclerViewAdapter extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+        holder.bind(mValues.get(position));
     }
 
     @Override
@@ -60,21 +48,53 @@ public class MyRuleSearchResultRecyclerViewAdapter extends RecyclerView.Adapter<
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        final View mView;
+        final TextView tvSearchResult;
+        final TextView tvPageNumber;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            tvSearchResult = (TextView) view.findViewById(R.id.tv_search_result);
+            tvPageNumber = (TextView) view.findViewById(R.id.tv_page_number);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + tvSearchResult.getText() + "'";
+        }
+
+        public void bind(final RuleSearchResultItem item) {
+            tvSearchResult.setText(item.getSearchResult());
+            tvPageNumber.setText(String.format("Page %s", item.getPageNumber()));
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        // Notify the active callbacks interface (the activity, if the
+                        // fragment is attached to one) that an item has been selected.
+                        mListener.onListFragmentInteraction(item);
+                    }
+                }
+            });
+        }
+    }
+
+    public static class RuleSearchResultItem{
+        SpannableStringBuilder searchResult;
+        int pageNumber;
+
+        public RuleSearchResultItem(SpannableStringBuilder searchResult, int pageNumber) {
+            this.searchResult = searchResult;
+            this.pageNumber = pageNumber;
+        }
+
+        public SpannableStringBuilder getSearchResult() {
+            return searchResult;
+        }
+
+        public int getPageNumber() {
+            return pageNumber;
         }
     }
 }
