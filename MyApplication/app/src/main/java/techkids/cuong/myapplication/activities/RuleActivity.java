@@ -32,6 +32,7 @@ import techkids.cuong.myapplication.adapters.MyRuleSearchResultRecyclerViewAdapt
 import techkids.cuong.myapplication.fragments.RuleMenuContentFragment;
 import techkids.cuong.myapplication.fragments.RulePDFViewingFragment;
 import techkids.cuong.myapplication.fragments.RuleSearchResultFragment;
+import techkids.cuong.myapplication.fragments.RuleSearchResultFragment_;
 
 
 @EActivity(R.layout.activity_rule)
@@ -61,15 +62,6 @@ public class RuleActivity extends AppCompatActivity implements RuleSearchResultF
     String pdfFileName;
     PdfReader pdfReader;
 
-    private Handler mHandler;
-    private Runnable mAllBackgroundRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-
-        }
-
-    };
 
     @AfterViews
     void afterViews() {
@@ -81,19 +73,16 @@ public class RuleActivity extends AppCompatActivity implements RuleSearchResultF
             public boolean onQueryTextSubmit(String query) {
                 Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.fl_container);
                 if (visibleFragment instanceof RulePDFViewingFragment) {
-                    changeFragment(RuleSearchResultFragment.create(pdfFileName, query), true);
+                    changeFragment(RuleSearchResultFragment_.create(pdfFileName, query), true);
                     searchView.clearFocus();
-                } else if (visibleFragment instanceof RuleSearchResultFragment) {
-                    try {
-                        ((RuleSearchResultFragment) visibleFragment).startSearching(query);
-                        searchView.clearFocus();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                } else if (visibleFragment instanceof RuleSearchResultFragment_) {
+                    ((RuleSearchResultFragment_) visibleFragment).startBackgroundSearch(query);
+                    searchView.clearFocus();
                 }
 
                 return true;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -108,7 +97,7 @@ public class RuleActivity extends AppCompatActivity implements RuleSearchResultF
     }
 
     @Background
-    public void prepareData(){
+    public void prepareData() {
         //todo debugging (no future assets files)
         copyFromAssetToInternal(pdfFileName);
         String filePath = getFilesDir() + "/" + pdfFileName;
@@ -176,13 +165,11 @@ public class RuleActivity extends AppCompatActivity implements RuleSearchResultF
     }
 
 
-
-
     public void switchToPDFViewer(int pageNumber) {
         if (pageNumber >= 0) {
             Log.d(TAG, String.format("switchToPDFViewer: set page number = %s", pageNumber));
             rulePDFViewingFragment.putPageNumber(pageNumber);
-        }else{
+        } else {
             Log.d(TAG, String.format("switchToPDFViewer: page number not change", pageNumber));
         }
 
@@ -198,7 +185,7 @@ public class RuleActivity extends AppCompatActivity implements RuleSearchResultF
     @Subscribe
     public void switchToMenuContent(ChangeToMenuContentFragmentEvent event) {
         getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_to_left_exit, R.anim.slide_to_left_exit,R.anim.slide_to_right_enter, R.anim.slide_to_right_exit)
+                .setCustomAnimations(R.anim.slide_to_left_exit, R.anim.slide_to_left_exit, R.anim.slide_to_right_enter, R.anim.slide_to_right_exit)
                 .addToBackStack(BACKSTACK_FRAGMENT_TAGS)
                 .replace(R.id.fl_container, ruleMenuContentFragment)
                 .commit();
@@ -225,14 +212,16 @@ public class RuleActivity extends AppCompatActivity implements RuleSearchResultF
         if (addToBackStack)
             getSupportFragmentManager()
                     .beginTransaction()
-                    .setCustomAnimations(R.anim.slide_to_left_enter, R.anim.slide_to_left_exit)
+                    .setCustomAnimations(R.anim.slide_to_left_exit, R.anim.slide_to_left_exit
+                            , R.anim.slide_to_right_enter, R.anim.slide_to_right_exit)
                     .replace(R.id.fl_container, fragment)
                     .addToBackStack(BACKSTACK_FRAGMENT_TAGS)
                     .commit();
         else
             getSupportFragmentManager()
                     .beginTransaction()
-                    .setCustomAnimations(R.anim.slide_to_left_enter, R.anim.slide_to_left_exit)
+                    .setCustomAnimations(R.anim.slide_to_left_exit, R.anim.slide_to_left_exit
+                            , R.anim.slide_to_right_enter, R.anim.slide_to_right_exit)
                     .replace(R.id.fl_container, fragment)
                     .commit();
     }
@@ -251,11 +240,18 @@ public class RuleActivity extends AppCompatActivity implements RuleSearchResultF
 
     @Override
     public void onListFragmentInteraction(MyRuleSearchResultRecyclerViewAdapter.RuleSearchResultItem item) {
-        rulePDFViewingFragment.putPageNumber(item.getPageNumber()-1);
+        rulePDFViewingFragment.putPageNumber(item.getPageNumber() - 1);
         onBackPressed();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     protected void onDestroy() {
@@ -271,6 +267,8 @@ public class RuleActivity extends AppCompatActivity implements RuleSearchResultF
     public MaterialSearchView getSearchView() {
         return searchView;
     }
+
+
     //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        getMenuInflater().inflate(R.menu.rules_search_only_menu, menu);

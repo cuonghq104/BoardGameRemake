@@ -31,6 +31,8 @@ import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.shockwave.pdfium.PdfDocument;
 
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.EFragment;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
@@ -47,6 +49,9 @@ import techkids.cuong.myapplication.activities.RuleActivity;
 /**
  * A simple {@link Fragment} subclass.
  */
+
+
+@EFragment
 public class RulePDFViewingFragment extends ProgressFragment implements OnPageChangeListener, OnLoadCompleteListener {
 
 
@@ -61,16 +66,6 @@ public class RulePDFViewingFragment extends ProgressFragment implements OnPageCh
     int pageNumber = 0;
     private boolean isLoaded = false;
 
-    private Handler mHandler;
-    private Runnable mLoadPDFtRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            loadPDFFromInternal(pdfFileName);
-            setContentShown(true);
-        }
-
-    };
 
     public RulePDFViewingFragment() {
         // Required empty public constructor
@@ -192,13 +187,11 @@ public class RulePDFViewingFragment extends ProgressFragment implements OnPageCh
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mHandler.removeCallbacks(mLoadPDFtRunnable);
     }
 
     private void obtainData() {
         setContentShown(false);
-        mHandler = new Handler();
-        mHandler.post(mLoadPDFtRunnable);
+        loadPDFFromInternal(pdfFileName);
     }
     private void displayFromAsset(String assetFileName) {
         Log.d(TAG, String.format("displayFromAsset: page number = %s", pageNumber));
@@ -221,6 +214,7 @@ public class RulePDFViewingFragment extends ProgressFragment implements OnPageCh
                 .onLoad(this)
                 .scrollHandle(new DefaultScrollHandle(getContext()))
                 .load();
+        setContentShown(true);
     }
 
 
@@ -384,7 +378,7 @@ public class RulePDFViewingFragment extends ProgressFragment implements OnPageCh
     }
 
     public static RulePDFViewingFragment create(String pdfFileName, int startPageNumber) {
-        RulePDFViewingFragment fragment = new RulePDFViewingFragment();
+        RulePDFViewingFragment fragment = new RulePDFViewingFragment_();
         Bundle args = new Bundle();
         args.putString(PDF_FILE_NAME_KEY, pdfFileName);
         args.putInt(START_PAGE_NUMBER_KEY, startPageNumber);

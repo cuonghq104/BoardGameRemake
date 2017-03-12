@@ -2,7 +2,10 @@ package techkids.cuong.myapplication.fragments;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,13 +21,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.devspark.progressfragment.ProgressFragment;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.LocationTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import techkids.cuong.myapplication.R;
 import techkids.cuong.myapplication.activities.RuleActivity;
@@ -32,6 +41,7 @@ import techkids.cuong.myapplication.adapters.MyRuleSearchResultRecyclerViewAdapt
 import techkids.cuong.myapplication.adapters.MyRuleSearchResultRecyclerViewAdapter.RuleSearchResultItem;
 
 import static techkids.cuong.myapplication.activities.RuleActivity.PDF_FILE_NAME_KEY;
+import static techkids.cuong.myapplication.activities.RuleActivity.SAMPLE_FILE;
 
 /**
  * A fragment representing a list of Items.
@@ -39,7 +49,9 @@ import static techkids.cuong.myapplication.activities.RuleActivity.PDF_FILE_NAME
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class RuleSearchResultFragment extends Fragment {
+
+@EFragment
+public class RuleSearchResultFragment extends ProgressFragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -56,6 +68,7 @@ public class RuleSearchResultFragment extends Fragment {
     PdfReader pdfReader;
     String query;
     MaterialSearchView searchView;
+    View mContentView;
 
 
     /**
@@ -67,8 +80,8 @@ public class RuleSearchResultFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static RuleSearchResultFragment create(String fileName,String query) {
-        RuleSearchResultFragment fragment = new RuleSearchResultFragment();
+    public static RuleSearchResultFragment create(String fileName, String query) {
+        RuleSearchResultFragment fragment = new RuleSearchResultFragment_();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, 1);
         args.putString(PDF_FILE_NAME_KEY, fileName);
@@ -82,7 +95,6 @@ public class RuleSearchResultFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
             fileName = getArguments().getString(PDF_FILE_NAME_KEY);
             query = getArguments().getString(QUERY_KEY);
@@ -100,22 +112,30 @@ public class RuleSearchResultFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rule_search_result_list, container, false);
+        mContentView = inflater.inflate(R.layout.fragment_rule_search_result_list, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            recyclerView = (RecyclerView) view;
-            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        if (mContentView instanceof RecyclerView) {
+            Context context = mContentView.getContext();
+            recyclerView = (RecyclerView) mContentView;
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
         }
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setContentView(mContentView);
+        setEmptyText(getString(R.string.nothing_found));
+        // TODO: 3/13/2017 uncomment this
+//        startBackgroundSearch(query);
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -129,21 +149,20 @@ public class RuleSearchResultFragment extends Fragment {
                 @Override
                 public void onListFragmentInteraction(RuleSearchResultItem item) {
                     //do nothign
-
                 }
 
             };
         }
         if (context instanceof RuleActivity) {
             searchView = ((RuleActivity) context).getSearchView();
-        }else{
+        } else {
             Log.e(TAG, "onAttach: activity not instanceOf RuleActivity");
         }
         Log.d(TAG, "onAttach: binding pdfReader");
 
         if (context instanceof PdfReaderHolder) {
             pdfReader = ((PdfReaderHolder) context).getPdfReader();
-        }else{
+        } else {
 
             // selfcreate a new pdfReader (take some time)
             String filePath = getActivity().getFilesDir() + "/" + fileName;
@@ -163,56 +182,79 @@ public class RuleSearchResultFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart: start reading");
-        try {
-            startSearching(query);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "onStart: finish reading");
+        Log.d(TAG, "onStart:");
     }
 
     @Override
     public void onResume() {
         Log.d(TAG, "onResume: ");
         super.onResume();
+        startBackgroundSearch(query);
     }
 
 
-    public void startSearching(String query) throws IOException {
+    public void startBackgroundSearch(String query) {
+        setContentShown(false);
+        Log.d(TAG, "startBackgroundSearch: start searching ");
+        // TODO: 3/13/2017 create dummy pdfReader
+        String filePath = getActivity().getFilesDir() + "/" + SAMPLE_FILE;
+//        List<RuleSearchResultItem> searchResults;
+        startSearching(query, filePath);
+        Log.d(TAG, "startBackgroundSearch: continue in UiThread (must right after searching)");
+//        updateRecyclerView(searchResults);
+
+    }
+
+
+    @Background
+    public void startSearching(String query, String filePath) {
+        PdfReader pdfReader = null;
+        try {
+            pdfReader = new PdfReader(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         PdfReaderContentParser parser = new PdfReaderContentParser(pdfReader);
 //        MyLocationTextExtractionStrategy strategy;
         LocationTextExtractionStrategy strategy;
-        ArrayList<RuleSearchResultItem> searchResults = new ArrayList<>();
-
-
+        final ArrayList<RuleSearchResultItem> searchResults = new ArrayList<>();
         for (int page = 1; page <= pdfReader.getNumberOfPages(); page++) {
-            strategy = parser.processContent(page, new LocationTextExtractionStrategy());
-
-            String currentText = strategy.getResultantText();
-//            Log.d(TAG, String.format("page %s:\n %s", page,currentText));
-            SpannableStringBuilder searchResult =  searchInPage(currentText, query);
-            if (searchResult != null) {
-                Log.d(TAG, String.format("search for %s: appear at page %s (%s)   ", query,page,searchResult));
-                searchResults.add(new RuleSearchResultItem(searchResult, page));
+            try {
+                strategy = parser.processContent(page, new LocationTextExtractionStrategy());
+                String currentText = strategy.getResultantText();
+                SpannableStringBuilder searchResult = searchInPage(currentText, query);
+                if (searchResult != null) {
+//                    Log.d(TAG, String.format("search for %s: appear at page %s (%s)   ", query,page,searchResult));
+                    searchResults.add(new RuleSearchResultItem(searchResult, page));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-
-            //todo for future search highlight engine !!
-//            List<Rectangle> coordinates = strategy.search(query);
-//
-//            if (!coordinates.isEmpty()) {
-//
-//            }
         }
+        updateRecyclerView(searchResults);
 
         //todo shold only set once and update over time
-        recyclerView.setAdapter(new MyRuleSearchResultRecyclerViewAdapter(searchResults, mListener));
-
 //        pdfReader.close();
+    }
 
+    @UiThread
+    public void updateRecyclerView(List<RuleSearchResultItem> ruleSearchResultItemList) {
+        if (ruleSearchResultItemList.isEmpty()) {
+            setContentEmpty(true);
+        }else{
+            setContentEmpty(false);
+            recyclerView.setAdapter(new MyRuleSearchResultRecyclerViewAdapter(ruleSearchResultItemList, mListener));
+        }
+
+        setContentShown(true);
+        Log.d(TAG, "updateRecyclerView: finished search");
     }
 
     private SpannableStringBuilder searchInPage(String pageContent, String query) {
@@ -238,7 +280,7 @@ public class RuleSearchResultFragment extends Fragment {
         int i = index - 1;
         int wordCount = 0;
 
-        while ( (i >= 0) && (wordCount < MAX_WORD_COUNT) ) {
+        while ((i >= 0) && (wordCount < MAX_WORD_COUNT)) {
             if (pageContent.charAt(i) == ' ') {
                 wordCount++;
             }
@@ -259,7 +301,7 @@ public class RuleSearchResultFragment extends Fragment {
                 pageContent.substring(index, index + query.length()) + contentAfter;
 
         SpannableStringBuilder builder = new SpannableStringBuilder(result);
-        builder.setSpan(new StyleSpan(Typeface.BOLD), contentBefore.length(),contentBefore.length()+query.length() ,0);
+        builder.setSpan(new StyleSpan(Typeface.BOLD), contentBefore.length(), contentBefore.length() + query.length(), 0);
         return builder;
     }
 
@@ -269,23 +311,22 @@ public class RuleSearchResultFragment extends Fragment {
 //            savedIndex = index;
 
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnListFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onListFragmentInteraction(RuleSearchResultItem item);
+    }
 
-
-/**
- * This interface must be implemented by activities that contain this
- * fragment to allow an interaction in this fragment to be communicated
- * to the activity and potentially other fragments contained in that
- * activity.
- * <p/>
- * See the Android Training lesson <a href=
- * "http://developer.android.com/training/basics/fragments/communicating.html"
- * >Communicating with Other Fragments</a> for more information.
- */
-public interface OnListFragmentInteractionListener {
-    // TODO: Update argument type and name
-    void onListFragmentInteraction(RuleSearchResultItem item);
-}
-    public interface PdfReaderHolder{
+    public interface PdfReaderHolder {
         PdfReader getPdfReader();
     }
 }
