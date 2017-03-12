@@ -19,14 +19,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.facebook.login.widget.ProfilePictureView;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,7 +47,6 @@ import techkids.cuong.myapplication.utils.DBContext;
 import techkids.cuong.myapplication.models.BoardGame;
 import techkids.cuong.myapplication.models.BoardgameSuggestion;
 import techkids.cuong.myapplication.models.User;
-import techkids.cuong.myapplication.transforms.CircleTransform;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
@@ -400,15 +397,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_board_game) {
             // Handle the camera action
-        } else if (id == R.id.nav_favorite) {
-            item.setCheckable(false);
-            Snackbar.make(flContainer, "Đang phát triển", Snackbar.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_coming_soon) {
-            ArrayList<BoardGame> list = new ArrayList<>();
-            for (int i = 1; i < BoardGame.boardGameArray.length; i++) {
-                list.add(BoardGame.boardGameArray[i]);
-            }
-            EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Coming soon",list ));
+        } else if (id == R.id.nav_strategy) {
+            EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Strategy",BoardGame.strategyList));
+        } else if (id == R.id.nav_family) {
+            EventBus.getDefault().postSticky(new CatalogueFullFragment.CatalogueFullEvent("Family",BoardGame.familyList));
         } else if (id == R.id.nav_hot) {
             ArrayList<BoardGame> hotGamesList = new ArrayList<>();
 
