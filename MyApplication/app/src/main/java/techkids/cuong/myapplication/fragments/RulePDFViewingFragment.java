@@ -89,7 +89,6 @@ public class RulePDFViewingFragment extends ProgressFragment implements OnPageCh
 
         setContentView(mContentView);
         setEmptyText(getString(R.string.error_loading_file));
-        obtainData();
     }
 
     @Override
@@ -109,6 +108,8 @@ public class RulePDFViewingFragment extends ProgressFragment implements OnPageCh
         super.onStart();
 //        EventBus.getDefault().register(this);
         Log.d(TAG, "onStart: ");
+        obtainData();
+
         if (isLoaded) {
             if (pdfView.getCurrentPage() != pageNumber) {
                 pdfView.jumpTo(pageNumber,true);
@@ -141,9 +142,6 @@ public class RulePDFViewingFragment extends ProgressFragment implements OnPageCh
         getArgs();
         getActivity().setTitle(pdfFileName);
         isLoaded = false;
-        //todo should put in background thread;
-//        loadPDFFromInternal(pdfFileName);
-//        loadPDFViewFromInternal(pdfFileName);
 
     }
 

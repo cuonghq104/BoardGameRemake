@@ -108,7 +108,9 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         getReferences();
         DBContext.getInstance().putBoardGameList(BoardGame.boardGamesList);
+
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_board_game);
         floatingSearchView.attachNavigationDrawerToMenuButton(drawerLayout);
 
         //todo code for not using floatingSerchView
@@ -143,8 +145,7 @@ public class MainActivity extends AppCompatActivity
 
         //todo no need login first
 //        changeFragment(new SignUpFragment(), false);
-        changeFragment(new SignUpFragment(),false);
-
+        changeFragment(new BoardGameCatalogueFragment(),false);
     }
 
     @Subscribe
@@ -310,12 +311,20 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fl_container, fragment)
+                    .setCustomAnimations(android.R.anim.fade_in
+                            ,android.R.anim.fade_out
+                            ,android.R.anim.fade_in
+                            ,android.R.anim.fade_out)
                     .addToBackStack(null)
                     .commit();
         else
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fl_container, fragment)
+                    .setCustomAnimations(android.R.anim.fade_in
+                            ,android.R.anim.fade_out
+                            ,android.R.anim.fade_in
+                            ,android.R.anim.fade_out)
                     .commit();
     }
 
@@ -332,25 +341,29 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 //         Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.detail_menu, menu);
-        MenuItem item = menu.findItem(R.id.it_search);
 
-        SearchView searchView = (SearchView) item.getActionView();
+        //// TODO: 3/13/2017  wtf is this shit ???
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.detail_menu, menu);
+//        MenuItem item = menu.findItem(R.id.it_search);
 //
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
+//        SearchView searchView = (SearchView) item.getActionView();
+////
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                EventBus.getDefault().post(new SearchEvent(newText));
+//                return false;
+//            }
+//        });
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                EventBus.getDefault().post(new SearchEvent(newText));
-                return false;
-            }
-        });
+        //// TODO: 3/13/2017 this shit ends here
 
 //        getMenuInflater().inflate(R.menu.rules_menu, menu);
 //
@@ -401,8 +414,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_board_game) {
             // Handle the camera action
+            changeFragment(new BoardGameCatalogueFragment(),false);
+
         } else if (id == R.id.nav_favorite) {
-            item.setCheckable(false);
             Snackbar.make(flContainer, "Đang phát triển", Snackbar.LENGTH_SHORT).show();
         } else if (id == R.id.nav_coming_soon) {
             ArrayList<BoardGame> list = new ArrayList<>();

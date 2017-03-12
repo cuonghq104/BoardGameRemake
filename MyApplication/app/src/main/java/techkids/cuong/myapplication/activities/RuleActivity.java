@@ -44,7 +44,7 @@ public class RuleActivity extends AppCompatActivity implements RuleSearchResultF
 //
 //    public static final int PERMISSION_CODE = 42042;
 //    public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
-    public static final String SAMPLE_FILE = "DnD_LOW_Rulebook_EN.pdf";
+    public static final String SAMPLE_FILE = "OneNightUltimateWerewolf_rules.pdf";
 
     private static final String BACKSTACK_FRAGMENT_TAGS = "Backstacked Fragment";
     public static final String PDF_FILE_NAME_KEY = "pdf file name";

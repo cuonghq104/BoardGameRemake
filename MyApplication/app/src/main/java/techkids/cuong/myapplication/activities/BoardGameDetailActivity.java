@@ -35,8 +35,6 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.bottom_bar)
     BottomBar bb;
-    @BindView(R.id.search_view)
-    MaterialSearchView searchView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -103,21 +101,12 @@ public class BoardGameDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.rules_menu, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
-        return true;
+//        getMenuInflater().inflate(R.menu.rules_menu, menu);
+//        MenuItem item = menu.findItem(R.id.action_search);
+//        searchView.setMenuItem(item);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch();
-        } else {
-            super.onBackPressed();
-        }
-
-    }
 
     private void addListener() {
         bb.setOnTabSelectListener(new OnTabSelectListener() {
